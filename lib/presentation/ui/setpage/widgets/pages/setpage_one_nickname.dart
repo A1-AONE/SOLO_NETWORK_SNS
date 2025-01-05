@@ -16,7 +16,7 @@ class _SetpageOneNicknameState extends ConsumerState<SetpageOneNickname> {
   @override
   void initState() {
     textEditingController = TextEditingController();
-    textEditingController.text = ref.read(setPageViewModelProvider).nickname;
+    textEditingController.text = ref.read(setPageViewModelProvider).nickname ?? '';
     super.initState();
   }
 

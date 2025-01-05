@@ -19,12 +19,17 @@ class NextElevatedButton extends StatelessWidget {
                 switch (setPageState.currentPage) {
                   case 0:
                     if (setPageState.nickname == null || setPageState.nickname == '') {
-                      return;
+                      break;
                     } else {
                       ref.read(setPageViewModelProvider.notifier).nextPage();
                     }
                     break;
+
                   case 1: break;
+
+                  case 2: break;
+
+                  case 3: break;
                 }
               },
               style: ButtonStyle(
