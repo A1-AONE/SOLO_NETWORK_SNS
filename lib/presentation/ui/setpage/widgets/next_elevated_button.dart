@@ -25,18 +25,22 @@ class NextElevatedButton extends StatelessWidget {
                     }
                     break;
 
-                  case 1: break;
+                  case 1: 
+                    ref.read(setPageViewModelProvider.notifier).nextPage();
+                    break;
 
-                  case 2: break;
+                  case 2:
+                    break;
 
-                  case 3: break;
+                  case 3: 
+                    break;
                 }
               },
               style: ButtonStyle(
                 backgroundColor: WidgetStatePropertyAll(Color(0xFF1F2631)),
               ),
               child: Text(
-                '계속하기',
+                setPageState.currentPage != 3 ? '계속하기' : '시작하기',
                 style: TextStyle(color: Colors.white),
               )),
         ),

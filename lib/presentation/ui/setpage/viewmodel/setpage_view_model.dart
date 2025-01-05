@@ -112,6 +112,11 @@ class SetpageViewModel extends AutoDisposeNotifier<SetPageState> {
 
     state = state.copyWith(selectTags: selectTags);
   }
+
+  /// 프로필 설정
+  void setProfile(){
+    
+  }
 }
 
 final setPageViewModelProvider =

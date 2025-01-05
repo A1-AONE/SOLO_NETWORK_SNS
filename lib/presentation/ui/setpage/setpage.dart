@@ -29,6 +29,7 @@ class Setpage extends StatelessWidget {
                 // 본문
                 MainWindow(setPageState: setPageState),
                 // 계속하기 버튼
+                if(setPageState.currentPage != 2)
                 NextElevatedButton(),
                 SizedBox(height: 40)
               ],
