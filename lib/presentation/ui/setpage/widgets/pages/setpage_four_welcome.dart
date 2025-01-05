@@ -18,7 +18,7 @@ class SetpageFourWelcome extends StatelessWidget {
             SizedBox(height: 16,),
             Padding(
               padding: const EdgeInsets.only(right: 48),
-              child: Text('${setPageState.nickname}님의 세상에', style: TextStyle(fontSize: 28),),
+              child: Text('${setPageState.nickname} 님의 세상에', style: TextStyle(fontSize: 28),),
             ),
             SizedBox(height: 16,),
             Padding(

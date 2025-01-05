@@ -33,6 +33,7 @@ class NextElevatedButton extends StatelessWidget {
                     break;
 
                   case 3: 
+                    ref.read(setPageViewModelProvider.notifier).beforePage();
                     break;
                 }
               },
