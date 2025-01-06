@@ -5,6 +5,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/firebase_options.dart';
+import 'package:solo_network_sns/presentation/ui/setpage/setpage.dart';
 
 Future<void> main() async {
   runZonedGuarded(
@@ -41,7 +42,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+<<<<<<< HEAD
       // home: MyHomePage()
+=======
+      home: Setpage(),
+>>>>>>> 68e2dc3f4d3fa0c8c2c0e796e9dda3243e3d4958
     );
   }
 }
