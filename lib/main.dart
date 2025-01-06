@@ -5,7 +5,10 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/firebase_options.dart';
+
+
 import 'package:solo_network_sns/presentation/app/router.dart';
+
 
 Future<void> main() async {
   runZonedGuarded(
@@ -42,7 +45,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+
+
       routerConfig: router,
+
     );
   }
 }
