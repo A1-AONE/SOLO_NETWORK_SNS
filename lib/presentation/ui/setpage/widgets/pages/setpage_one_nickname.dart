@@ -88,7 +88,7 @@ class _SetpageOneNicknameState extends ConsumerState<SetpageOneNickname> {
               SizedBox(
                   width: 50,
                   height: 50,
-                  child: Image.asset('assets/logo/logo.png')),
+                  child: Image.asset('assets/images/logo.png')),
               SizedBox(
                 width: 64,
               )
