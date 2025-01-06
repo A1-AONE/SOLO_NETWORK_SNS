@@ -88,7 +88,7 @@ packages:
       sha256: "7caf6a750a0c04effbb52a676dce9a4a592e10ad35c34d6d2d0e4811160d5670"
       url: "https://pub.dev"
     source: hosted
-    version: "1.18.0"
+    version: "0.3.4+2"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -248,7 +248,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-
+  go_router:
+    dependency: "direct main"
+    description:
+      name: go_router
+      sha256: "2fd11229f59e23e967b0775df8d5948a519cd7e1e8b6e849729e010587b46539"
+      url: "https://pub.dev"
+    source: hosted
+    version: "14.6.2"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -297,16 +304,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.12.4+3"
-
-  go_router:
-    dependency: "direct main"
-    description:
-      name: go_router
-      sha256: "2fd11229f59e23e967b0775df8d5948a519cd7e1e8b6e849729e010587b46539"
-      url: "https://pub.dev"
-    source: hosted
-    version: "14.6.2"
-
   http:
     dependency: transitive
     description:
