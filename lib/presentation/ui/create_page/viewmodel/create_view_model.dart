@@ -25,6 +25,7 @@ class CreateViewModel extends StateNotifier<CreateState> {
     );
   }
 
+  ///이미지피커
   Future<void> pickImage() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {

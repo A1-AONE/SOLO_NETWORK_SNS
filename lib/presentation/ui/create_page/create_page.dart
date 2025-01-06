@@ -11,9 +11,8 @@ class CreatePage extends ConsumerStatefulWidget {
 class _CreatePageState extends ConsumerState<CreatePage> {
   @override
   Widget build(BuildContext context) {
-    // 'notifier'를 사용하여 CreateViewModel을 명시적으로 가져옴
     final viewModel = ref.watch(createViewModelProvider.notifier);
-    final state = ref.watch(createViewModelProvider); // state 객체
+    final state = ref.watch(createViewModelProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -28,29 +27,21 @@ class _CreatePageState extends ConsumerState<CreatePage> {
               children: [
                 Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
+                    TextButton(
+                      onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: SizedBox(
-                        child: Text(
-                          '취소',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                          ),
+                      child: Text(
+                        '취소',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ),
                     Spacer(),
-                    Container(
-                      alignment: Alignment.center,
-                      height: 43,
-                      width: 138,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFD9D9D9),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
+                    TextButton(
+                      onPressed: () {},
                       child: Text(
                         '게시하기',
                         style: TextStyle(
@@ -58,7 +49,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 SizedBox(height: 24), // Row와 TextField 간 간격 추가
