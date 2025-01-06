@@ -10,13 +10,18 @@ class CreatePage extends ConsumerStatefulWidget {
 }
 
 class _CreatePageState extends ConsumerState<CreatePage> {
-  TextEditingController textEditingController = TextEditingController();
+  TextEditingController contentEditingController = TextEditingController();
+  TextEditingController tagEditingController = TextEditingController();
+
   final ImagePicker _picker = ImagePicker();
   XFile? _selectedImage;
 
+  List<String> tags = []; // 태그를 저장할 리스트
+
   @override
   void dispose() {
-    textEditingController.dispose();
+    contentEditingController.dispose();
+    tagEditingController.dispose();
     super.dispose();
   }
 
@@ -28,6 +33,22 @@ class _CreatePageState extends ConsumerState<CreatePage> {
         _selectedImage = image; // 선택된 이미지를 저장
       });
     }
+  }
+
+  void _addTag() {
+    String tag = tagEditingController.text.trim(); // 공백 제거 후 태그 저장
+    if (tag.isNotEmpty) {
+      setState(() {
+        tags.add(tag); // 태그를 리스트에 추가
+        tagEditingController.clear(); // 입력란 비우기
+      });
+    }
+  }
+
+  void _removeTag(String tag) {
+    setState(() {
+      tags.remove(tag); // 선택된 태그 삭제
+    });
   }
 
   @override
@@ -49,12 +70,17 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                       children: [
                         Row(
                           children: [
-                            SizedBox(
-                              child: Text(
-                                '취소',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: SizedBox(
+                                child: Text(
+                                  '취소',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
                             ),
@@ -79,15 +105,14 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                         ),
                         SizedBox(height: 24), // Row와 TextField 간 간격 추가
                         TextField(
-                          controller: textEditingController,
+                          controller: contentEditingController,
                           minLines: 1, // 최소 줄 수 (1줄)
                           maxLines: null, // 최대 줄 수를 제한하지 않음
                           keyboardType: TextInputType.multiline, // 다중 줄 입력 가능
                           decoration: InputDecoration(
-                            hintText: "내용을 입력하세요...",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                            hintText: "내용을 입력하세요.",
+                            hintStyle: TextStyle(color: Colors.grey),
+                            border: InputBorder.none,
                           ),
                         ),
                         SizedBox(height: 24), // TextField와 아래 컨텐츠 간 간격 추가
@@ -108,13 +133,22 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                         else
                           Container(), //선택된 이미지가 없을 시
 
+                        // 태그 출력
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Icon(Icons.tag),
-                            Text('djfndj'),
-                          ],
+                          children: tags.map((tag) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Chip(
+                                label: Text(tag),
+                                avatar: Icon(Icons.tag),
+                                side: BorderSide.none,
+                                onDeleted: () => _removeTag(tag), // 태그 삭제 함수 연결
+                              ),
+                            );
+                          }).toList(),
                         ),
+
                         Divider(),
                       ],
                     ),
@@ -136,8 +170,21 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                     ),
                     SizedBox(width: 20),
                     Icon(Icons.tag),
-                    Spacer(),
-                    Icon(Icons.add_circle_outline),
+                    Expanded(
+                      child: TextField(
+                        controller: tagEditingController,
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                          hintText: "태그를 입력하세요.",
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: _addTag, // 태그 추가 함수 실행
+                      child: Icon(Icons.add_circle_outline),
+                    ),
                   ],
                 ),
               ),
