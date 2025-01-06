@@ -14,6 +14,8 @@ class _CreatePageState extends ConsumerState<CreatePage> {
     final viewModel = ref.watch(createViewModelProvider.notifier);
     final state = ref.watch(createViewModelProvider);
 
+    String uid = 'testid'; //테스트아이디
+
     return Scaffold(
       body: SafeArea(
         child: GestureDetector(
@@ -41,7 +43,10 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                     ),
                     Spacer(),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        await viewModel.postFeed(uid);
+                        // Navigator.pop(context); // 게시 후 이전 화면으로 이동
+                      },
                       child: Text(
                         '게시하기',
                         style: TextStyle(

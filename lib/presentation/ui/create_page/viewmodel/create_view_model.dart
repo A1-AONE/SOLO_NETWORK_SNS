@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:solo_network_sns/domain/entitiy/feed_entiry.dart';
+import 'package:solo_network_sns/domain/usecase/create_feed_use_case.dart';
 
 class CreateViewModel extends StateNotifier<CreateState> {
-  CreateViewModel() : super(CreateState());
+  final CreateFeedUseCase createFeedUseCase;
+
+  CreateViewModel(this.createFeedUseCase) : super(CreateState());
 
   final ImagePicker _picker = ImagePicker();
 
@@ -31,6 +37,25 @@ class CreateViewModel extends StateNotifier<CreateState> {
     if (image != null) {
       state = state.copyWith(selectedImage: image);
     }
+  }
+
+  Future<void> postFeed(String uid) async {
+    final feedEntity = FeedEntity(
+      UID: uid,
+      contents: state.contentEditingController.text,
+      tags: state.tags,
+      imagUrl: null, // Firestore에서 처리됨
+      createdAt: DateTime.now().toIso8601String(),
+      goods: 0,
+    );
+    print(
+        "FeedEntity: $feedEntity aaaaaaaaaaaa"); // Debugging: feedEntity가 올바르게 만들어졌는지 확인
+
+    await createFeedUseCase.execute(
+        feedEntity,
+        state.selectedImage?.path != null
+            ? File(state.selectedImage!.path)
+            : null);
   }
 }
 
@@ -68,5 +93,6 @@ class CreateState {
 // Provider 정의
 final createViewModelProvider =
     StateNotifierProvider<CreateViewModel, CreateState>((ref) {
-  return CreateViewModel();
+  final createFeedUseCase = ref.watch(createFeedUseCaseProvider);
+  return CreateViewModel(createFeedUseCase);
 });
