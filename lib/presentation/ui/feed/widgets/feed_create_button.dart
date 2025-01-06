@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:solo_network_sns/presentation/ui/create_page/create_page.dart';
+import 'package:go_router/go_router.dart';
 
 class FeedCreateButton extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      heroTag: 'create-feed',
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => CreatePage(),
-          ),
-        );
+        context.go('/create');
       },
       backgroundColor: Colors.blue[300],
       child: Icon(Icons.add),
+      
     );
   }
 }
