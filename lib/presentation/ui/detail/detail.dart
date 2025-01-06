@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:solo_network_sns/presentation/detail/widgets/detail_comment.dart';
-import 'package:solo_network_sns/presentation/detail/widgets/detail_info.dart';
+import 'package:solo_network_sns/presentation/ui/detail/widgets/detail_comment.dart';
+import 'package:solo_network_sns/presentation/ui/detail/widgets/detail_info.dart';
 
 class Detail extends StatelessWidget{
   @override
@@ -11,7 +11,10 @@ class Detail extends StatelessWidget{
           DetailInfo(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-            child: Text('2025년 01월 03일'),
+            child: Text('2025년 01월 03일',
+            style: TextStyle(
+              fontSize: 20,
+            ),),
           ),
           Divider(thickness: 1, color: Colors.black),
           DetailComment(),
