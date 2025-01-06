@@ -14,11 +14,35 @@
       },
       "oauth_client": [
         {
+          "client_id": "834977391795-3uievnp5b0u9n0mdch6sa9sngi6qqbrr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aone.solonetworksns",
+            "certificate_hash": "c8fc79fbbc83451b7dbeed274bf776f895030256"
+          }
+        },
+        {
           "client_id": "834977391795-hc1sh43gq3an49jl1f8pm1jhq35m5tim.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.aone.solonetworksns",
             "certificate_hash": "a51e65796c01bdb0fc87718106b9803a6dbc80ca"
+          }
+        },
+        {
+          "client_id": "834977391795-hh1deqvce6ivl51a2f4bu8lpntfcdhc8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aone.solonetworksns",
+            "certificate_hash": "ceaee0b7b6d276253150b5a6b02a0dc70518fd62"
+          }
+        },
+        {
+          "client_id": "834977391795-iprojv6407fq0btl8p96b4vrqelm0jpp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aone.solonetworksns",
+            "certificate_hash": "15240a2be9d27cd13678bb620ad99880d8d22f1a"
           }
         },
         {
