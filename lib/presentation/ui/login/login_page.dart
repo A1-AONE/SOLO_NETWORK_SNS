@@ -1,12 +1,12 @@
 import 'package:easy_rich_text/easy_rich_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:solo_network_sns/presentation/ui/setpage/setpage.dart';
 
 class LoginPage extends StatelessWidget {
-
-  void loginInWithGoogle() async {
-
+  void loginInWithGoogle(BuildContext context) async {
     // 스코프설정 - 내가 어떤 정보를 가지고 올지
     final GoogleSignIn googleSignIn = GoogleSignIn(
       scopes: ['email'],
@@ -34,8 +34,12 @@ class LoginPage extends StatelessWidget {
       idToken: googleSignInAuthentication.idToken,
     );
 
-    final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(oauthCred);
+    final UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(oauthCred);
     print('uid: ${userCredential.user?.uid}');
+
+    // 로그인 성공시 Setpage로 이동
+    context.go('/login/set');
   }
 
   @override
@@ -102,7 +106,7 @@ class LoginPage extends StatelessWidget {
               ],
             ),
             child: GestureDetector(
-              onTap: loginInWithGoogle,
+              onTap: () => loginInWithGoogle(context),
               child: Row(
                 children: [
                   SizedBox(width: 26),
