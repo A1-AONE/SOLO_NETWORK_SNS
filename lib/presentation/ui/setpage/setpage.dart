@@ -5,8 +5,8 @@ import 'package:solo_network_sns/presentation/ui/setpage/widgets/main_window.dar
 import 'package:solo_network_sns/presentation/ui/setpage/widgets/next_elevated_button.dart';
 import 'package:solo_network_sns/presentation/ui/setpage/widgets/progress_bar.dart';
 
-class Setpage extends StatelessWidget {
-  const Setpage({super.key});
+class SetPage extends StatelessWidget {
+  const SetPage({super.key});
 
   @override
   Widget build(BuildContext context) {

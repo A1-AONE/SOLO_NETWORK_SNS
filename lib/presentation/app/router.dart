@@ -9,7 +9,7 @@ final router = GoRouter(initialLocation: '/login/set', routes: [
   GoRoute(path: '/login', builder: (context, state) => LoginPage(), routes: [
     GoRoute(
       path: 'set',
-      builder: (context, state) => CreatePage(), //Setpage()
+      builder: (context, state) => SetPage(),
     )
   ]),
   GoRoute(path: '/', builder: (context, state) => FeedPage(), routes: [
