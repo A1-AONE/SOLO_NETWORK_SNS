@@ -5,8 +5,10 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/firebase_options.dart';
-import 'package:solo_network_sns/presentation/ui/login/login_page.dart';
-import 'package:solo_network_sns/presentation/ui/setpage/setpage.dart';
+
+
+import 'package:solo_network_sns/presentation/app/router.dart';
+
 
 Future<void> main() async {
   runZonedGuarded(
@@ -37,13 +39,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'SOLO NETWORK SNS',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LoginPage(),
+
+
+      routerConfig: router,
+
     );
   }
 }
