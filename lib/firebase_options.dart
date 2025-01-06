@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '834977391795',
     projectId: 'a1-aone',
     storageBucket: 'a1-aone.firebasestorage.app',
-    androidClientId: '834977391795-hc1sh43gq3an49jl1f8pm1jhq35m5tim.apps.googleusercontent.com',
+    androidClientId: '834977391795-3uievnp5b0u9n0mdch6sa9sngi6qqbrr.apps.googleusercontent.com',
     iosClientId: '834977391795-a8b3smp0ms2devg2hpack7lt5r3f0mhb.apps.googleusercontent.com',
     iosBundleId: 'com.aone.solonetworksns',
   );
