@@ -29,18 +29,16 @@ ThemeData _theme(Brightness brightness, AppThemeExtension ext) => ThemeData(
     colorScheme: ColorScheme.fromSeed(
       brightness: brightness,
       seedColor: ext.main,
-      primary: Colors.blue,
+      primary: Colors.black,
     ),
     progressIndicatorTheme: ProgressIndicatorThemeData(
         color: ext.main, linearTrackColor: ext.mainLight),
     inputDecorationTheme: InputDecorationTheme(
       border: UnderlineInputBorder(),
       enabledBorder: UnderlineInputBorder(
-        // 활성화 상태 테두리
         borderSide: BorderSide(color: Colors.grey),
       ),
       focusedBorder: UnderlineInputBorder(
-        // 포커스 상태 테두리
         borderSide: BorderSide(color: Colors.black),
       ),
     ),
