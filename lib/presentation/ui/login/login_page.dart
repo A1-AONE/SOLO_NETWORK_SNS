@@ -11,18 +11,20 @@ class LoginPage extends StatelessWidget {
   void loginInWithGoogle(BuildContext context, WidgetRef ref) async {
     // 스코프설정 - 내가 어떤 정보를 가지고 올지
     final GoogleSignIn googleSignIn = GoogleSignIn(
-      scopes: ['email'],
-    );
+        // scopes: ['email'],
+        );
+    print('bbbbbbbbbbbbbbbbb');
 
     // 구글 로그인
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
+    print('ccccccccccccccccccccc');
 
     // 구글 로그인 결과에서 accessToken을 가져오기 위해
     // GoogleSignInAuthentication 가져오기
     final GoogleSignInAuthentication? googleSignInAuthentication =
         await googleSignInAccount?.authentication;
-
+    print('aaaaaaaaaaaaaaaaaaaaa');
     if (googleSignInAuthentication == null) {
       return;
     }
