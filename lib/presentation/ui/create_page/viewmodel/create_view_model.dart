@@ -48,9 +48,10 @@ class CreateViewModel extends StateNotifier<CreateState> {
       createdAt: DateTime.now().toIso8601String(),
       goods: 0,
     );
-    print(
-        "FeedEntity: $feedEntity aaaaaaaaaaaa"); // Debugging: feedEntity가 올바르게 만들어졌는지 확인
-
+    print("${feedEntity.UID}aaaaaaaaaaaa");
+    print("${feedEntity.contents}aaaaaaaaaaaa");
+    print("${feedEntity.createdAt}aaaaaaaaaaaa");
+    print("${feedEntity.tags}aaaaaaaaaaaa");
     await createFeedUseCase.execute(
         feedEntity,
         state.selectedImage?.path != null
