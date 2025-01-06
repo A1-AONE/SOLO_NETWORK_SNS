@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:solo_network_sns/presentation/app/router.dart';
 import 'package:solo_network_sns/presentation/ui/setpage/viewmodel/setpage_view_model.dart';
 
 class NextElevatedButton extends StatelessWidget {

@@ -74,6 +74,8 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                             hintText: "내용을 입력하세요.",
                             hintStyle: TextStyle(color: Colors.grey),
                             border: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
                           ),
                         ),
                         SizedBox(height: 24),
