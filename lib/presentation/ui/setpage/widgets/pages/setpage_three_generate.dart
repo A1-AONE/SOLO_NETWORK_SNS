@@ -42,7 +42,7 @@ class _SetpageThreeGenerateState extends ConsumerState<SetpageThreeGenerate>
       SizedBox(
         width: 50,
         height: 50,
-        child: Image.asset('assets/logo/logo.png'),
+        child: Image.asset('assets/images/logo.png'),
       ),
       SizedBox(
         height: 40,

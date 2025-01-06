@@ -14,7 +14,7 @@ class SetpageFourWelcome extends StatelessWidget {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(width: 40, height: 40, child: Image.asset('assets/logo/logo.png')),
+            SizedBox(width: 40, height: 40, child: Image.asset('assets/images/logo.png')),
             SizedBox(height: 16,),
             Padding(
               padding: const EdgeInsets.only(right: 48),
