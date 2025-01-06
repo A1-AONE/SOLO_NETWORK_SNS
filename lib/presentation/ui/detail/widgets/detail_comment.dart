@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:solo_network_sns/presentation/ui/detail/widgets/detail_info.dart';
 import 'package:solo_network_sns/presentation/widgets/feed_nickname_bar.dart';
 
 class DetailComment extends StatelessWidget {
