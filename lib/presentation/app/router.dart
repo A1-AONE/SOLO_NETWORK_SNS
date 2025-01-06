@@ -1,11 +1,11 @@
 import 'package:go_router/go_router.dart';
-import 'package:solo_network_sns/presentation/detail/detail.dart';
-import 'package:solo_network_sns/presentation/feed/feed_page.dart';
+import 'package:solo_network_sns/presentation/ui/detail/detail.dart';
+import 'package:solo_network_sns/presentation/ui/feed/feed_page.dart';
 import 'package:solo_network_sns/presentation/ui/login/login_page.dart';
 import 'package:solo_network_sns/presentation/ui/setpage/setpage.dart';
 
 final router = GoRouter(
-  initialLocation: '/login/set',
+  initialLocation: '/login',
   routes: [
     GoRoute(
       path: '/login',
