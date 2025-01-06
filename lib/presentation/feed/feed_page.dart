@@ -10,6 +10,8 @@ class FeedPage extends StatelessWidget{
       body: ListView(
         children: [
           Feed(),
+          Feed(),
+          Feed(),
         ],
       ),
     );

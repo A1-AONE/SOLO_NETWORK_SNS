@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:solo_network_sns/presentation/widgets/feed_nickname_bar.dart';
 
-enum SampleItem { itemOne, itemTwo, itemThree }
 
 class DetailInfo extends StatelessWidget{
   const DetailInfo({super.key});
-
 
   
   @override
@@ -13,27 +12,7 @@ class DetailInfo extends StatelessWidget{
       padding: const EdgeInsets.all(24),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('닉네임'),
-                PopupMenuButton(itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[
-                  const PopupMenuItem<SampleItem>(
-                    value: SampleItem.itemOne,
-                    child: Text('Item 1'),
-                  ),
-                  const PopupMenuItem<SampleItem>(
-                    value: SampleItem.itemTwo,
-                    child: Text('Item 2'),
-                  ),
-                  const PopupMenuItem<SampleItem>(
-                    value: SampleItem.itemThree,
-                    child: Text('Item 3'),
-                  ),
-                ]),
-                
-              ],
-          ),
+          FeedNicknameBar(),
           Image.network('https://picsum.photos/362/227', ),
           SizedBox(
             height: 8,

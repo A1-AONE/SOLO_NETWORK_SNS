@@ -15,7 +15,12 @@ class Detail extends StatelessWidget{
           ),
           Divider(thickness: 1, color: Colors.black),
           DetailComment(),
+          DetailComment(),
+          DetailComment(),
+          DetailComment(),
+          DetailComment(),
         ],
+        
       ),
     );
   }

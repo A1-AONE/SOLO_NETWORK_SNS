@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/firebase_options.dart';
 import 'package:solo_network_sns/presentation/feed/feed_page.dart';
+import 'package:solo_network_sns/presentation/feed/widgets/feed.dart';
+import 'package:solo_network_sns/presentation/ui/setpage/setpage.dart';
 
 Future<void> main() async {
   runZonedGuarded(
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-       home: FeedPage(),
+      home: FeedPage(),
     );
   }
 }
