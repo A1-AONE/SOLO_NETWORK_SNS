@@ -41,6 +41,7 @@ dependencies:
   firebase_crashlytics: ^4.2.0
   flutter_riverpod: ^2.6.1
   easy_rich_text: ^2.2.0
+  google_sign_in: ^6.2.2
 
 dev_dependencies:
   flutter_test:

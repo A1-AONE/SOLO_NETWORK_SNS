@@ -12,7 +12,20 @@
           "package_name": "com.aone.solonetworksns"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "834977391795-hc1sh43gq3an49jl1f8pm1jhq35m5tim.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aone.solonetworksns",
+            "certificate_hash": "a51e65796c01bdb0fc87718106b9803a6dbc80ca"
+          }
+        },
+        {
+          "client_id": "834977391795-2oavl387l5plgjeqgcqp6nb9r3q9m5vb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyALB2rTxgr6dQAc4Y9iLKdXfLU4iMZv6Ek"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834977391795-2oavl387l5plgjeqgcqp6nb9r3q9m5vb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "834977391795-a8b3smp0ms2devg2hpack7lt5r3f0mhb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aone.solonetworksns"
+              }
+            }
+          ]
         }
       }
     }
