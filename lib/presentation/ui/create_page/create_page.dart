@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreatePage extends ConsumerStatefulWidget {
   @override
@@ -8,11 +11,23 @@ class CreatePage extends ConsumerStatefulWidget {
 
 class _CreatePageState extends ConsumerState<CreatePage> {
   TextEditingController textEditingController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
+  XFile? _selectedImage;
 
   @override
   void dispose() {
     textEditingController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    // 갤러리에서 이미지 선택
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _selectedImage = image; // 선택된 이미지를 저장
+      });
+    }
   }
 
   @override
@@ -76,7 +91,23 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                           ),
                         ),
                         SizedBox(height: 24), // TextField와 아래 컨텐츠 간 간격 추가
-                        Container(),
+
+                        // 이미지 미리보기
+                        if (_selectedImage != null)
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 16),
+                            height: 200, // 이미지 높이
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                image: FileImage(File(_selectedImage!.path)),
+                                fit: BoxFit.contain, // 이미지 크기
+                              ),
+                            ),
+                          )
+                        else
+                          Container(), //선택된 이미지가 없을 시
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -97,8 +128,11 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                     horizontal: 24.0, vertical: 16.0),
                 child: Row(
                   children: [
-                    Icon(
-                      Icons.image_search,
+                    GestureDetector(
+                      onTap: _pickImage, // 이미지 선택 함수 실행
+                      child: Icon(
+                        Icons.image_search,
+                      ),
                     ),
                     SizedBox(width: 20),
                     Icon(Icons.tag),
@@ -106,7 +140,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                     Icon(Icons.add_circle_outline),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
