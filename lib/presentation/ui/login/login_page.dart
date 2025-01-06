@@ -1,9 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_rich_text/easy_rich_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:solo_network_sns/presentation/ui/setpage/setpage.dart';
 
 class LoginPage extends StatelessWidget {
   void loginInWithGoogle(BuildContext context) async {
@@ -37,6 +37,27 @@ class LoginPage extends StatelessWidget {
     final UserCredential userCredential =
         await FirebaseAuth.instance.signInWithCredential(oauthCred);
     print('uid: ${userCredential.user?.uid}');
+
+    // ===================================== 3 데이터 베이스에 사용자 uid저장
+
+    // User 컬렉션에 데이터 저장
+    final String uid = userCredential.user?.uid ?? '';
+    final DocumentReference userDoc =
+        FirebaseFirestore.instance.collection('User').doc(uid);
+
+    // 필드 저장 사용자 데이터
+    final Map<String, dynamic> userData = {
+      'AITag': [],
+      'Nickname': '',
+      'isCanSpying': false,
+      'profileUrl': '',
+      'uid': uid,
+    };
+
+    // 사용자 정보 생성 업데이트
+    await userDoc.set(userData, SetOptions(merge: true));
+
+    // 
 
     // 로그인 성공시 Setpage로 이동
     context.go('/login/set');
