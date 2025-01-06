@@ -1,10 +1,6 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:solo_network_sns/presentation/ui/detail/detail.dart';
-import 'package:solo_network_sns/presentation/ui/detail/widgets/detail_info.dart';
-import 'package:solo_network_sns/presentation/ui/setpage/widgets/next_elevated_button.dart';
 import 'package:solo_network_sns/presentation/widgets/feed_nickname_bar.dart';
 
 class Feed extends StatelessWidget {

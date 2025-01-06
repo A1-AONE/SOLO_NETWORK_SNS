@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/firebase_options.dart';
 
-
 import 'package:solo_network_sns/presentation/app/router.dart';
-
+import 'package:solo_network_sns/presentation/theme/theme.dart';
 
 Future<void> main() async {
   runZonedGuarded(
@@ -41,14 +40,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'SOLO NETWORK SNS',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-
-
+      themeMode: ThemeMode.light,
+      theme: lightTheme,
+      darkTheme: darkTheme,
       routerConfig: router,
-
     );
   }
 }
