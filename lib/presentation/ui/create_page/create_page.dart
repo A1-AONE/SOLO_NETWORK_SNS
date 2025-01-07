@@ -17,9 +17,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
     final state = ref.watch(createViewModelProvider);
 
     // UserViewModel을 사용하여 사용자 ID 가져오기
-    final userId = ref.watch(userViewModelProvider); // userId 값 읽어오기
-
-    // String uid = 'testid'; //테스트아이디
+    final userId = ref.watch(userViewModelProvider);
 
     return Hero(
       tag: 'create-feed',
@@ -30,54 +28,54 @@ class _CreatePageState extends ConsumerState<CreatePage> {
               FocusScope.of(context).unfocus();
             },
             child: Padding(
-              padding: const EdgeInsets.only(
-                  bottom: 8, left: 24, right: 24, top: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               child: Column(
                 children: [
                   Row(
                     children: [
                       TextButton(
                         onPressed: () {
-                          viewModel.clearFields(); // 상태 초기화
+                          viewModel.clearFields();
                           context.go('/create/feed');
                         },
                         child: Text(
                           '취소',
                           style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                          ),
+                              fontSize: 20, fontWeight: FontWeight.w400),
                         ),
                       ),
                       Spacer(),
                       TextButton(
                         onPressed: () async {
-                          await viewModel.postFeed(userId); //db저장
-                          viewModel.clearFields(); // 상태 초기화
-                          context.go('/create/feed'); // 게시 후 이전 화면으로 이동
+                          if (state.errorMessage != null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(state.errorMessage!)),
+                            );
+                            return;
+                          }
+
+                          await viewModel.postFeed(userId);
+                          viewModel.clearFields();
+                          context.go('/create/feed');
                         },
                         child: Text(
                           '게시하기',
                           style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                          ),
+                              fontSize: 20, fontWeight: FontWeight.w400),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 24), // Row와 TextField 간 간격 추가
-                  // 중간 부분분
+                  SizedBox(height: 24),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          // 내용 입력 TextField
+                          // 내용 입력
                           TextField(
-                            controller:
-                                state.contentEditingController, // state를 통해 접근
+                            controller: state.contentEditingController,
                             minLines: 1,
-                            maxLines: null, //줄 제한 없이 늘어남
+                            maxLines: null,
                             keyboardType: TextInputType.multiline,
                             decoration: InputDecoration(
                               hintText: "내용을 입력하세요.",
@@ -88,8 +86,6 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                             ),
                           ),
                           SizedBox(height: 24),
-
-                          // 이미지 미리보기
                           if (state.selectedImage != null)
                             Container(
                               margin: EdgeInsets.symmetric(vertical: 16),
@@ -102,11 +98,17 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                                   fit: BoxFit.contain,
                                 ),
                               ),
-                            )
-                          else
-                            Container(),
-
-                          // 태그 출력
+                            ),
+                          if (state.errorMessage != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                state.errorMessage!,
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: state.tags.map((tag) {
@@ -126,23 +128,30 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                       ),
                     ),
                   ),
-
-                  // 하단 고정 영역
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 24.0, vertical: 16.0),
                     child: Row(
                       children: [
                         GestureDetector(
-                          onTap: viewModel.pickImage, // 이미지 선택 함수 실행
+                          onTap: () async {
+                            final isPersonDetected =
+                                await viewModel.pickImage();
+                            if (isPersonDetected) {
+                              print('isPersonDetectedaaaaaaaaaaaaaaaaaa');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text('사람이 포함된 사진은 업로드할 수 없습니다.')),
+                              );
+                            }
+                          },
                           child: Icon(Icons.image_search),
                         ),
                         SizedBox(width: 20),
                         Icon(Icons.tag),
                         Expanded(
                           child: TextField(
-                            controller:
-                                state.tagEditingController, // state를 통해 접근
+                            controller: state.tagEditingController,
                             maxLines: 1,
                             decoration: InputDecoration(
                               hintText: "태그를 입력하세요.",
@@ -152,7 +161,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: viewModel.addTag, // 태그 추가 함수 실행
+                          onTap: viewModel.addTag,
                           child: Icon(Icons.add_circle_outline),
                         ),
                       ],

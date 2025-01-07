@@ -49,6 +49,12 @@ dependencies:
   lottie: ^3.3.0
   animated_splash_screen: ^1.3.0
   firebase_app_check: ^0.3.1+7
+  tflite_flutter: ^0.11.0
+  image: ^4.3.0
+  yolo_helper:
+    git:
+      url: https://github.com/fhelper/flutter-yolo-helper.git
+      ref: main
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +82,7 @@ flutter:
   assets:
     - assets/images/
     - assets/animation/
+    - assets/yolo/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
