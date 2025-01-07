@@ -17,10 +17,7 @@ final router = GoRouter(
       path: '/login',
       builder: (context, state) => LoginPage(),
       routes: [
-        GoRoute(
-          path: 'set',
-          builder: (context, state) => SetPage(),
-        ),
+        GoRoute(path: 'set', builder: (context, state) => SetPage()),
       ],
     ),
     GoRoute(

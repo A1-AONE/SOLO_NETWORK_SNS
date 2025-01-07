@@ -13,18 +13,15 @@ class LoginPage extends StatelessWidget {
     final GoogleSignIn googleSignIn = GoogleSignIn(
         // scopes: ['email'],
         );
-    print('bbbbbbbbbbbbbbbbb');
 
     // 구글 로그인
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
-    print('ccccccccccccccccccccc');
 
     // 구글 로그인 결과에서 accessToken을 가져오기 위해
     // GoogleSignInAuthentication 가져오기
     final GoogleSignInAuthentication? googleSignInAuthentication =
         await googleSignInAccount?.authentication;
-    print('aaaaaaaaaaaaaaaaaaaaa');
     if (googleSignInAuthentication == null) {
       return;
     }

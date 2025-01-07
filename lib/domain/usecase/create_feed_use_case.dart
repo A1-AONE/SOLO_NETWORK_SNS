@@ -11,7 +11,6 @@ class CreateFeedUseCase {
 
   Future<void> execute(FeedEntity feedEntity, File? imageFile) async {
     await repository.createPost(feedEntity, imageFile);
-    print('CreateFeedUseCase execute bbbbbbbbbbbbbbb');
   }
 }
 
