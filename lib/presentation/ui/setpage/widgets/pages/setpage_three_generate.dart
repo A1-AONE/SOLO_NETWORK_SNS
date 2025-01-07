@@ -21,7 +21,7 @@ class _SetpageThreeGenerateState extends ConsumerState<SetpageThreeGenerate>
     animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 2))
           ..repeat();
-    Timer(Duration(seconds: 5), () {
+    ref.read(setPageViewModelProvider.notifier).setProfile().then((_){
       ref.read(setPageViewModelProvider.notifier).nextPage();
     });
     super.initState();
