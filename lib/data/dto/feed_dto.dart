@@ -1,4 +1,4 @@
-import 'package:solo_network_sns/presentation/ui/feed/widgets/feed.dart';
+
 
 class FeedDto {
   String UID;
