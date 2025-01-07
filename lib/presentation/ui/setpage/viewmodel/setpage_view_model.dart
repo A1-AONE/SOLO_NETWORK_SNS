@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/presentation/ui/setpage/widgets/pages/setpage_four_welcome.dart';
 import 'package:solo_network_sns/presentation/ui/setpage/widgets/pages/setpage_one_nickname.dart';
 import 'package:solo_network_sns/presentation/ui/setpage/widgets/pages/setpage_three_generate.dart';
 import 'package:solo_network_sns/presentation/ui/setpage/widgets/pages/setpage_two_ai_type.dart';
+import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
 class SetPageState {
   int previousPage;
@@ -114,8 +116,22 @@ class SetpageViewModel extends AutoDisposeNotifier<SetPageState> {
   }
 
   /// 프로필 설정
-  void setProfile(){
-    
+  Future<void> setProfile() async {
+    final String uid = ref.read(userViewModelProvider.notifier).getUserId();
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    DocumentReference userDoc = firebaseFirestore.collection('User').doc(uid);
+
+    List<String> selectTags = List.from(state.selectTags).map((e) {
+      return state.aiTags[e];
+    },).toList();
+
+    Map<String,dynamic> data = {
+      "AITag": selectTags,
+      "Nickname": state.nickname,
+    };
+
+    await userDoc.update(data);
   }
 }
 
