@@ -63,7 +63,40 @@ class DefaultFirebaseOptions {
     messagingSenderId: '834977391795',
     projectId: 'a1-aone',
     storageBucket: 'a1-aone.firebasestorage.app',
+    androidClientId: '834977391795-3uievnp5b0u9n0mdch6sa9sngi6qqbrr.apps.googleusercontent.com',
+    iosClientId: '834977391795-a8b3smp0ms2devg2hpack7lt5r3f0mhb.apps.googleusercontent.com',
     iosBundleId: 'com.aone.solonetworksns',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCLQp_f0TaWMEX8mbzAucqw2GvO2w0Oy78',
+    appId: '1:834977391795:web:bd7d53dc4e656d5dfd3cc6',
+    messagingSenderId: '834977391795',
+    projectId: 'a1-aone',
+    authDomain: 'a1-aone.firebaseapp.com',
+    storageBucket: 'a1-aone.firebasestorage.app',
+    measurementId: 'G-K6DWZKMB3V',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyAW5GNLYNomyzEd23jJz-38QOae6Bvqpoo',
+    appId: '1:834977391795:ios:6df52fbb031bd019fd3cc6',
+    messagingSenderId: '834977391795',
+    projectId: 'a1-aone',
+    storageBucket: 'a1-aone.firebasestorage.app',
+    androidClientId: '834977391795-hc1sh43gq3an49jl1f8pm1jhq35m5tim.apps.googleusercontent.com',
+    iosClientId: '834977391795-pt2pstr2ltn7okec4dtuspmg3qkp2633.apps.googleusercontent.com',
+    iosBundleId: 'com.example.soloNetworkSns',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyCLQp_f0TaWMEX8mbzAucqw2GvO2w0Oy78',
+    appId: '1:834977391795:web:3f62b68d4a058c06fd3cc6',
+    messagingSenderId: '834977391795',
+    projectId: 'a1-aone',
+    authDomain: 'a1-aone.firebaseapp.com',
+    storageBucket: 'a1-aone.firebasestorage.app',
+    measurementId: 'G-0NL3YW9T34',
   );
 
 }
