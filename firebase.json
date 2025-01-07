@@ -1,1 +1,54 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"a1-aone","appId":"1:834977391795:android:fba7feced40d5172fd3cc6","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"a1-aone","configurations":{"android":"1:834977391795:android:fba7feced40d5172fd3cc6","ios":"1:834977391795:ios:0ca35dc89c4479f6fd3cc6"}}},"ios":{"default":{"projectId":"a1-aone","appId":"1:834977391795:ios:0ca35dc89c4479f6fd3cc6","uploadDebugSymbols":true,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"macos":{"default":{"projectId":"a1-aone","appId":"1:834977391795:ios:6df52fbb031bd019fd3cc6","uploadDebugSymbols":true,"fileOutput":"macos/Runner/GoogleService-Info.plist"}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "a1-aone",
+          "appId": "1:834977391795:android:fba7feced40d5172fd3cc6",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "a1-aone",
+          "configurations": {
+            "android": "1:834977391795:android:fba7feced40d5172fd3cc6",
+            "ios": "1:834977391795:ios:0ca35dc89c4479f6fd3cc6"
+          }
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "a1-aone",
+          "appId": "1:834977391795:ios:0ca35dc89c4479f6fd3cc6",
+          "uploadDebugSymbols": true,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "a1-aone",
+          "appId": "1:834977391795:ios:6df52fbb031bd019fd3cc6",
+          "uploadDebugSymbols": true,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint"
+      ]
+    }
+  ]
+}

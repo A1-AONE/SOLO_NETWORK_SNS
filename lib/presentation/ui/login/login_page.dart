@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:solo_network_sns/presentation/ui/login/login_view_model.dart';
+import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
 class LoginPage extends StatelessWidget {
   void loginInWithGoogle(BuildContext context, WidgetRef ref) async {
@@ -93,6 +94,8 @@ class LoginPage extends StatelessWidget {
         };
 
         await userDoc.set(newData);
+
+        ref.read(userViewModelProvider.notifier).setUserId(uid);
 
         // 새로운 사용자 - set페이지로
         context.go('/login/set');
