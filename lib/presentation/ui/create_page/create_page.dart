@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/presentation/ui/create_page/viewmodel/create_view_model.dart';
+import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
 class CreatePage extends ConsumerStatefulWidget {
   @override
@@ -14,7 +15,10 @@ class _CreatePageState extends ConsumerState<CreatePage> {
     final viewModel = ref.watch(createViewModelProvider.notifier);
     final state = ref.watch(createViewModelProvider);
 
-    String uid = 'testid'; //테스트아이디
+    // UserViewModel을 사용하여 사용자 ID 가져오기
+    final userId = ref.watch(userViewModelProvider); // userId 값 읽어오기
+
+    // String uid = 'testid'; //테스트아이디
 
     return Hero(
       tag: 'create-feed',
@@ -46,7 +50,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                       Spacer(),
                       TextButton(
                         onPressed: () async {
-                          await viewModel.postFeed(uid);
+                          await viewModel.postFeed(userId);
                           // Navigator.pop(context); // 게시 후 이전 화면으로 이동
                         },
                         child: Text(
