@@ -54,6 +54,11 @@ class CreateViewModel extends StateNotifier<CreateState> {
             ? File(state.selectedImage!.path)
             : null);
   }
+
+  // 상태 초기화 메서드 추가
+  void clearFields() {
+    state = CreateState(); // 기본 상태로 초기화
+  }
 }
 
 class CreateState {
