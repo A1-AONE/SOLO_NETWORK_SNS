@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "834977391795-a8cgltlucc3h9qpoii823m8lnfc63dd5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aone.solonetworksns",
+            "certificate_hash": "e97fd964b692ca7a139fe9e03790febd7f880592"
+          }
+        },
+        {
           "client_id": "834977391795-hc1sh43gq3an49jl1f8pm1jhq35m5tim.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -43,6 +51,14 @@
           "android_info": {
             "package_name": "com.aone.solonetworksns",
             "certificate_hash": "15240a2be9d27cd13678bb620ad99880d8d22f1a"
+          }
+        },
+        {
+          "client_id": "834977391795-ql4fo7fhqrnubpj3urjl6qujnn4s85jb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aone.solonetworksns",
+            "certificate_hash": "0947e786a4439ad854a6aea751c2897a66179eca"
           }
         },
         {

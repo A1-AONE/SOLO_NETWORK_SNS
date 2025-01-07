@@ -11,11 +11,14 @@ import 'dart:developer';
 
 class LoginPage extends StatelessWidget {
   void loginInWithGoogle(BuildContext context, WidgetRef ref) async {
+
     // 로딩 상태 확인
     final isLoading = ref.read(loginViewModelProvider);
     if (isLoading) return; // 중복 선택 방지
 
+
     ref.read(loginViewModelProvider.notifier).startLoading(); // 로딩 시작
+
 
     // =========================================
 
