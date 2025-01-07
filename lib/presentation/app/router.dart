@@ -4,6 +4,7 @@ import 'package:solo_network_sns/presentation/ui/detail/detail.dart';
 import 'package:solo_network_sns/presentation/ui/feed/feed_page.dart';
 import 'package:solo_network_sns/presentation/ui/home_tap/home_tap.dart';
 import 'package:solo_network_sns/presentation/ui/login/login_page.dart';
+import 'package:solo_network_sns/presentation/ui/my_page/my_page.dart';
 import 'package:solo_network_sns/presentation/ui/setpage/setpage.dart';
 import 'package:solo_network_sns/presentation/ui/splash/splash_screen.dart';
 
@@ -33,6 +34,10 @@ final router = GoRouter(
           path: 'create',
           builder: (context, state) => CreatePage(),
         ),
+        GoRoute(
+          path: 'mypage',
+          builder: (context, state) => MyPage(),
+        )
       ],
     ),
     GoRoute(
