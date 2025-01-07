@@ -117,11 +117,15 @@ class LoginPage extends StatelessWidget {
           SizedBox(height: 50),
           Consumer(
             builder: (context, ref, child) {
-              return GestureDetector(
+              return InkWell(
                 onTap: () {
                   loginInWithGoogle(context, ref);
                 },
-                child: Container(
+                splashColor: Color(0xFFEBEBEB),
+                splashFactory: InkRipple.splashFactory,
+                radius: 300,
+                borderRadius: BorderRadius.circular(30),
+                child: Ink(
                   height: 60,
                   width: 320,
                   decoration: BoxDecoration(
