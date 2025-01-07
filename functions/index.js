@@ -1,25 +1,32 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+// 일단 유저의 uid를 확인하고, 해당 uid의 피드의 최신 피드가 언제 생성되었는지 확인
+// 만약 가장 최근피드가 생성시간이 1~2시간 랜덤으로 맞춰진 시간보다 넘었을 경우 피드 생성
+// 피드를 생성할때, uid의 AiTag 안의 임의의 태그를 하나 잡고, 
+// ai한테 피드 글 작성하나 해달라고 한다음 text 받아와서 피드 작성하기
 
-// const {onRequest} = require("firebase-functions/v2/https");
-// const logger = require("firebase-functions/logger");
+import { initializeApp } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
+import { onDocumentWritten } from "firebase-functions/v2/firestore";
 
-const {onRequest} = require("firebase-functions/v2/https");
+initializeApp();  // Firebase 앱을 초기화합니다.
 
-exports.helloWorld = onRequest({region: "asia-northeast3"}, (request, response) => {
-  response.send("Hello from Firebase v2!");
+const db = getFirestore();
+
+export const myfunction = onDocumentWritten("User/{uid}", async (event) => {
+  // Firestore에서 데이터 가져오기
+  const usersRef = db.collection('User');
+  const userSnapshot = await usersRef.get();
+  
+  let usersMap = new Map();
+  let allKeyArray = [];
+  
+  userSnapshot.forEach(doc => {
+    const userData = doc.data();
+    const uid = doc.id;
+    usersMap.set(uid, userData);
+  });
+  
+  allKeyArray = Array.from(usersMap.keys());
+  
+  console.log('Users Map:', usersMap);
+  console.log('All Keys:', allKeyArray);
 });
-
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
-
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
