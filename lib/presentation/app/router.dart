@@ -7,7 +7,7 @@ import 'package:solo_network_sns/presentation/ui/login/login_page.dart';
 import 'package:solo_network_sns/presentation/ui/setpage/setpage.dart';
 
 final router = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/login',
   routes: [
     GoRoute(
       path: '/login',
@@ -15,7 +15,7 @@ final router = GoRouter(
       routes: [
         GoRoute(
           path: 'set',
-          builder: (context, state) => Setpage(),
+          builder: (context, state) => SetPage(),
         ),
       ],
     ),
