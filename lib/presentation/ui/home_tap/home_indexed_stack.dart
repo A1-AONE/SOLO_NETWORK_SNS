@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/presentation/ui/feed/feed_page.dart';
+import 'package:solo_network_sns/presentation/ui/home_tap/example_page.dart';
 import 'package:solo_network_sns/presentation/ui/home_tap/home_view_model.dart';
+import 'package:solo_network_sns/presentation/ui/my_page/my_page.dart';
 
 class HomeIndexedStack extends StatelessWidget {
   const HomeIndexedStack({super.key});
@@ -14,7 +16,9 @@ class HomeIndexedStack extends StatelessWidget {
         return IndexedStack(
           index: currentIndex,
           children: [
+            MyPage(),
             FeedPage(),
+            ExamplePage(),
           ],
         );
       },

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_rich_text/easy_rich_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,64 +7,112 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
+import 'package:solo_network_sns/presentation/ui/login/login_view_model.dart';
 
 class LoginPage extends StatelessWidget {
   void loginInWithGoogle(BuildContext context, WidgetRef ref) async {
-    // 스코프설정 - 내가 어떤 정보를 가지고 올지
-    final GoogleSignIn googleSignIn = GoogleSignIn(
-        // scopes: ['email'],
+    // 로딩 상태 확인
+    final isLoading = ref.read(loginViewModelProvider);
+    if (isLoading) return; // 중복 선택 방지
+
+    ref.read(loginViewModelProvider.notifier).startLoading(); // 로딩 시작
+
+    // =========================================
+
+    try {
+      // 스코프설정 - 내가 어떤 정보를 가지고 올지
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        scopes: ['email'],
+      );
+
+      // 구글 로그인
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
+
+      // 구글 로그인 결과에서 accessToken을 가져오기 위해
+      // GoogleSignInAuthentication 가져오기
+      final GoogleSignInAuthentication? googleSignInAuthentication =
+          await googleSignInAccount?.authentication;
+
+      if (googleSignInAuthentication == null) {
+        return;
+      }
+
+      // ===================================== 1 end(구글 로그인)
+      // ===================================== 2 start(파이어 베이스)
+
+      // 이메일이 없는 상황 예외처리부분임. 사실 구글로그인이라 없어도 되는데, 혹시 구글 계정자체에 문제가 있어서
+      // 로그인이 안될수도 있으니까! 넣어둠
+      final String? email = googleSignInAccount?.email;
+      if (email == null) {
+        throw Exception('Google 로그인 실패!');
+      }
+
+      // Firestore에서 로그인한 이메일에 해당하는 기존 uid 검색
+      final QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('User')
+          .where('email', isEqualTo: email)
+          .get();
+
+      String uid;
+      if (snapshot.docs.isNotEmpty) {
+        uid = snapshot.docs.first.id; // 여기서 id는 문서ID임 uid(고유번호)랑 같은 값임
+      } else {
+        // 기존 uid가 없을때 새 uid 생성
+        // Firebase Auth 에서 accessToken과 idToken으로 로그인 하기 위해 OAuthCredential 생성
+        final OAuthCredential oauthCred = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
         );
 
-    // 구글 로그인
-    final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn();
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(oauthCred);
+        // print('uid: ${userCredential.user?.uid}');
+        uid = userCredential.user?.uid ?? '';
+      }
 
-    // 구글 로그인 결과에서 accessToken을 가져오기 위해
-    // GoogleSignInAuthentication 가져오기
-    final GoogleSignInAuthentication? googleSignInAuthentication =
-        await googleSignInAccount?.authentication;
-    if (googleSignInAuthentication == null) {
-      return;
+      // ===================================== 3 데이터 베이스에 사용자 uid저장
+
+      // User 컬렉션에 데이터 저장
+
+      final DocumentReference userDoc =
+          FirebaseFirestore.instance.collection('User').doc(uid);
+
+      // 기존 사용자 데이터 가져오기
+      final DocumentSnapshot userSnapshot = await userDoc.get();
+
+      if (!userSnapshot.exists) {
+        // 새로운 사용자 - 데이터 저장
+        final Map<String, dynamic> newData = {
+          'AITag': [],
+          'Nickname': '',
+          'isCanSpying': false,
+          'profileUrl': '',
+          'uid': uid,
+          'email': email,
+        };
+
+        await userDoc.set(newData);
+
+        // 새로운 사용자 - set페이지로
+        context.go('/login/set');
+      } else {
+        // 기존 사용자 - 마이 피드로
+        context.go('/feed');
+      }
+    } catch (e) {
+      log('!!!!!!!!!!!!');
+      log('$e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('로그인 에러!'),
+        ),
+      );
+    } finally {
+      ref
+          .read(loginViewModelProvider.notifier)
+          .stopLoading(); // 예외 발생 여부 상관없이 항상 로딩 종료!
     }
-
-    // ===================================== 1 end(구글 로그인)
-    // ===================================== 2 start(파이어 베이스)
-
-    // Firebase Auth 에서 accessToken과 idToken으로 로그인 하기 위해 OAuthCredential 생성
-    final OAuthCredential oauthCred = GoogleAuthProvider.credential(
-      accessToken: googleSignInAuthentication.accessToken,
-      idToken: googleSignInAuthentication.idToken,
-    );
-
-    final UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithCredential(oauthCred);
-    print('uid: ${userCredential.user?.uid}');
-
-    // ===================================== 3 데이터 베이스에 사용자 uid저장
-
-    // User 컬렉션에 데이터 저장
-    final String uid = userCredential.user?.uid ?? '';
-    final DocumentReference userDoc =
-        FirebaseFirestore.instance.collection('User').doc(uid);
-
-    // 필드 저장 사용자 데이터
-    final Map<String, dynamic> userData = {
-      'AITag': [],
-      'Nickname': '',
-      'isCanSpying': false,
-      'profileUrl': '',
-      'uid': uid,
-    };
-
-    // 사용자 정보 생성 업데이트
-    await userDoc.set(userData, SetOptions(merge: true));
-
-    // id 정보저장
-    ref.read(userViewModelProvider.notifier).setUserId(uid);
-
-    // 로그인 성공시 Setpage로 이동
-    context.go('/login/set');
   }
 
   @override
@@ -116,11 +166,20 @@ class LoginPage extends StatelessWidget {
           SizedBox(height: 50),
           Consumer(
             builder: (context, ref, child) {
-              return GestureDetector(
-                onTap: () {
-                  loginInWithGoogle(context, ref);
-                },
-                child: Container(
+              final isLoading = ref.watch(loginViewModelProvider);
+
+              return InkWell(
+                // 중복 선택 방지
+                onTap: isLoading
+                    ? null
+                    : () {
+                        loginInWithGoogle(context, ref);
+                      },
+                splashColor: Color(0xFFEBEBEB),
+                splashFactory: InkRipple.splashFactory,
+                radius: 300,
+                borderRadius: BorderRadius.circular(30),
+                child: Ink(
                   height: 60,
                   width: 320,
                   decoration: BoxDecoration(
