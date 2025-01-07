@@ -58,6 +58,20 @@ class LoginPage extends StatelessWidget {
       String uid;
       if (snapshot.docs.isNotEmpty) {
         uid = snapshot.docs.first.id; // 여기서 id는 문서ID임 uid(고유번호)랑 같은 값임
+
+        // 닉네임 비어있으면 setpage로!
+        final userDoc = snapshot.docs.first;
+        final nickname = userDoc['Nickname'] as String? ?? '';
+        
+        ref.read(userViewModelProvider.notifier).setUserId(uid);
+
+        if(nickname.isEmpty) {
+          context.go('/login/set');
+          return;
+        } else {
+          context.go('/');
+        }
+
       } else {
         // 기존 uid가 없을때 새 uid 생성
         // Firebase Auth 에서 accessToken과 idToken으로 로그인 하기 위해 OAuthCredential 생성
@@ -101,7 +115,7 @@ class LoginPage extends StatelessWidget {
         context.go('/login/set');
       } else {
         // 기존 사용자 - 마이 피드로
-        context.go('/feed');
+        context.go('/');
       }
     } catch (e) {
       log('!!!!!!!!!!!!');
