@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_rich_text/easy_rich_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,8 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:solo_network_sns/presentation/ui/login/login_view_model.dart';
-import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
-import 'dart:developer';
 
 class LoginPage extends StatelessWidget {
   void loginInWithGoogle(BuildContext context, WidgetRef ref) async {
@@ -41,40 +41,65 @@ class LoginPage extends StatelessWidget {
       // ===================================== 1 end(구글 로그인)
       // ===================================== 2 start(파이어 베이스)
 
-      // Firebase Auth 에서 accessToken과 idToken으로 로그인 하기 위해 OAuthCredential 생성
-      final OAuthCredential oauthCred = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
+      // 이메일이 없는 상황 예외처리부분임. 사실 구글로그인이라 없어도 되는데, 혹시 구글 계정자체에 문제가 있어서
+      // 로그인이 안될수도 있으니까! 넣어둠
+      final String? email = googleSignInAccount?.email;
+      if (email == null) {
+        throw Exception('Google 로그인 실패!');
+      }
 
-      final UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithCredential(oauthCred);
-      print('uid: ${userCredential.user?.uid}');
+      // Firestore에서 로그인한 이메일에 해당하는 기존 uid 검색
+      final QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('User')
+          .where('email', isEqualTo: email)
+          .get();
+
+      String uid;
+      if (snapshot.docs.isNotEmpty) {
+        uid = snapshot.docs.first.id; // 여기서 id는 문서ID임 uid(고유번호)랑 같은 값임
+      } else {
+        // 기존 uid가 없을때 새 uid 생성
+        // Firebase Auth 에서 accessToken과 idToken으로 로그인 하기 위해 OAuthCredential 생성
+        final OAuthCredential oauthCred = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(oauthCred);
+        // print('uid: ${userCredential.user?.uid}');
+        uid = userCredential.user?.uid ?? '';
+      }
 
       // ===================================== 3 데이터 베이스에 사용자 uid저장
 
       // User 컬렉션에 데이터 저장
-      final String uid = userCredential.user?.uid ?? '';
+
       final DocumentReference userDoc =
           FirebaseFirestore.instance.collection('User').doc(uid);
 
-      // 필드 저장 사용자 데이터
-      final Map<String, dynamic> userData = {
-        'AITag': [],
-        'Nickname': '',
-        'isCanSpying': false,
-        'profileUrl': '',
-        'uid': uid,
-      };
+      // 기존 사용자 데이터 가져오기
+      final DocumentSnapshot userSnapshot = await userDoc.get();
 
-      // 사용자 정보 생성 업데이트
-      await userDoc.set(userData, SetOptions(merge: true));
+      if (!userSnapshot.exists) {
+        // 새로운 사용자 - 데이터 저장
+        final Map<String, dynamic> newData = {
+          'AITag': [],
+          'Nickname': '',
+          'isCanSpying': false,
+          'profileUrl': '',
+          'uid': uid,
+          'email': email,
+        };
 
-      // id 정보저장
-      ref.read(userViewModelProvider.notifier).setUserId(uid);
+        await userDoc.set(newData);
 
-      // 로그인 성공시 Setpage로 이동
-      context.go('/login/set');
+        // 새로운 사용자 - set페이지로
+        context.go('/login/set');
+      } else {
+        // 기존 사용자 - 마이 피드로
+        context.go('/feed');
+      }
     } catch (e) {
       log('!!!!!!!!!!!!');
       log('$e');
