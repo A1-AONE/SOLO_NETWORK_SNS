@@ -1,8 +1,10 @@
+import 'dart:io';
+
 import 'package:solo_network_sns/data/source/feed_data_source.dart';
 import 'package:solo_network_sns/domain/entitiy/feed.dart';
-import 'package:solo_network_sns/domain/repository/feed_repository.dart';
+import 'package:solo_network_sns/domain/repository/feed_fetch_repository.dart';
 
-class FeedRepositoryImpl implements FeedRepository{
+class FeedRepositoryImpl implements FeedFetchRepository{
   FeedRepositoryImpl(
     this._feedDataSource,
   );
@@ -22,4 +24,5 @@ class FeedRepositoryImpl implements FeedRepository{
         tag: e.tag
       )).toList();
   }
+
 }
