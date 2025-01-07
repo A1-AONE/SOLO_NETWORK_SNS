@@ -2,12 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: MyPage(),
-  ));
-}
-
 class MyPage extends StatefulWidget {
   @override
   State<MyPage> createState() => _MyPageState();
@@ -17,7 +11,7 @@ class _MyPageState extends State<MyPage> {
   File? _profileImage;
   final ImagePicker _picker = ImagePicker();
 
-  // 갤러리에서 이미지 선택 함수
+  // 갤러리에서 이미지 선택 함수gi
   Future<void> _pickImage() async {
     final XFile? pickedFile =
         await _picker.pickImage(source: ImageSource.gallery);
