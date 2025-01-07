@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:solo_network_sns/presentation/ui/create_page/viewmodel/create_view_model.dart';
 import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
@@ -37,7 +38,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                     children: [
                       TextButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          context.go('/create/feed');
                         },
                         child: Text(
                           '취소',
@@ -51,7 +52,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                       TextButton(
                         onPressed: () async {
                           await viewModel.postFeed(userId);
-                          // Navigator.pop(context); // 게시 후 이전 화면으로 이동
+                          context.go('/create/feed'); // 게시 후 이전 화면으로 이동
                         },
                         child: Text(
                           '게시하기',
