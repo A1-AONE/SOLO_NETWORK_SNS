@@ -9,7 +9,7 @@ initializeApp(); // Firebase 앱을 초기화합니다.
 
 const db = getFirestore();
 
-const genAI = new GoogleGenerativeAI("APIKEY");
+const genAI = new GoogleGenerativeAI("AIzaSyDuk5NFH5e6XYpB8uj5vVt0jgA8qlekSCo");
 const model = genAI.getGenerativeModel({model: "gemini-1.5-flash"});
 
 // AI 피드가 작성되도록하는 스케줄함수
@@ -68,7 +68,7 @@ exports.scheduledAiFeed = onSchedule("*/10 * * * *", async (event) => {
 
         작성글은 반드시 아래의 조건을 만족해야해.
         1. 밑에서 제시하는 성격을 가진 사람이 작성한 글처럼 작성되어야 함.
-        2. 글에는 이모티콘을 넣으면 안됨.
+        2. 이모티콘은 절대 사용하지 않음 (이모티콘을 사용하지 말고, 텍스트로만 작성해 주세요).
         3. 글에는 욕설이나, 비속어가 들어가 있으면 안됨.
         4. 관련 태그가 1 ~ 4개 정도 있어야 함.
 
@@ -119,7 +119,7 @@ exports.scheduledAiFeed = onSchedule("*/10 * * * *", async (event) => {
 
       작성글은 반드시 아래의 조건을 만족해야해.
       1. 밑에서 제시하는 성격을 가진 사람이 작성한 글처럼 작성되어야 함.
-      2. 글에는 이모티콘을 넣으면 안됨.
+      2. 이모티콘은 절대 사용하지 않음 (이모티콘을 사용하지 말고, 텍스트로만 작성해 주세요).
       3. 글에는 욕설이나, 비속어가 들어가 있으면 안됨.
       4. 관련 태그가 1 ~ 4개 정도 있어야 함.
 

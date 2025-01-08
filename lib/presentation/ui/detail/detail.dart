@@ -1,18 +1,13 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:solo_network_sns/presentation/ui/detail/detail_info_view_model.dart';
-import 'package:solo_network_sns/presentation/ui/detail/widgets/comment.dart';
 import 'package:solo_network_sns/presentation/ui/detail/widgets/detail_comment.dart';
 import 'package:solo_network_sns/presentation/ui/detail/widgets/detail_comment_view_model.dart';
 import 'package:solo_network_sns/presentation/ui/detail/widgets/detail_info.dart';
 import 'package:solo_network_sns/presentation/ui/feed/feed_page_view_model.dart';
 import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
-import 'package:logger/logger.dart';
 
-final logger = Logger(); // Logger 인스턴스 생성
 
 class Detail extends ConsumerStatefulWidget {
   Detail({required this.feedId});
