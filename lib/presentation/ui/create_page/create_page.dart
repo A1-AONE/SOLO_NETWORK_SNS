@@ -28,54 +28,54 @@ class _CreatePageState extends ConsumerState<CreatePage> {
               FocusScope.of(context).unfocus();
             },
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              padding: const EdgeInsets.only(
+                  bottom: 8, left: 24, right: 24, top: 24),
               child: Column(
                 children: [
                   Row(
                     children: [
                       TextButton(
                         onPressed: () {
-                          viewModel.clearFields();
+                          viewModel.clearFields(); // 상태 초기화
                           context.go('/create/feed');
                         },
                         child: Text(
                           '취소',
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w400),
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                       Spacer(),
                       TextButton(
                         onPressed: () async {
-                          if (state.errorMessage != null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(state.errorMessage!)),
-                            );
-                            return;
-                          }
-
-                          await viewModel.postFeed(userId);
-                          viewModel.clearFields();
-                          context.go('/create/feed');
+                          await viewModel.postFeed(userId); // DB 저장
+                          viewModel.clearFields(); // 상태 초기화
+                          context.go('/create/feed'); // 게시 후 이전 화면으로 이동
                         },
                         child: Text(
                           '게시하기',
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w400),
+                            fontSize: 20,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 24),
+                  SizedBox(height: 24), // Row와 TextField 간 간격 추가
+                  // 중간 부분
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          // 내용 입력
+                          // 내용 입력 TextField
                           TextField(
-                            controller: state.contentEditingController,
+                            controller:
+                                state.contentEditingController, // state를 통해 접근
                             minLines: 1,
-                            maxLines: null,
+                            maxLines: null, // 줄 제한 없이 늘어남
                             keyboardType: TextInputType.multiline,
                             decoration: InputDecoration(
                               hintText: "내용을 입력하세요.",
@@ -86,7 +86,9 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                             ),
                           ),
                           SizedBox(height: 24),
-                          if (state.selectedImage != null)
+
+                          // 이미지 미리보기
+                          if (state.notPerson && state.selectedImage != null)
                             Container(
                               margin: EdgeInsets.symmetric(vertical: 16),
                               height: 200,
@@ -94,21 +96,35 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                                 borderRadius: BorderRadius.circular(10),
                                 image: DecorationImage(
                                   image: FileImage(
-                                      File(state.selectedImage!.path)),
+                                    File(state.selectedImage!.path),
+                                  ),
                                   fit: BoxFit.contain,
                                 ),
                               ),
-                            ),
-                          if (state.errorMessage != null)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
+                            )
+                          else if (!state.notPerson &&
+                              state.selectedImage != null)
+                            Column(
+                              children: [
+                                Text(
+                                  '사람 이미지가 감지되었습니다.',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                Text(
+                                  '사람 이미지는 등록할 수 없습니다.',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            )
+                          else
+                            Container(
                               child: Text(
-                                state.errorMessage!,
-                                style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold),
+                                '사람 이미지는 등록할 수 없습니다.',
+                                style: TextStyle(color: Colors.grey),
                               ),
-                            ),
+                            ), // 기본 빈 컨테이너
+
+                          // 태그 출력
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: state.tags.map((tag) {
@@ -128,6 +144,8 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                       ),
                     ),
                   ),
+
+                  // 하단 고정 영역
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 24.0, vertical: 16.0),
@@ -135,16 +153,9 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            final isPersonDetected =
-                                await viewModel.pickImage();
-                            if (isPersonDetected) {
-                              print('isPersonDetectedaaaaaaaaaaaaaaaaaa');
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    content: Text('사람이 포함된 사진은 업로드할 수 없습니다.')),
-                              );
-                            }
-                          },
+                            await viewModel
+                                .pickImage(context); // BuildContext를 전달
+                          }, // 이미지 피커 함수 실행
                           child: Icon(Icons.image_search),
                         ),
                         SizedBox(width: 20),
@@ -161,7 +172,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: viewModel.addTag,
+                          onTap: viewModel.addTag, // 태그 추가 함수 실행
                           child: Icon(Icons.add_circle_outline),
                         ),
                       ],

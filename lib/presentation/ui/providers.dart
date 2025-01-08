@@ -21,5 +21,10 @@ final fetchFeedsUsecaseProvider = Provider((ref) {
 });
 
 final yoloDetectionProvider = Provider<YoloDetection>((ref) {
-  return YoloDetection();
+  final yoloDetection = YoloDetection();
+  // YOLO 모델 초기화
+  yoloDetection.initialize().catchError((e) {
+    throw Exception('Failed to initialize YOLO model: $e');
+  });
+  return yoloDetection;
 });
