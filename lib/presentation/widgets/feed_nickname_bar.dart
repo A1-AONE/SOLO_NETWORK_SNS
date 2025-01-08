@@ -10,18 +10,20 @@ class FeedNicknameBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.network('https://picsum.photos/40/40'),
-          ),
-          SizedBox(
-            width: 250,
-            child: Text(
-              '닉네임',
-              style: TextStyle(fontSize: 20),
-            ),
+          Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network('https://picsum.photos/40/40'),
+              ),
+              SizedBox(width: 8,),
+              Text(
+                '닉네임',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
           PopupMenuButton(
             itemBuilder: (BuildContext context) => <PopupMenuEntry<SampleItem>>[

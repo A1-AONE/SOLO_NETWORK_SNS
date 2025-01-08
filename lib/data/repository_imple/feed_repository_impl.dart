@@ -16,11 +16,12 @@ class FeedRepositoryImpl implements FeedFetchRepository{
     final result  = await _feedDataSource.fetchFeeds();
     return result
       .map((e) => Feed(
+        id: e.id,
         UID: e.UID,
         contents: e.contents,
         createdAt: e.createdAt,
         goods: e.goods,
-        imgUrl: e.imgUrl,
+        imageUrl: e.imageUrl,
         tag: e.tag
       )).toList();
   }
