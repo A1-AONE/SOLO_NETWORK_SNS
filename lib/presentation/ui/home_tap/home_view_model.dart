@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class HomeViewModel extends AutoDisposeNotifier<int> {
   @override
   int build() {
-    return 0;
+    return 1;
   }
 
   void onIndexChanged(int newIndex) {
