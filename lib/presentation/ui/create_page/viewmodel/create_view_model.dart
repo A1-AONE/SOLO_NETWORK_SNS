@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:solo_network_sns/domain/entitiy/feed_entity.dart';
 import 'package:solo_network_sns/domain/usecase/create_feed_use_case.dart';
+import 'package:image/image.dart' as img;
+import 'package:solo_network_sns/presentation/ui/create_page/viewmodel/yolo_detection.dart';
 
 class CreateViewModel extends StateNotifier<CreateState> {
   final CreateFeedUseCase createFeedUseCase;
@@ -32,10 +34,57 @@ class CreateViewModel extends StateNotifier<CreateState> {
   }
 
   ///이미지피커
-  Future<void> pickImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      state = state.copyWith(selectedImage: image);
+  Future<void> pickImage(BuildContext context) async {
+    final yoloDetection = YoloDetection();
+    // YOLO 모델 초기화 확인 및 초기화 실행
+    if (!yoloDetection.isInitialized) {
+      await yoloDetection.initialize(); // 모델 초기화
+    }
+    img.Image? image; // image 패키지의 Image 객체
+
+    // 이미지 선택 중 로딩 화면 표시
+    showDialog(
+      context: context,
+      barrierDismissible: false, // 다이얼로그 바깥을 눌러도 닫히지 않도록 설정
+      builder: (context) {
+        return Center(
+          child: CircularProgressIndicator(), // 로딩 표시
+        );
+      },
+    );
+
+    try {
+      final XFile? newImageFile =
+          await _picker.pickImage(source: ImageSource.gallery);
+
+      if (newImageFile != null) {
+        state = state.copyWith(selectedImage: newImageFile);
+
+        // newImageFile을 image로 변환
+        final file = File(newImageFile.path);
+        final imageBytes = await file.readAsBytes();
+        final decodedImage = img.decodeImage(imageBytes);
+
+        if (decodedImage != null) {
+          image = decodedImage; // 변환된 이미지 객체
+        } else {
+          throw Exception('Failed to decode the selected image');
+        }
+      } else {
+        throw Exception('No image selected');
+      }
+
+      // 변환된 image 객체로 YOLO 모델 실행
+      if (image != null) {
+        state = state.copyWith(notPerson: yoloDetection.runInference(image));
+      } else {
+        throw Exception('Image conversion failed');
+      }
+    } catch (e) {
+      print("Error: $e");
+    } finally {
+      // 이미지 처리 완료 후 다이얼로그 닫기
+      Navigator.of(context).pop(); // 다이얼로그 닫기
     }
   }
 
@@ -47,6 +96,7 @@ class CreateViewModel extends StateNotifier<CreateState> {
       imagUrl: null, // Firestore에서 처리됨
       createdAt: DateTime.now().toIso8601String(),
       goods: 0,
+      AI: '',
     );
     await createFeedUseCase.execute(
         feedEntity,
@@ -66,12 +116,14 @@ class CreateState {
   final TextEditingController tagEditingController;
   final List<String> tags;
   final XFile? selectedImage;
+  final bool notPerson;
 
   CreateState({
     TextEditingController? contentEditingController,
     TextEditingController? tagEditingController,
     this.tags = const [],
     this.selectedImage,
+    this.notPerson = true,
   })  : contentEditingController =
             contentEditingController ?? TextEditingController(),
         tagEditingController = tagEditingController ?? TextEditingController();
@@ -81,6 +133,7 @@ class CreateState {
     TextEditingController? tagEditingController,
     List<String>? tags,
     XFile? selectedImage,
+    bool? notPerson,
   }) {
     return CreateState(
       contentEditingController:
@@ -88,6 +141,7 @@ class CreateState {
       tagEditingController: tagEditingController ?? this.tagEditingController,
       tags: tags ?? this.tags,
       selectedImage: selectedImage ?? this.selectedImage,
+      notPerson: notPerson ?? this.notPerson,
     );
   }
 }

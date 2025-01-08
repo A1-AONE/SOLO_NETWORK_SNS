@@ -32,6 +32,7 @@ class FeedRepositoryImpl implements FeedRepository {
       'imageUrl': imageUrl,
       'createdAt': feedEntity.createdAt,
       'goods': feedEntity.goods ?? 0,
+      'AI': feedEntity.AI ?? '',
     });
   }
 }
