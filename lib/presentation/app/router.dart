@@ -10,7 +10,7 @@ import 'package:solo_network_sns/presentation/ui/splash/splash_screen.dart';
 
 final router = GoRouter(
 
-  initialLocation: '/splash',
+  initialLocation: '/',
   routes: [
     GoRoute(
       path: '/splash',
@@ -29,8 +29,11 @@ final router = GoRouter(
       builder: (context, state) => HomeTap(),
       routes: [
         GoRoute(
-          path: 'feed',
-          builder: (context, state) => Detail(),
+          path: 'feed/:feedId',
+          builder: (context, state) {
+            final FeedId = state.pathParameters['feedId'];
+            return Detail(feedId: FeedId!);
+          },
         ),
         GoRoute(
           path: 'create',
