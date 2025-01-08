@@ -14,8 +14,8 @@ class FeedPage extends StatelessWidget {
       body: Consumer(
         builder: (context, ref, child) {
           final feeds = ref.watch(feedsViewModel);
-          if (feeds == null) {
-            return const Center(child: CircularProgressIndicator());
+          if (feeds!.isEmpty) {
+            return const Center(child: Text('No feeds available.'));
           }
           return ListView.builder(
             itemCount: feeds.length,

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:solo_network_sns/presentation/widgets/feed_nickname_bar.dart';
 
 class DetailComment extends StatelessWidget {
+  DetailComment({required this.content});
+
+  final String content;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -19,7 +23,7 @@ class DetailComment extends StatelessWidget {
                   SizedBox(
                     height: 100,
                     child: Text(
-                      '저도 너무 먹고싶어요 아\n아아아아',
+                      content,
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
