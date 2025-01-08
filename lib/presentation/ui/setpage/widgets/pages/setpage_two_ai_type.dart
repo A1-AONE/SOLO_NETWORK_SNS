@@ -24,11 +24,11 @@ class SetpageTwoAiType extends StatelessWidget {
                       style: TextStyle(fontSize: 24),
                     ),
                     Text(
-                      'AI 타입',
+                      'AI 친구',
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    Text('을 알려주세요!', style: TextStyle(fontSize: 24))
+                    Text('를 알려주세요!', style: TextStyle(fontSize: 24))
                   ],
                 ),
                 SizedBox(

@@ -9,7 +9,7 @@ import 'package:solo_network_sns/presentation/ui/splash/splash_screen.dart';
 
 final router = GoRouter(
 
-  initialLocation: '/',
+  initialLocation: '/splash',
   routes: [
     GoRoute(
       path: '/splash',
