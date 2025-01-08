@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,34 +41,27 @@ class SetPageState {
 class SetpageViewModel extends AutoDisposeNotifier<SetPageState> {
   @override
   SetPageState build() {
-    List<Widget> pages = [SetpageOneNickname(), SetpageTwoAiType(), SetpageThreeGenerate(), SetpageFourWelcome()];
+    List<Widget> pages = [
+      SetpageOneNickname(),
+      SetpageTwoAiType(),
+      SetpageThreeGenerate(),
+      SetpageFourWelcome()
+    ];
     List<String> aiTags = [
       '친절함',
       '유머러스',
       '논리적',
       '감성적',
       '직설적',
-      '창의적',
       '긍정적',
       '열정적',
       '공감적',
-      '냉소적',
       '조용함',
-      '고급스러움',
-      '대중적',
       '낭만적',
-      '스포티함',
       '전문적',
       '귀여움',
       '차가움',
-      '빈티지',
-      '트렌디',
-      '성숙함',
-      '팬심',
       '논쟁적',
-      '홍보적',
-      '서포터',
-      '조언자'
     ];
 
     return SetPageState(0, 0, pages, null, aiTags, {});
@@ -122,11 +117,20 @@ class SetpageViewModel extends AutoDisposeNotifier<SetPageState> {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     DocumentReference userDoc = firebaseFirestore.collection('User').doc(uid);
 
-    List<String> selectTags = List.from(state.selectTags).map((e) {
-      return state.aiTags[e];
-    },).toList();
+    List<String> selectTags;
 
-    Map<String,dynamic> data = {
+    if (state.selectTags.isEmpty) {
+      int rnd = Random().nextInt(state.aiTags.length);
+      selectTags = [state.aiTags[rnd]];
+    } else {
+      selectTags = List.from(state.selectTags).map(
+        (e) {
+          return state.aiTags[e];
+        },
+      ).toList();
+    }
+
+    Map<String, dynamic> data = {
       "AITag": selectTags,
       "Nickname": state.nickname,
     };

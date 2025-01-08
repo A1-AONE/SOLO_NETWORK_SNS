@@ -17,9 +17,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
     final state = ref.watch(createViewModelProvider);
 
     // UserViewModel을 사용하여 사용자 ID 가져오기
-    final userId = ref.watch(userViewModelProvider); // userId 값 읽어오기
-
-    // String uid = 'testid'; //테스트아이디
+    final userId = ref.watch(userViewModelProvider);
 
     return Hero(
       tag: 'create-feed',
@@ -39,7 +37,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                       TextButton(
                         onPressed: () {
                           viewModel.clearFields(); // 상태 초기화
-                          context.go('/create/feed');
+                          context.go('/');
                         },
                         child: Text(
                           '취소',
@@ -52,9 +50,9 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                       Spacer(),
                       TextButton(
                         onPressed: () async {
-                          await viewModel.postFeed(userId); //db저장
+                          await viewModel.postFeed(userId); // DB 저장
                           viewModel.clearFields(); // 상태 초기화
-                          context.go('/create/feed'); // 게시 후 이전 화면으로 이동
+                          context.go('/'); // 게시 후 이전 화면으로 이동
                         },
                         child: Text(
                           '게시하기',
@@ -67,7 +65,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                     ],
                   ),
                   SizedBox(height: 24), // Row와 TextField 간 간격 추가
-                  // 중간 부분분
+                  // 중간 부분
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
@@ -77,7 +75,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                             controller:
                                 state.contentEditingController, // state를 통해 접근
                             minLines: 1,
-                            maxLines: null, //줄 제한 없이 늘어남
+                            maxLines: null, // 줄 제한 없이 늘어남
                             keyboardType: TextInputType.multiline,
                             decoration: InputDecoration(
                               hintText: "내용을 입력하세요.",
@@ -90,7 +88,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                           SizedBox(height: 24),
 
                           // 이미지 미리보기
-                          if (state.selectedImage != null)
+                          if (state.notPerson && state.selectedImage != null)
                             Container(
                               margin: EdgeInsets.symmetric(vertical: 16),
                               height: 200,
@@ -98,13 +96,33 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                                 borderRadius: BorderRadius.circular(10),
                                 image: DecorationImage(
                                   image: FileImage(
-                                      File(state.selectedImage!.path)),
+                                    File(state.selectedImage!.path),
+                                  ),
                                   fit: BoxFit.contain,
                                 ),
                               ),
                             )
+                          else if (!state.notPerson &&
+                              state.selectedImage != null)
+                            Column(
+                              children: [
+                                Text(
+                                  '사람 이미지가 감지되었습니다.',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                Text(
+                                  '사람 이미지는 등록할 수 없습니다.',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            )
                           else
-                            Container(),
+                            Container(
+                              child: Text(
+                                '사람 이미지는 등록할 수 없습니다.',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ),
 
                           // 태그 출력
                           Row(
@@ -134,15 +152,17 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                     child: Row(
                       children: [
                         GestureDetector(
-                          onTap: viewModel.pickImage, // 이미지 선택 함수 실행
+                          onTap: () async {
+                            await viewModel
+                                .pickImage(context); // BuildContext를 전달
+                          }, // 이미지 피커 함수 실행
                           child: Icon(Icons.image_search),
                         ),
                         SizedBox(width: 20),
                         Icon(Icons.tag),
                         Expanded(
                           child: TextField(
-                            controller:
-                                state.tagEditingController, // state를 통해 접근
+                            controller: state.tagEditingController,
                             maxLines: 1,
                             decoration: InputDecoration(
                               hintText: "태그를 입력하세요.",
