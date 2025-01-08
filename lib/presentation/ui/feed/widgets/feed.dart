@@ -1,24 +1,40 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solo_network_sns/presentation/widgets/feed_nickname_bar.dart';
 
 class Feed extends StatelessWidget {
+  Feed({
+    required this.feedId,
+    required this.contenet,
+    required this.createdAt,
+    required this.goods,
+    required this.imgUrl,
+  });
+  final String feedId;
+  final String contenet;
+  final String createdAt;
+  final String goods;
+  final String imgUrl;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          Divider(color: Colors.black,),
+          Divider(
+            color: Colors.black,
+          ),
           FeedNicknameBar(),
           GestureDetector(
             onTap: () {
-              context.go('/feed');
+              context.go('/feed/$feedId');
             },
             child: Row(
               children: [
-                SizedBox(width: 50,),
+                SizedBox(
+                  width: 60,
+                ),
                 Column(
                   children: [
                     SizedBox(
@@ -28,35 +44,41 @@ class Feed extends StatelessWidget {
                           SizedBox(
                             height: 50,
                             child: Text(
-                              '파스타 맛있어요',
+                              contenet,
                               style: TextStyle(fontSize: 20),
                             ),
                           ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.network('https://picsum.photos/300/200'),
-                          ),
+                           imgUrl.isEmpty
+                              ? SizedBox(height: 50, width: 300,)
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.network(imgUrl, width: 300, height: 200,fit: BoxFit.contain,),
+                                ),
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.chat_bubble_rounded),
-                              Text('1'),
-                              SizedBox(width: 16,),
-                              Icon(Icons.favorite),
-                              Text('1'),
-                            ],
-                          ),
-                          SizedBox(width: 70,),
-                          Text('2025년 01월 03일', style: TextStyle(fontSize: 15, color: Colors.grey),),
-                        ],
-                      ),
+                    SizedBox(height: 5,),
+                    Row(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.chat_bubble_rounded),
+                            Text(goods),
+                            SizedBox(
+                              width: 16,
+                            ),
+                            Icon(Icons.favorite),
+                            Text('1'),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 95,
+                        ),
+                        Text(
+                          createdAt,
+                          style: TextStyle(fontSize: 15, color: Colors.grey),
+                        ),
+                      ],
                     )
                   ],
                 ),

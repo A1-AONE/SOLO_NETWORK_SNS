@@ -21,6 +21,7 @@ class FeedDataSourceImpl implements FeedDataSource {
           'id': doc.id,
           ...map,
         };
+        print(newMap);
         return FeedDto.fromJson(newMap);
       }).toList();
     } catch (e) {
