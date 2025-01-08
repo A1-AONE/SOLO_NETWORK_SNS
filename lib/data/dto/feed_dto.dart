@@ -1,5 +1,5 @@
 class FeedDto {
-  // String id;
+  String id;
   String UID;
   String contents;
   DateTime createdAt;
@@ -9,7 +9,7 @@ class FeedDto {
   String AI;
 
   FeedDto({
-    // required this.id,
+    required this.id,
     required this.UID,
     required this.contents,
     required this.createdAt,
@@ -21,7 +21,7 @@ class FeedDto {
 
   FeedDto.fromJson(Map<String, dynamic> json)
       : this(
-          // id: json['id'],
+          id: json['id'],
           UID: json['UID'],
           contents: json['contents'] ?? '',
           createdAt: json['createdAt'] != null
@@ -47,7 +47,7 @@ class FeedDto {
   }
 
   FeedDto copyWith({
-    // String? id,
+    String? id,
     String? UID,
     String? contents,
     String? createdAt,
@@ -57,7 +57,7 @@ class FeedDto {
     String? AI,
   }) =>
       FeedDto(
-        // id: this.id,
+        id: this.id,
         UID: this.UID,
         contents: this.contents,
         createdAt: this.createdAt,

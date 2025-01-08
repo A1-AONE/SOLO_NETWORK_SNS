@@ -122,7 +122,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                                 '사람 이미지는 등록할 수 없습니다.',
                                 style: TextStyle(color: Colors.grey),
                               ),
-                            ), // 기본 빈 컨테이너
+                            ),
 
                           // 태그 출력
                           Row(
