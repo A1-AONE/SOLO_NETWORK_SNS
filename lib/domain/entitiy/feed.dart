@@ -6,6 +6,7 @@ class Feed {
   int goods;
   String imageUrl;
   List<String> tag;
+  String AI;
 
   Feed({
     required this.id,
@@ -15,5 +16,6 @@ class Feed {
     required this.goods,
     required this.imageUrl,
     required this.tag,
+    required this.AI,
   });
 }

@@ -1,5 +1,3 @@
-
-
 class FeedDto {
   String id;
   String UID;
@@ -8,6 +6,7 @@ class FeedDto {
   int goods;
   String imageUrl;
   List<String> tag;
+  String AI;
 
   FeedDto({
     required this.id,
@@ -17,30 +16,33 @@ class FeedDto {
     required this.goods,
     required this.imageUrl,
     required this.tag,
+    required this.AI,
   });
 
   FeedDto.fromJson(Map<String, dynamic> json)
-    : this (
-      id: json['id'],
-      UID: json['UID'],
-      contents: json['contents'] ?? '',
-      createdAt:  json['createdAt'] != null
-          ? DateTime.parse(json['createdAt'])
-          : DateTime(1970),
-      goods: json['goods'] ?? 0,
-      imageUrl: json['imageUrl'] ?? '',
-      tag: json['tag'] ?? [],
-    );
+      : this(
+          id: json['id'],
+          UID: json['UID'],
+          contents: json['contents'] ?? '',
+          createdAt: json['createdAt'] != null
+              ? DateTime.parse(json['createdAt'])
+              : DateTime(1970),
+          goods: json['goods'] ?? 0,
+          imageUrl: json['imageUrl'] ?? '',
+          tag: json['tag'] ?? [],
+          AI: json['AI'] ?? [],
+        );
 
-  Map<String, dynamic> toJson(){
-    return{
-      'id': id,
+  Map<String, dynamic> toJson() {
+    return {
+      // 'id': id,
       'UID': UID,
       'contents': contents,
       'createdAt': createdAt.toIso8601String(),
       'goods': goods,
       'imageUrl': imageUrl,
       'tag': tag,
+      'AI': AI,
     };
   }
 
@@ -52,6 +54,7 @@ class FeedDto {
     int? goods,
     String? imageUrl,
     List<String>? tag,
+    String? AI,
   }) =>
       FeedDto(
         id: this.id,
@@ -61,7 +64,6 @@ class FeedDto {
         goods: this.goods,
         imageUrl: this.imageUrl,
         tag: this.tag,
+        AI: this.AI,
       );
-
-
 }

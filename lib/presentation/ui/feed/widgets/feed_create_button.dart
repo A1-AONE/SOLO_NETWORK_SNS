@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class FeedCreateButton extends StatelessWidget{
+class FeedCreateButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
@@ -11,7 +11,6 @@ class FeedCreateButton extends StatelessWidget{
       },
       backgroundColor: Colors.blue[300],
       child: Icon(Icons.add),
-      
     );
   }
 }
