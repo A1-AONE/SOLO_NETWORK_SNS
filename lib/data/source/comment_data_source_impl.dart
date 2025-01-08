@@ -1,27 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:solo_network_sns/data/dto/feed_dto.dart';
-import 'package:solo_network_sns/data/source/feed_data_source.dart';
+import 'package:solo_network_sns/data/dto/comment_dto.dart';
+import 'package:solo_network_sns/data/source/comment_data_source.dart';
 
-class FeedDataSourceImpl implements FeedDataSource {
+class CommentDataSourceImpl implements CommentDataSource{
   @override
-  Future<List<FeedDto>> fetchFeeds() async{
+  Future<List<CommentDto>> fetchComments() async{
     try {
       //1. 파이어스토어 인스턴스 가지고오기
       final firestore = FirebaseFirestore.instance;
       //2. 컬렉션 참조 만들기
-      final collectionRef = firestore.collection('Feed');
+      final collectionRef = firestore.collection('Comment');
       //3. 값 불러오기
       final result = await collectionRef.get();
 
       final docs = result.docs;
       return docs.map((doc) {
         final map = doc.data();
-        doc.id;
-        final newMap = {
-          'id': doc.id,
-          ...map,
-        };
-        return FeedDto.fromJson(newMap);
+        return CommentDto.fromJson(map);
       }).toList();
     } catch (e) {
       print(e);
