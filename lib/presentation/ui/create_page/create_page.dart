@@ -37,7 +37,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                       TextButton(
                         onPressed: () {
                           viewModel.clearFields(); // 상태 초기화
-                          context.go('/create/feed');
+                          context.go('/');
                         },
                         child: Text(
                           '취소',
@@ -52,7 +52,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                         onPressed: () async {
                           await viewModel.postFeed(userId); // DB 저장
                           viewModel.clearFields(); // 상태 초기화
-                          context.go('/create/feed'); // 게시 후 이전 화면으로 이동
+                          context.go('/'); // 게시 후 이전 화면으로 이동
                         },
                         child: Text(
                           '게시하기',

@@ -9,7 +9,6 @@ import 'package:solo_network_sns/presentation/ui/setpage/setpage.dart';
 import 'package:solo_network_sns/presentation/ui/splash/splash_screen.dart';
 
 final router = GoRouter(
-
   initialLocation: '/splash',
   routes: [
     GoRoute(
@@ -20,7 +19,6 @@ final router = GoRouter(
       path: '/login',
       builder: (context, state) => LoginPage(),
       routes: [
-
         GoRoute(path: 'set', builder: (context, state) => SetPage()),
       ],
     ),
@@ -40,13 +38,6 @@ final router = GoRouter(
           path: 'mypage',
           builder: (context, state) => MyPage(),
         )
-      ],
-    ),
-    GoRoute(
-      path: '/create',
-      builder: (context, state) => CreatePage(),
-      routes: [
-        GoRoute(path: 'feed', builder: (context, state) => FeedPage()),
       ],
     ),
   ],

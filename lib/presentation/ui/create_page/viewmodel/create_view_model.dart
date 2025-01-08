@@ -96,6 +96,7 @@ class CreateViewModel extends StateNotifier<CreateState> {
       imagUrl: null, // Firestore에서 처리됨
       createdAt: DateTime.now().toIso8601String(),
       goods: 0,
+      AI: '',
     );
     await createFeedUseCase.execute(
         feedEntity,

@@ -5,6 +5,7 @@ class FeedEntity {
   final String? imagUrl; // Firebase Storage에 저장된 이미지 URL
   final String? createdAt; //feed 저장날짜
   final int? goods; //좋아요 갯수
+  final String? AI;
 
   FeedEntity({
     required this.UID,
@@ -13,5 +14,6 @@ class FeedEntity {
     this.imagUrl,
     required this.createdAt,
     required this.goods,
+    required this.AI,
   });
 }
