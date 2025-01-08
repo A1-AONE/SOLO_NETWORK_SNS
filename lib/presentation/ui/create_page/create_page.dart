@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:solo_network_sns/presentation/ui/create_page/viewmodel/create_view_model.dart';
+import 'package:solo_network_sns/presentation/ui/create_page/view_model/create_view_model.dart';
 import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
 class CreatePage extends ConsumerStatefulWidget {

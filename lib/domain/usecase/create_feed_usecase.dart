@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:solo_network_sns/domain/entitiy/feed_entity.dart';
-import 'package:solo_network_sns/domain/repository/feed_repository.dart';
+import 'package:solo_network_sns/domain/entitiy/feed_create_entity.dart';
+import 'package:solo_network_sns/domain/repository/feed_create_repository.dart';
 
 class CreateFeedUseCase {
   final FeedRepository repository;
