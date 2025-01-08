@@ -24,7 +24,7 @@ class DetailComment extends StatelessWidget {
                     ),
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
                         '2025년 01월 03일',
@@ -33,16 +33,16 @@ class DetailComment extends StatelessWidget {
                           color: Colors.grey
                         ),
                       ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        '댓글 쓰기',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.grey
-                        ),
-                      ),
+                      // SizedBox(
+                      //   width: 8,
+                      // ),
+                      // Text(
+                      //   '댓글 쓰기',
+                      //   style: TextStyle(
+                      //     fontSize: 20,
+                      //     color: Colors.grey
+                      //   ),
+                      // ),
                     ],
                   )
                 ],

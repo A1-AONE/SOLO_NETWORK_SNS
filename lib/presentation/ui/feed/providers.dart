@@ -16,8 +16,8 @@ final feedRepositoryProvider = Provider<FeedFetchRepository>((ref) {
 });
 
 final fetchFeedsUsecaseProvider = Provider((ref) {
-  final FeedRepo = ref.read(feedRepositoryProvider);
-  return FetchFeedsUsecase(FeedRepo);
+  final feedRepo = ref.read(feedRepositoryProvider);
+  return FetchFeedsUsecase(feedRepo);
 });
 
 final yoloDetectionProvider = Provider<YoloDetection>((ref) {

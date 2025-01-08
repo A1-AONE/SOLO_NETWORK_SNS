@@ -1,18 +1,20 @@
 class Feed {
+  String id;
   String UID;
   String contents;
-  String createdAt;
-  String goods;
-  String imgUrl;
+  DateTime createdAt;
+  int goods;
+  String imageUrl;
   List<String> tag;
   String AI;
 
   Feed({
+    required this.id,
     required this.UID,
     required this.contents,
     required this.createdAt,
     required this.goods,
-    required this.imgUrl,
+    required this.imageUrl,
     required this.tag,
     required this.AI,
   });
