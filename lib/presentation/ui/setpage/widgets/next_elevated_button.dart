@@ -19,21 +19,57 @@ class NextElevatedButton extends StatelessWidget {
               onPressed: () {
                 switch (setPageState.currentPage) {
                   case 0:
-                    if (setPageState.nickname == null || setPageState.nickname == '') {
+                    if (setPageState.nickname == null ||
+                        setPageState.nickname == '') {
                       break;
                     } else {
                       ref.read(setPageViewModelProvider.notifier).nextPage();
                     }
                     break;
 
-                  case 1: 
-                    ref.read(setPageViewModelProvider.notifier).nextPage();
+                  case 1:
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('이렇게 설정하시겠습니까?'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text('NickName : ${setPageState.nickname}\n', style: TextStyle(fontSize: 20),),
+                              Text('[ AiTags ]', style: TextStyle(fontSize: 20),),
+                              ...List.generate(setPageState.selectTags.length, (index){
+                                List<int> idx = setPageState.selectTags.toList();
+                                return Text('# ${setPageState.aiTags[idx[index]]}', style: TextStyle(fontSize: 16),);
+                              }),
+                              setPageState.selectTags.isEmpty ? Text('# 무작위', style: TextStyle(fontSize: 16)) : SizedBox.shrink(),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('취소')),
+                            TextButton(
+                                onPressed: () {
+                                  ref
+                                      .read(setPageViewModelProvider.notifier)
+                                      .nextPage();
+                                  Navigator.pop(context);
+                                },
+                                child: Text('확인'))
+                          ],
+                        );
+                      },
+                    );
                     break;
 
                   case 2:
                     break;
 
-                  case 3: 
+                  case 3:
                     context.go('/');
                     break;
                 }
