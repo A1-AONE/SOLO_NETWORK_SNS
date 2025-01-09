@@ -18,6 +18,7 @@ const model = genAI.getGenerativeModel({model: "gemini-1.5-flash"});
 // 그후, User의 최신 피드가 60분전 이상일경우 AI의 피드가 작성되도록 한다.
 // User가 선택한 AITag중 하나의 성격이 랜덤으로 설정되어 피드를 작성
 // 만약 해당 User의 최신피드가 없는 경우에도 생성
+// 해당 User의 설정(Nickname으로 체크)이 안되어 있는경우 생성 제외
 exports.scheduledAiFeed = onSchedule("*/10 * * * *", async (event) => {
     const usersRef = db.collection("User");
     const userSnapshot = await usersRef.get();
@@ -59,9 +60,9 @@ exports.scheduledAiFeed = onSchedule("*/10 * * * *", async (event) => {
             const latestFeedCreatedAt = latestFeed.data().createdAt;
 
             const createdAtDate = new Date(latestFeedCreatedAt);
-            const hoursAgo = new Date(now.getTime() - 60 * 60 * 1000);
+            const Ago = new Date(now.getTime() - 60 * 60 * 1000);
 
-            if (createdAtDate < hoursAgo) {
+            if (createdAtDate < Ago) {
                 const feedDoc = feedRef.doc();
 
                 const prompt = `"""
