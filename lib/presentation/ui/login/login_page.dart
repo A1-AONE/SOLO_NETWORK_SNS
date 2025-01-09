@@ -189,12 +189,13 @@ class LoginPage extends StatelessWidget {
                           var route = await ref
                               .read(loginViewModelProvider.notifier)
                               .login();
+                          ref.read(userViewModelProvider.notifier).setUserId(route[1]);
                           if (route.isNotEmpty &&
                               isLoading != 'loading' &&
                               isLoading != 'error') {
                             // ignore: use_build_context_synchronously
                             // context.go(route);
-                            context.go(route);
+                            context.go(route[0]);
                             
                           }
 

@@ -12,7 +12,7 @@ class LoginViewModel extends StateNotifier<String> {
   void startLoading() => state = 'loading';
   void stopLoading() => state = '';
 
-  Future<String> login() async {
+  Future<List<String>> login() async {
     try {
       startLoading();
       final route = await _loginUseCase.execute(); // UseCase 호출
@@ -22,7 +22,7 @@ class LoginViewModel extends StateNotifier<String> {
       return route;
       
     } catch (e) {
-      return 'error';
+      return ['error',''];
       
     } finally {
       // stopLoading();
