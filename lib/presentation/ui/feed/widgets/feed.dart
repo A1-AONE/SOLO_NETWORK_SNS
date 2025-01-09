@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:solo_network_sns/presentation/ui/detail/widgets/detail_comment_view_model.dart';
 import 'package:solo_network_sns/presentation/widgets/feed_nickname_bar.dart';
 
 class Feed extends ConsumerStatefulWidget {
@@ -15,7 +16,7 @@ class Feed extends ConsumerStatefulWidget {
   final String feedId;
   final String contenet;
   final String createdAt;
-  final String goods;
+  final int goods;
   final String imgUrl;
   final String ai;
 
@@ -26,6 +27,13 @@ class Feed extends ConsumerStatefulWidget {
 class _FeedState extends ConsumerState<Feed> {
   @override
   Widget build(BuildContext context) {
+    final comments = ref.watch(detailCommentsViewModel);
+    final selectedComment = comments!
+        .where(
+          (comment) => comment.feed_id == widget.feedId,
+        )
+        .toList();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -39,48 +47,44 @@ class _FeedState extends ConsumerState<Feed> {
               context.go('/feed/${widget.feedId}');
             },
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 350,
-                      child: Text(widget.contenet,
-                          style: TextStyle(fontSize: 20),
-                          softWrap: true,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    widget.imgUrl.isEmpty
-                        ? SizedBox.shrink()
-                        : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.network(
-                                widget.imgUrl,
-                                width: double.maxFinite,
-                                height: 220,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                        ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    widget.contenet,
+                    style: TextStyle(fontSize: 20),
+                    softWrap: true,
+                  ),
                 ),
                 SizedBox(
                   height: 16,
                 ),
+                widget.imgUrl.isEmpty
+                    ? SizedBox.shrink()
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            widget.imgUrl,
+                            width: double.maxFinite,
+                            height: 220,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                SizedBox(
+                  height: 16,
+                ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
                     children: [
                       Row(
                         children: [
                           Icon(Icons.chat_bubble_rounded),
-                          Text(' ${widget.goods}'),
+                          Text(' ${selectedComment.length}'),
                         ],
                       ),
                       SizedBox(
@@ -89,7 +93,7 @@ class _FeedState extends ConsumerState<Feed> {
                       Row(
                         children: [
                           Icon(Icons.favorite),
-                          Text(' 1'),
+                          Text(' ${widget.goods}'),
                         ],
                       ),
                       Spacer(),

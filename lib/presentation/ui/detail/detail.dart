@@ -9,7 +9,7 @@ import 'package:solo_network_sns/presentation/ui/feed/feed_page_view_model.dart'
 import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
 class Detail extends ConsumerStatefulWidget {
-  Detail({required this.feedId});
+  Detail({required this.feedId,});
 
   final String feedId;
 
@@ -56,7 +56,7 @@ class _DetailState extends ConsumerState<Detail> {
                           createdAt: DateFormat("yyyy년 MM월 dd일")
                               .format(selectedFeed.createdAt),
                           goods: selectedFeed.goods,
-                          comment_count: selectedComment.length,
+                          commentcount: selectedComment.length,
                           ai: selectedFeed.AI,
                         ),
                         Divider(thickness: 0.8, color: Colors.grey),

@@ -8,7 +8,7 @@ class DetailInfo extends StatelessWidget {
     required this.imgUrl,
     required this.createdAt,
     required this.goods,
-    required this.comment_count,
+    required this.commentcount,
     required this.ai,
   });
 
@@ -16,7 +16,7 @@ class DetailInfo extends StatelessWidget {
   final String imgUrl;
   final String createdAt;
   final int goods;
-  final int comment_count;
+  final int commentcount;
   final String ai;
 
   @override
@@ -40,17 +40,22 @@ class DetailInfo extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: Image.network(imgUrl,
-                              width: double.infinity, height: 250, fit: BoxFit.fill),
+                              width: double.infinity,
+                              height: 250,
+                              fit: BoxFit.fill),
                         ),
                       ],
                     ),
               SizedBox(
                 height: 16,
               ),
-              Text(
-                contents,
-                style: TextStyle(
-                  fontSize: 20,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Text(
+                  contents,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ],
@@ -58,7 +63,7 @@ class DetailInfo extends StatelessWidget {
         ),
         Divider(thickness: 0.8, color: Colors.grey),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -70,13 +75,21 @@ class DetailInfo extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Icon(Icons.chat_bubble_rounded),
-                  Text(' $comment_count'),
+                  Row(
+                    children: [
+                      Icon(Icons.chat_bubble_rounded),
+                      Text(' $commentcount'),
+                    ],
+                  ),
                   SizedBox(
                     width: 16,
                   ),
-                  Icon(Icons.favorite),
-                  Text(' $goods'),
+                  Row(
+                    children: [
+                      Icon(Icons.favorite),
+                      Text(' $goods'),
+                    ],
+                  ),
                 ],
               )
             ],

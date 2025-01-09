@@ -27,27 +27,43 @@ class _FeedNicknameBarState extends ConsumerState<FeedNicknameBar> {
           users.uid == ref.read(userViewModelProvider.notifier).getUserId());
 
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.only(left: 4, right: 4, top: 8, bottom: 4),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
+            SizedBox(
+              width: 50,
+              height: 50,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: widget.ai == ""
+                    ? user.profileUrl == ""
+                        ? Image.asset('assets/images/default_img.jpg')
+                        : Image.network(user.profileUrl)
+                    : aiInfo
+                                .firstWhere((ai) => ai.ai == widget.ai)
+                                .profileUrl ==
+                            ''
+                        ? Image.asset('assets/images/default_img.jpg')
+                        : Image.network(aiInfo
+                            .firstWhere((ai) => ai.ai == widget.ai)
+                            .profileUrl),
+              ),
+            ),
+            SizedBox(width: 16,),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(user.profileUrl == ""
-                      ? 'https://picsum.photos/40/40'
-                      : user.profileUrl),
-                ),
-                SizedBox(
-                  width: 8,
-                ),
                 Text(
-                  widget.ai == "" ? user.nickName : aiInfo.firstWhere((ai)=> ai.ai == widget.ai).nickName,
+                  widget.ai == ""
+                      ? user.nickName
+                      : aiInfo.firstWhere((ai) => ai.ai == widget.ai).nickName,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
+                Text(widget.ai == "" ? '소유자' : ' AI', style: TextStyle(fontSize: 14),)
               ],
             ),
+            Spacer(),
+            /*
             PopupMenuButton(
               itemBuilder: (BuildContext context) =>
                   <PopupMenuEntry<SampleItem>>[
@@ -65,6 +81,7 @@ class _FeedNicknameBarState extends ConsumerState<FeedNicknameBar> {
                 ),
               ],
             ),
+            */
           ],
         ),
       );

@@ -46,7 +46,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                         feedId: feed.id,
                         contenet: feed.contents,
                         imgUrl: feed.imageUrl,
-                        goods: feed.goods.toString(),
+                        goods: feed.goods,
                         createdAt:
                             DateFormat("yyyy년 MM월 dd일").format(feed.createdAt),
                         ai: feed.AI,

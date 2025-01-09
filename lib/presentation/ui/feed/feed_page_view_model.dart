@@ -22,6 +22,7 @@ class FeedPageViewModel extends AutoDisposeNotifier<List<Feed>?> {
   }
 
   void streamFeeds() {
+    print('feed stream start');
     final stream = ref.read(fetchFeedsUsecaseProvider).streamFeedsExecute();
     final streamSubscription = stream.listen((e){
       state = e;

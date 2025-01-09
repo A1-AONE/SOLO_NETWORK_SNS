@@ -15,6 +15,7 @@ class DetailCommentViewModel extends AutoDisposeNotifier<List<CommentEntity>?>{
   }
 
   void streamComments() {
+    print('Comments stream start');
     final stream = ref.read(fetchCommentUsecaseProvider).streamCommentsExecute();
     final streamSubscription = stream.listen((e){
       state = e;
