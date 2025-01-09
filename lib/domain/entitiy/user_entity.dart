@@ -1,4 +1,4 @@
-class UserProfileEntity {
+class UserEntity {
   final List<String> aiTag;
   final String nickName;
   final String email;
@@ -6,7 +6,7 @@ class UserProfileEntity {
   final String profileUrl;
   final String uid;
 
-  const UserProfileEntity({
+  const UserEntity({
     required this.aiTag,
     required this.nickName,
     required this.email,

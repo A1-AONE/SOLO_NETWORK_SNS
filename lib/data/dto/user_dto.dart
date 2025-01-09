@@ -1,6 +1,6 @@
-import 'package:solo_network_sns/domain/entitiy/user_profile_entity.dart';
+import 'package:solo_network_sns/domain/entitiy/user_entity.dart';
 
-class UserProfileDto {
+class UserDto {
   final List<String> aiTag;
   final String nickName;
   final String email;
@@ -8,7 +8,7 @@ class UserProfileDto {
   final String? profileUrl; // nullable로 변경
   final String uid;
 
-  UserProfileDto({
+  UserDto({
     required this.aiTag,
     required this.nickName,
     required this.email,
@@ -17,8 +17,8 @@ class UserProfileDto {
     required this.uid,
   });
 
-  factory UserProfileDto.fromJson(Map<String, dynamic> json) {
-    return UserProfileDto(
+  factory UserDto.fromJson(Map<String, dynamic> json) {
+    return UserDto(
       aiTag: (json['AITag'] as List).map((item) => item as String).toList(),
       nickName: json['Nickname'],
       email: json['email'],
@@ -40,8 +40,8 @@ class UserProfileDto {
   }
 
   // DTO에서 Entity로 변환
-  UserProfileEntity toEntity() {
-    return UserProfileEntity(
+  UserEntity toEntity() {
+    return UserEntity(
       aiTag: aiTag,
       nickName: nickName,
       email: email,
@@ -52,8 +52,8 @@ class UserProfileDto {
   }
 
   // Entity에서 DTO로 변환
-  factory UserProfileDto.fromEntity(UserProfileEntity entity) {
-    return UserProfileDto(
+  factory UserDto.fromEntity(UserEntity entity) {
+    return UserDto(
       aiTag: entity.aiTag,
       nickName: entity.nickName,
       email: entity.email,

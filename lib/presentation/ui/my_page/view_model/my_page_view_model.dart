@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:solo_network_sns/data/repository_imple/user_profile_repository_impl.dart';
-import 'package:solo_network_sns/domain/usecase/get_user_profile_data_usecase.dart';
-import 'package:solo_network_sns/domain/repository/user_profile_repository.dart';
+import 'package:solo_network_sns/data/repository_imple/user_repository_impl.dart';
+import 'package:solo_network_sns/domain/usecase/get_user_data_usecase.dart';
+import 'package:solo_network_sns/domain/repository/user_repository.dart';
 import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
 // 상태 클래스 정의
@@ -37,9 +37,9 @@ class MyPageState {
 
 class MyPageViewModel extends StateNotifier<MyPageState> {
   final ImagePicker _picker = ImagePicker();
-  final GetUserProfileDataUseCase _getUserProfileDataUseCase;
+  final GetUserDataUseCase _getUserDataUseCase;
 
-  MyPageViewModel(this._getUserProfileDataUseCase)
+  MyPageViewModel(this._getUserDataUseCase)
       : super(MyPageState(
           profileUrl: '', // 초기 프로필 URL
           nickName: '홍길동', // 초기 닉네임
@@ -58,8 +58,7 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
   // 사용자 데이터 초기화
   Future<void> initializeUserData(String uid) async {
     try {
-      final user =
-          await _getUserProfileDataUseCase.call(uid); // GetUserDataUseCase 호출
+      final user = await _getUserDataUseCase.call(uid); // GetUserDataUseCase 호출
       state = state.copyWith(
         profileUrl: user.profileUrl,
         nickName: user.nickName,
@@ -81,10 +80,10 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
 }
 
 // GetUserDataUseCase 프로바이더 정의
-final getUserDataUseCaseProvider = Provider<GetUserProfileDataUseCase>((ref) {
-  final userProfileRepository =
-      ref.watch(userProfileRepositoryProvider); // UserRepository 의존성
-  return GetUserProfileDataUseCase(userProfileRepository);
+final getUserDataUseCaseProvider = Provider<GetUserDataUseCase>((ref) {
+  final userRepository =
+      ref.watch(userRepositoryProvider); // UserRepository 의존성
+  return GetUserDataUseCase(userRepository);
 });
 
 // MyPageViewModel 프로바이더 정의 (StateNotifierProvider로 변경)
@@ -95,6 +94,6 @@ final myPageViewModelProvider =
 });
 
 // UserRepository 프로바이더 정의
-final userProfileRepositoryProvider = Provider<UserProfileRepository>((ref) {
-  return UserProfileRepositoryImpl(); // 실제 UserRepository 구현체를 반환
+final userRepositoryProvider = Provider<UserRepository>((ref) {
+  return UserRepositoryImpl(); // 실제 UserRepository 구현체를 반환
 });
