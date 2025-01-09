@@ -23,4 +23,23 @@ class CommentDataSourceImpl implements CommentDataSource{
       return [];
     }
   }
+
+  @override
+  Stream<List<CommentDto>> streamComments() {
+      final firestore = FirebaseFirestore.instance;
+      final collectionRef = firestore.collection('Comment');
+
+      final stream = collectionRef.snapshots();
+
+      final newStream = stream.map((snapshot){
+        final docs = snapshot.docs.map((doc) {
+          final map = doc.data();
+          return CommentDto.fromJson(map);
+        }).toList();
+        
+        return docs;
+      });
+
+      return newStream;
+  }
 }

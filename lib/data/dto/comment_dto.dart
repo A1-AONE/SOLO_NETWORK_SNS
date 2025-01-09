@@ -1,4 +1,5 @@
 class CommentDto {
+  final String ai;
   final String comment;
   final String createdAt;
   final String feed_id;
@@ -6,6 +7,7 @@ class CommentDto {
   final String user_id;
 
   CommentDto({
+    required this.ai,
     required this.comment,
     required this.createdAt,
     required this.feed_id,
@@ -15,6 +17,7 @@ class CommentDto {
 
   CommentDto.fromJson(Map<String, dynamic> json)
       : this(
+          ai: json['AI'],
           comment: json['comment'],
           createdAt: json['createdAt'],
           feed_id: json['feed_id'],
@@ -24,6 +27,7 @@ class CommentDto {
 
   Map<String, dynamic> toJson() {
     return {
+      'AI': ai,
       'comment': comment,
       'createdAt': createdAt,
       'feed_id': feed_id,
@@ -33,6 +37,7 @@ class CommentDto {
   }
 
   CommentDto copyWith({
+    String? ai,
     String? comment,
     String? createdAt,
     String? feed_id,
@@ -40,6 +45,7 @@ class CommentDto {
     String? user_id,
   }) =>
       CommentDto(
+        ai: this.ai,
         comment: this.comment,
         createdAt: this.createdAt,
         feed_id: this.feed_id,

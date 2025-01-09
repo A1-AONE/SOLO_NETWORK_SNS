@@ -13,6 +13,7 @@ class CommentRepositoryImpl implements CommentRepository {
   @override
   Future<void> createComment(CommentEntity commentEntity) async{
     await firestore.collection('Comment').doc().set({
+      'AI': commentEntity.ai,
       'comment': commentEntity.comment,
       'createdAt': commentEntity.createdAt,
       'feed_id': commentEntity.feed_id,
