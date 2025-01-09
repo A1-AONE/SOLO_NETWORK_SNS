@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/domain/entitiy/comment_entity.dart';
-import 'package:solo_network_sns/domain/usecase/fetch_comment_usecase.dart';
 import 'package:solo_network_sns/presentation/ui/detail/detail_provider.dart';
 
 class DetailCommentViewModel extends Notifier<List<CommentEntity>?>{

@@ -33,6 +33,7 @@ class LoginUseCase {
       print('!!!!!!!!!호ㅏㄱ인용!!!!!!!!!');
       print('$userCredential');
       final uid = userCredential.user?.uid;
+      
       if (uid == null) {
         throw Exception('Firebase 인증 실패!');
       }
@@ -51,14 +52,14 @@ class LoginUseCase {
       if (userDocs.docs.isNotEmpty) {
         print('!!!!!!!!!호ㅏㄱ인용!!!!!!!!!');
         print('isNotEmpty');
-        return ['/',uid];
+        return ['/', uid];
       }
       print('!!!!!!!!!호ㅏㄱ인용!!!!!!!!!');
       print('isEmpty');
 
       // 새로운 사용자는 Firestore에 데이터 저장 후 set페이지로 이동
       await loginRepository.saveNewUser(uid, email);
-      return ['/login/set',uid];
+      return ['/login/set', uid];
     } catch (e) {
       print('!!!!!!!!!!!');
       print('LoginUseCase 예외!!!: $e');
