@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:solo_network_sns/data/repository_imple/user_repository_impl.dart';
+import 'package:solo_network_sns/data/repository_imple/ccc/user_repository_impl.dart';
 import 'package:solo_network_sns/domain/usecase/get_user_data_usecase.dart';
-import 'package:solo_network_sns/domain/repository/user_repository.dart';
+import 'package:solo_network_sns/domain/repository/ccc/user_repository.dart';
 import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
 // 상태 클래스 정의

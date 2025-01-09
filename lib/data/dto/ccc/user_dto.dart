@@ -1,4 +1,4 @@
-import 'package:solo_network_sns/domain/entitiy/user_entity.dart';
+import 'package:solo_network_sns/domain/entitiy/ccc/user_entity.dart';
 
 class UserDto {
   final List<String> aiTag;

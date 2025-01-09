@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:solo_network_sns/data/dto/user_dto.dart';
-import 'package:solo_network_sns/domain/entitiy/user_entity.dart';
-import 'package:solo_network_sns/domain/repository/user_repository.dart';
+import 'package:solo_network_sns/data/dto/ccc/user_dto.dart';
+import 'package:solo_network_sns/domain/entitiy/ccc/user_entity.dart';
+import 'package:solo_network_sns/domain/repository/ccc/user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final FirebaseFirestore firestore;
