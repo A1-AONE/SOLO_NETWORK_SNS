@@ -5,6 +5,7 @@ import 'package:solo_network_sns/presentation/widgets/nickname_bar/feed_nickname
 class FeedNicknameBarViewModel extends Notifier<List<UserEntity>?> {
   @override
   List<UserEntity>? build() {
+    fetchUser();
     return null;
   }
 

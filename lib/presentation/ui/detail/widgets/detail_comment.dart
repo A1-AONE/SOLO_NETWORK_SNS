@@ -3,10 +3,11 @@ import 'package:intl/intl.dart';
 import 'package:solo_network_sns/presentation/widgets/feed_nickname_bar.dart';
 
 class DetailComment extends StatefulWidget {
-  DetailComment({required this.content, required this.createdAt});
+  DetailComment({required this.content, required this.createdAt, required this.ai});
 
   final String content;
   final String createdAt;
+  final String ai;
 
   @override
   State<DetailComment> createState() => _DetailCommentState();
@@ -19,7 +20,7 @@ class _DetailCommentState extends State<DetailComment> {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          FeedNicknameBar(),
+          FeedNicknameBar(widget.ai),
           Padding(
             padding: const EdgeInsets.all(16),
             child: SizedBox(

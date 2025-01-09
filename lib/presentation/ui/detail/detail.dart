@@ -57,6 +57,7 @@ class _DetailState extends ConsumerState<Detail> {
                               .format(selectedFeed.createdAt),
                           goods: selectedFeed.goods,
                           comment_count: selectedComment.length,
+                          ai: selectedFeed.AI,
                         ),
                         Divider(thickness: 0.8, color: Colors.grey),
                         Consumer(
@@ -71,6 +72,7 @@ class _DetailState extends ConsumerState<Detail> {
                                   return DetailComment(
                                     content: commentInfo.comment,
                                     createdAt: commentInfo.createdAt,
+                                    ai: commentInfo.ai,
                                   );
                                 }
                               },

@@ -10,12 +10,14 @@ class Feed extends ConsumerStatefulWidget {
     required this.createdAt,
     required this.goods,
     required this.imgUrl,
+    required this.ai,
   });
   final String feedId;
   final String contenet;
   final String createdAt;
   final String goods;
   final String imgUrl;
+  final String ai;
 
   @override
   ConsumerState<Feed> createState() => _FeedState();
@@ -28,7 +30,7 @@ class _FeedState extends ConsumerState<Feed> {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
-          FeedNicknameBar(),
+          FeedNicknameBar(widget.ai),
           SizedBox(
             height: 16,
           ),

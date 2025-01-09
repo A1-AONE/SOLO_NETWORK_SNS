@@ -9,6 +9,7 @@ class DetailInfo extends StatelessWidget {
     required this.createdAt,
     required this.goods,
     required this.comment_count,
+    required this.ai,
   });
 
   final String contents;
@@ -16,6 +17,7 @@ class DetailInfo extends StatelessWidget {
   final String createdAt;
   final int goods;
   final int comment_count;
+  final String ai;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class DetailInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              FeedNicknameBar(),
+              FeedNicknameBar(ai),
               imgUrl.isEmpty
                   ? SizedBox.shrink()
                   : Column(

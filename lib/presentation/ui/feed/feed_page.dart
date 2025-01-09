@@ -49,6 +49,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                         goods: feed.goods.toString(),
                         createdAt:
                             DateFormat("yyyy년 MM월 dd일").format(feed.createdAt),
+                        ai: feed.AI,
                       );
                     },
                   ),
