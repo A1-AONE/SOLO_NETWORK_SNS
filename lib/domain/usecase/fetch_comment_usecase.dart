@@ -8,4 +8,8 @@ class FetchCommentUsecase {
   Future<List<CommentEntity>?> fetchCommentsExecute() async{
     return await _commentFetchRepository.fetchComments();
   }
+
+  Stream<List<CommentEntity>?> streamCommentsExecute() {
+    return _commentFetchRepository.streamComments();
+  }
 }

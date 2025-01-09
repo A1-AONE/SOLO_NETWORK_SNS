@@ -9,6 +9,7 @@ class DetailViewModel extends StateNotifier<CreateCommentstate>{
 
   Future<void> postComment(String uid, String feedId) async{
     final commenctEntity = CommentEntity(
+      ai: '',
       comment: state.contentEditingController.text,
       createdAt: DateTime.now().toIso8601String(),
       feed_id: feedId,
