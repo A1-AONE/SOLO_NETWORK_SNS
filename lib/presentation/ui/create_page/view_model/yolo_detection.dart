@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image/image.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:yolo_helper/yolo_helper.dart';
@@ -66,3 +67,12 @@ class YoloDetection {
     return !personDetected;
   }
 }
+
+final yoloDetectionProvider = Provider<YoloDetection>((ref) {
+  final yoloDetection = YoloDetection();
+  // YOLO 모델 초기화
+  yoloDetection.initialize().catchError((e) {
+    throw Exception('Failed to initialize YOLO model: $e');
+  });
+  return yoloDetection;
+});

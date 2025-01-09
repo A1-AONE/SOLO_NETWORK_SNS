@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:solo_network_sns/domain/entitiy/feed_create_entity.dart';
-import 'package:solo_network_sns/domain/usecase/create_feed_use_case.dart';
+import 'package:solo_network_sns/domain/usecase/create_feed_usecase.dart';
 import 'package:image/image.dart' as img;
 import 'package:solo_network_sns/presentation/ui/create_page/view_model/yolo_detection.dart';
 

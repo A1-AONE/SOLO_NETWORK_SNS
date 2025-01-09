@@ -1,88 +1,92 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:solo_network_sns/presentation/ui/my_page/view_model/my_page_view_model.dart';
+import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
-class MyPage extends StatefulWidget {
+class MyPage extends ConsumerWidget {
   @override
-  State<MyPage> createState() => _MyPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    // UserViewModel을 사용하여 사용자 ID 가져오기
+    final uid = ref.watch(userViewModelProvider);
 
-class _MyPageState extends State<MyPage> {
-  File? _profileImage;
-  final ImagePicker _picker = ImagePicker();
+    // MyPageViewModel 초기화
+    final viewModel = ref.watch(myPageViewModelProvider);
 
-  // 갤러리에서 이미지 선택 함수gi
-  Future<void> _pickImage() async {
-    final XFile? pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _profileImage = File(pickedFile.path);
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    print('${_profileImage}111111111111111111111111');
+    // MyPageViewModel Notifier를 가져와 사용자 데이터를 초기화
+    ref.read(myPageViewModelProvider.notifier).initializeUserData(uid);
 
     return Scaffold(
-      // 뒤로가기 아이콘(leading)은 AppBar에 자동으로 생깁니다.
       appBar: AppBar(
         title: Text('마이페이지'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              // 설정 페이지 이동
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            // 프로필 이미지와 편집 버튼
-            Center(
-              child: Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.blue[200],
-                    child: _profileImage == null
-                        ? Icon(
-                            Icons.person,
-                            size: 60,
-                          ) // 이미지가 없을 때는 기본 아이콘을 표시
-                        : null, // 이미지가 있으면 child를 null로 설정
-
-                    backgroundImage: _profileImage == null
-                        ? null // 이미지가 없으면 배경 이미지 없음
-                        : FileImage(_profileImage!), // 이미지가 있으면 해당 이미지 사용
-                  ),
-                  GestureDetector(
-                    onTap: _pickImage,
-                    child: CircleAvatar(
-                      radius: 18,
-                      backgroundColor: Colors.grey.shade200,
-                      child: Icon(Icons.camera_alt,
-                          size: 20, color: Colors.grey.shade800),
+        child: Padding(
+          padding:
+              const EdgeInsets.only(bottom: 8, left: 24, right: 24, top: 24),
+          child: Column(
+            children: [
+              SizedBox(height: 10),
+              Center(
+                child: Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.blue[200],
+                      backgroundImage: viewModel.profileImage == null
+                          ? (viewModel.profileUrl != null &&
+                                  viewModel.profileUrl!.isNotEmpty
+                              ? NetworkImage(viewModel.profileUrl!)
+                              : null)
+                          : FileImage(viewModel.profileImage!),
+                      child: viewModel.profileImage == null &&
+                              (viewModel.profileUrl == null ||
+                                  viewModel.profileUrl!.isEmpty)
+                          ? Icon(Icons.person, size: 60)
+                          : null,
                     ),
-                  ),
-                ],
+                    GestureDetector(
+                      onTap: () => ref
+                          .read(myPageViewModelProvider.notifier)
+                          .pickImage(),
+                      child: CircleAvatar(
+                        radius: 18,
+                        backgroundColor: Colors.grey.shade200,
+                        child: Icon(Icons.camera_alt,
+                            size: 20, color: Colors.grey.shade800),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 10),
-            // 사용자 이름
-            Text(
-              '사용자 이름',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-
-            SizedBox(height: 20), Divider()
-          ],
+              SizedBox(height: 10),
+              Text(
+                viewModel.nickName ?? '사용자 이름',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20),
+              Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: viewModel.aiTag.map((tag) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Chip(
+                      label: Text(tag),
+                      avatar: Icon(Icons.tag),
+                      side: BorderSide.none,
+                      onDeleted: () {
+                        //태그 삭제 로직
+                        ref
+                            .read(myPageViewModelProvider.notifier)
+                            .removeTag(tag);
+                      },
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
         ),
       ),
     );
