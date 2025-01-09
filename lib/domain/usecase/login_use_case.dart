@@ -6,7 +6,7 @@ class LoginUseCase {
   LoginUseCase(this.loginRepository);
 
   //
-  Future<String> execute() async {
+  Future<List<String>> execute() async {
     try {
       // google 계정으로 로그인
       final googleLogin = await loginRepository.signInWithGoogle();
@@ -51,14 +51,14 @@ class LoginUseCase {
       if (userDocs.docs.isNotEmpty) {
         print('!!!!!!!!!호ㅏㄱ인용!!!!!!!!!');
         print('isNotEmpty');
-        return '/';
+        return ['/',uid];
       }
       print('!!!!!!!!!호ㅏㄱ인용!!!!!!!!!');
       print('isEmpty');
 
       // 새로운 사용자는 Firestore에 데이터 저장 후 set페이지로 이동
       await loginRepository.saveNewUser(uid, email);
-      return '/login/set';
+      return ['/login/set',uid];
     } catch (e) {
       print('!!!!!!!!!!!');
       print('LoginUseCase 예외!!!: $e');
