@@ -25,4 +25,23 @@ class FeedRepositoryImpl implements FeedFetchRepository {
             ))
         .toList();
   }
+
+  @override
+  Stream<List<Feed>> streamFeeds() {
+    final result = _feedDataSource.streamFeeds();
+    return result.map((list) {
+      return list
+          .map((e) => Feed(
+                id: e.id,
+                UID: e.UID,
+                contents: e.contents,
+                createdAt: e.createdAt,
+                goods: e.goods,
+                imageUrl: e.imageUrl,
+                tag: e.tag,
+                AI: e.AI,
+              ))
+          .toList();
+    });
+  }
 }

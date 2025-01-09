@@ -28,4 +28,27 @@ class FeedDataSourceImpl implements FeedDataSource {
       return [];
     }
   }
+  
+  @override
+  Stream<List<FeedDto>> streamFeeds() {
+      final firestore = FirebaseFirestore.instance;
+      final collectionRef = firestore.collection('Feed');
+
+      final stream = collectionRef.snapshots();
+
+      final newStream = stream.map((snapshot){
+        final docs = snapshot.docs.map((doc) {
+          final map = doc.data();
+          final newMap = {
+            'id': doc.id,
+            ...map,
+          };
+          return FeedDto.fromJson(newMap);
+        }).toList();
+        
+        return docs;
+      });
+
+      return newStream;
+  }
 }

@@ -8,4 +8,8 @@ class FetchFeedsUsecase {
   Future<List<Feed>?> fetchFeedsExecute() async{
     return await _feedRepository.fetchFeeds();
   }
+
+    Stream<List<Feed>?> streamFeedsExecute() {
+    return _feedRepository.streamFeeds();
+  }
 }
