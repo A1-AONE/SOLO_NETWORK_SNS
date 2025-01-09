@@ -16,7 +16,6 @@ class UserDataSourceImpl implements UserDataSource {
       final docs = result.docs;
       return docs.map((doc) {
         final map = doc.data();
-
         return UserDto.fromJson(map);
       }).toList();
     } catch (e) {
