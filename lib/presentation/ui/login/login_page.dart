@@ -1,136 +1,131 @@
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_rich_text/easy_rich_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:solo_network_sns/presentation/ui/login/login_view_model.dart';
 import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
 class LoginPage extends StatelessWidget {
-  void loginInWithGoogle(BuildContext context, WidgetRef ref) async {
-    // 로딩 상태 확인
-    final isLoading = ref.read(loginViewModelProvider);
-    if (isLoading) return; // 중복 선택 방지
+  // void loginInWithGoogle(BuildContext context, WidgetRef ref) async {
+  //   // 로딩 상태 확인
+  //   final isLoading = ref.read(loginViewModelProvider);
+  //   if (isLoading) return; // 중복 선택 방지
 
-    ref.read(loginViewModelProvider.notifier).startLoading(); // 로딩 시작
+  //   ref.read(loginViewModelProvider.notifier).startLoading(); // 로딩 시작
 
-    // =========================================
+  //   // =========================================
 
-    try {
-      // 스코프설정 - 내가 어떤 정보를 가지고 올지
-      final GoogleSignIn googleSignIn = GoogleSignIn(
-        scopes: ['email'],
-      );
+  //   try {
+  //     // 스코프설정 - 내가 어떤 정보를 가지고 올지
+  //     final GoogleSignIn googleSignIn = GoogleSignIn(
+  //       scopes: ['email'],
+  //     );
 
-      // 구글 로그인
-      final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn();
+  //     // 구글 로그인
+  //     final GoogleSignInAccount? googleSignInAccount =
+  //         await googleSignIn.signIn();
 
-      // 구글 로그인 결과에서 accessToken을 가져오기 위해
-      // GoogleSignInAuthentication 가져오기
-      final GoogleSignInAuthentication? googleSignInAuthentication =
-          await googleSignInAccount?.authentication;
+  //     // 구글 로그인 결과에서 accessToken을 가져오기 위해
+  //     // GoogleSignInAuthentication 가져오기
+  //     final GoogleSignInAuthentication? googleSignInAuthentication =
+  //         await googleSignInAccount?.authentication;
 
-      if (googleSignInAuthentication == null) {
-        return;
-      }
+  //     if (googleSignInAuthentication == null) {
+  //       return;
+  //     }
 
-      // ===================================== 1 end(구글 로그인)
-      // ===================================== 2 start(파이어 베이스)
+  //     // ===================================== 1 end(구글 로그인)
+  //     // ===================================== 2 start(파이어 베이스)
 
-      // 이메일이 없는 상황 예외처리부분임. 사실 구글로그인이라 없어도 되는데, 혹시 구글 계정자체에 문제가 있어서
-      // 로그인이 안될수도 있으니까! 넣어둠
-      final String? email = googleSignInAccount?.email;
-      if (email == null) {
-        throw Exception('Google 로그인 실패!');
-      }
+  //     // 이메일이 없는 상황 예외처리부분임. 사실 구글로그인이라 없어도 되는데, 혹시 구글 계정자체에 문제가 있어서
+  //     // 로그인이 안될수도 있으니까! 넣어둠
+  //     final String? email = googleSignInAccount?.email;
+  //     if (email == null) {
+  //       throw Exception('Google 로그인 실패!');
+  //     }
 
-      // Firestore에서 로그인한 이메일에 해당하는 기존 uid 검색
-      final QuerySnapshot snapshot = await FirebaseFirestore.instance
-          .collection('User')
-          .where('email', isEqualTo: email)
-          .get();
+  //     // Firestore에서 로그인한 이메일에 해당하는 기존 uid 검색
+  //     final QuerySnapshot snapshot = await FirebaseFirestore.instance
+  //         .collection('User')
+  //         .where('email', isEqualTo: email)
+  //         .get();
 
-      String uid;
-      if (snapshot.docs.isNotEmpty) {
-        uid = snapshot.docs.first.id; // 여기서 id는 문서ID임 uid(고유번호)랑 같은 값임
+  //     String uid;
+  //     if (snapshot.docs.isNotEmpty) {
+  //       uid = snapshot.docs.first.id; // 여기서 id는 문서ID임 uid(고유번호)랑 같은 값임
 
-        // 닉네임 비어있으면 setpage로!
-        final userDoc = snapshot.docs.first;
-        final nickname = userDoc['Nickname'] as String? ?? '';
-        
-        ref.read(userViewModelProvider.notifier).setUserId(uid);
+  //       // 닉네임 비어있으면 setpage로!
+  //       final userDoc = snapshot.docs.first;
+  //       final nickname = userDoc['Nickname'] as String? ?? '';
 
-        if(nickname.isEmpty) {
-          context.go('/login/set');
-          return;
-        } else {
-          context.go('/');
-        }
+  //       ref.read(userViewModelProvider.notifier).setUserId(uid);
 
-      } else {
-        // 기존 uid가 없을때 새 uid 생성
-        // Firebase Auth 에서 accessToken과 idToken으로 로그인 하기 위해 OAuthCredential 생성
-        final OAuthCredential oauthCred = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken,
-        );
+  //       if(nickname.isEmpty) {
+  //         context.go('/login/set');
+  //         return;
+  //       } else {
+  //         context.go('/');
+  //       }
 
-        final UserCredential userCredential =
-            await FirebaseAuth.instance.signInWithCredential(oauthCred);
-        // print('uid: ${userCredential.user?.uid}');
-        uid = userCredential.user?.uid ?? '';
-      }
+  //     } else {
+  //       // 기존 uid가 없을때 새 uid 생성
+  //       // Firebase Auth 에서 accessToken과 idToken으로 로그인 하기 위해 OAuthCredential 생성
+  //       final OAuthCredential oauthCred = GoogleAuthProvider.credential(
+  //         accessToken: googleSignInAuthentication.accessToken,
+  //         idToken: googleSignInAuthentication.idToken,
+  //       );
 
-      // ===================================== 3 데이터 베이스에 사용자 uid저장
+  //       final UserCredential userCredential =
+  //           await FirebaseAuth.instance.signInWithCredential(oauthCred);
+  //       // print('uid: ${userCredential.user?.uid}');
+  //       uid = userCredential.user?.uid ?? '';
+  //     }
 
-      // User 컬렉션에 데이터 저장
+  //     // ===================================== 3 데이터 베이스에 사용자 uid저장
 
-      final DocumentReference userDoc =
-          FirebaseFirestore.instance.collection('User').doc(uid);
+  //     // User 컬렉션에 데이터 저장
 
-      // 기존 사용자 데이터 가져오기
-      final DocumentSnapshot userSnapshot = await userDoc.get();
+  //     final DocumentReference userDoc =
+  //         FirebaseFirestore.instance.collection('User').doc(uid);
 
-      if (!userSnapshot.exists) {
-        // 새로운 사용자 - 데이터 저장
-        final Map<String, dynamic> newData = {
-          'AITag': [],
-          'Nickname': '',
-          'isCanSpying': false,
-          'profileUrl': '',
-          'uid': uid,
-          'email': email,
-        };
+  //     // 기존 사용자 데이터 가져오기
+  //     final DocumentSnapshot userSnapshot = await userDoc.get();
 
-        await userDoc.set(newData);
+  //     if (!userSnapshot.exists) {
+  //       // 새로운 사용자 - 데이터 저장
+  //       final Map<String, dynamic> newData = {
+  //         'AITag': [],
+  //         'Nickname': '',
+  //         'isCanSpying': false,
+  //         'profileUrl': '',
+  //         'uid': uid,
+  //         'email': email,
+  //       };
 
-        ref.read(userViewModelProvider.notifier).setUserId(uid);
+  //       await userDoc.set(newData);
 
-        // 새로운 사용자 - set페이지로
-        context.go('/login/set');
-      } else {
-        // 기존 사용자 - 마이 피드로
-        context.go('/');
-      }
-    } catch (e) {
-      log('!!!!!!!!!!!!');
-      log('$e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('로그인 에러!'),
-        ),
-      );
-    } finally {
-      ref
-          .read(loginViewModelProvider.notifier)
-          .stopLoading(); // 예외 발생 여부 상관없이 항상 로딩 종료!
-    }
-  }
+  //       ref.read(userViewModelProvider.notifier).setUserId(uid);
+
+  //       // 새로운 사용자 - set페이지로
+  //       context.go('/login/set');
+  //     } else {
+  //       // 기존 사용자 - 마이 피드로
+  //       context.go('/');
+  //     }
+  //   } catch (e) {
+  //     log('!!!!!!!!!!!!');
+  //     log('$e');
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text('로그인 에러!'),
+  //       ),
+  //     );
+  //   } finally {
+  //     ref
+  //         .read(loginViewModelProvider.notifier)
+  //         .stopLoading(); // 예외 발생 여부 상관없이 항상 로딩 종료!
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -184,13 +179,35 @@ class LoginPage extends StatelessWidget {
           Consumer(
             builder: (context, ref, child) {
               final isLoading = ref.watch(loginViewModelProvider);
+              
 
               return InkWell(
                 // 중복 선택 방지
-                onTap: isLoading
-                    ? null
-                    : () {
-                        loginInWithGoogle(context, ref);
+                onTap: isLoading == 'loading'
+                    ? null // 로딩중에는 클릭 못함
+                    : () async {
+                        try {
+                          var route = await ref
+                              .read(loginViewModelProvider.notifier)
+                              .login();
+                          if (route.isNotEmpty &&
+                              isLoading != 'loading' &&
+                              isLoading != 'error') {
+                            // ignore: use_build_context_synchronously
+                            // context.go(route);
+                            context.go(route);
+                            
+                          }
+
+                          //
+                        } catch (e) {
+                          print('로그인 실패!: $e');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('로그인 실패!'),
+                            ),
+                          );
+                        }
                       },
                 splashColor: Color(0xFFEBEBEB),
                 splashFactory: InkRipple.splashFactory,
