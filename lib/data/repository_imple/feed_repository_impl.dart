@@ -1,6 +1,6 @@
 import 'package:solo_network_sns/data/source/feed_data_source.dart';
 import 'package:solo_network_sns/domain/entitiy/feed.dart';
-import 'package:solo_network_sns/domain/repository/feed_fetch_repository.dart';
+import 'package:solo_network_sns/domain/repository/feed/feed_fetch_repository.dart';
 
 class FeedRepositoryImpl implements FeedFetchRepository {
   FeedRepositoryImpl(

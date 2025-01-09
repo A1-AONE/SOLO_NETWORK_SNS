@@ -6,7 +6,14 @@ class UserDto {
   String profileUrl;
   String uid;
 
-  UserDto({required this.aiTag, required this.nickName, required this.email, required this.isCanSpying, required this.profileUrl, required this.uid});
+  UserDto({
+    required this.aiTag,
+    required this.nickName,
+    required this.email,
+    required this.isCanSpying,
+    required this.profileUrl,
+    required this.uid,
+  });
 
   UserDto.fromJson(Map<String,dynamic> json) : this(
     aiTag: (json['AITag'] as List).map((item) => item as String).toList(),

@@ -23,6 +23,14 @@ class _DetailState extends ConsumerState<Detail> {
     final viewModel = ref.watch(createViewModelProvider.notifier);
     final state = ref.watch(createViewModelProvider);
     final UserId = ref.watch(userViewModelProvider);
+    final comments = ref.watch(detailCommentsViewModel);
+    final selectedComment = comments!
+        .where(
+          (comment) => comment.feed_id == widget.feedId,
+        )
+        .toList()
+      ..sort((a, b) =>
+          DateTime.parse(b.createdAt).compareTo(DateTime.parse(a.createdAt)));
 
     return Scaffold(
       body: GestureDetector(
@@ -47,18 +55,11 @@ class _DetailState extends ConsumerState<Detail> {
                         createdAt: DateFormat("yyyy년 MM월 dd일")
                             .format(selectedFeed.createdAt),
                         goods: selectedFeed.goods,
+                        comment_count: selectedComment.length,
                       ),
-                      Divider(thickness: 1, color: Colors.black),
+                      Divider(thickness: 0.8, color: Colors.grey),
                       Consumer(
                         builder: (context, ref, child) {
-                          final comments = ref.watch(detailCommentsViewModel);
-                          final selectedComment = comments!
-                              .where(
-                                (comment) => comment.feed_id == widget.feedId,
-                              )
-                              .toList()
-                            ..sort((a, b) => DateTime.parse(b.createdAt)
-                                .compareTo(DateTime.parse(a.createdAt)));
                           return ListView.builder(
                             shrinkWrap: true, // ListView가 자식의 크기에 맞게 조정되도록
                             physics: NeverScrollableScrollPhysics(), // 스크롤 방지
