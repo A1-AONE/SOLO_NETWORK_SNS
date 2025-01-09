@@ -33,80 +33,81 @@ class _DetailState extends ConsumerState<Detail> {
           DateTime.parse(b.createdAt).compareTo(DateTime.parse(a.createdAt)));
 
     return Scaffold(
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Consumer(
-          builder: (context, ref, child) {
-            final feedInfo = ref.watch(feedsViewModel);
-            final selectedFeed = feedInfo?.firstWhere(
-              (feed) => feed.id == widget.feedId,
-            );
-
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView(
-                    children: [
-                      DetailInfo(
-                        contents: selectedFeed!.contents,
-                        imgUrl: selectedFeed.imageUrl,
-                        createdAt: DateFormat("yyyy년 MM월 dd일")
-                            .format(selectedFeed.createdAt),
-                        goods: selectedFeed.goods,
-                        comment_count: selectedComment.length,
-                      ),
-                      Divider(thickness: 0.8, color: Colors.grey),
-                      Consumer(
-                        builder: (context, ref, child) {
-                          return ListView.builder(
-                            shrinkWrap: true, // ListView가 자식의 크기에 맞게 조정되도록
-                            physics: NeverScrollableScrollPhysics(), // 스크롤 방지
-                            itemCount: selectedComment.length,
-                            itemBuilder: (context, index) {
-                              if (selectedComment.isNotEmpty) {
-                                final commentInfo = selectedComment[index];
-                                return DetailComment(
-                                  content: commentInfo.comment,
-                                  createdAt: commentInfo.createdAt,
-                                );
-                              }
-                              return Text('tttt');
-                            },
-                          );
-                        },
-                      ),
-                    ],
+      body: SafeArea(
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Consumer(
+            builder: (context, ref, child) {
+              final feedInfo = ref.watch(feedsViewModel);
+              final selectedFeed = feedInfo?.firstWhere(
+                (feed) => feed.id == widget.feedId,
+              );
+        
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        DetailInfo(
+                          contents: selectedFeed!.contents,
+                          imgUrl: selectedFeed.imageUrl,
+                          createdAt: DateFormat("yyyy년 MM월 dd일")
+                              .format(selectedFeed.createdAt),
+                          goods: selectedFeed.goods,
+                          comment_count: selectedComment.length,
+                        ),
+                        Divider(thickness: 0.8, color: Colors.grey),
+                        Consumer(
+                          builder: (context, ref, child) {
+                            return ListView.builder(
+                              shrinkWrap: true, // ListView가 자식의 크기에 맞게 조정되도록
+                              physics: NeverScrollableScrollPhysics(), // 스크롤 방지
+                              itemCount: selectedComment.length,
+                              itemBuilder: (context, index) {
+                                if (selectedComment.isNotEmpty) {
+                                  final commentInfo = selectedComment[index];
+                                  return DetailComment(
+                                    content: commentInfo.comment,
+                                    createdAt: commentInfo.createdAt,
+                                  );
+                                }
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                // 댓글 입력창
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: state.contentEditingController,
-                          decoration: InputDecoration(
-                            hintText: '댓글을 입력하세요...',
-                            border: OutlineInputBorder(),
+                  // 댓글 입력창
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, bottom: 16, left: 24, right: 8),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: state.contentEditingController,
+                            decoration: InputDecoration(
+                              hintText: '댓글을 입력하세요...',
+                              border: OutlineInputBorder(),
+                            ),
                           ),
                         ),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.send),
-                        onPressed: () async {
-                          await viewModel.postComment(UserId, selectedFeed.id);
-                          viewModel.clearFields();
-                        },
-                      ),
-                    ],
+                        IconButton(
+                          icon: Icon(Icons.send),
+                          onPressed: () async {
+                            await viewModel.postComment(UserId, selectedFeed.id);
+                            viewModel.clearFields();
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            );
-          },
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

@@ -22,14 +22,14 @@ class DetailInfo extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               FeedNicknameBar(),
               imgUrl.isEmpty
-                  ? SizedBox()
+                  ? SizedBox.shrink()
                   : Column(
                       children: [
                         SizedBox(
@@ -38,25 +38,17 @@ class DetailInfo extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: Image.network(imgUrl,
-                              width: 362, height: 227, fit: BoxFit.fill),
+                              width: double.infinity, height: 250, fit: BoxFit.fill),
                         ),
                       ],
                     ),
               SizedBox(
                 height: 16,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Container(
-                  constraints: BoxConstraints(
-                    minHeight: 150
-                  ),
-                  child: Text(
-                    contents,
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
+              Text(
+                contents,
+                style: TextStyle(
+                  fontSize: 20,
                 ),
               ),
             ],
@@ -77,12 +69,12 @@ class DetailInfo extends StatelessWidget {
               Row(
                 children: [
                   Icon(Icons.chat_bubble_rounded),
-                  Text('$comment_count'),
+                  Text(' $comment_count'),
                   SizedBox(
                     width: 16,
                   ),
                   Icon(Icons.favorite),
-                  Text('$goods'),
+                  Text(' $goods'),
                 ],
               )
             ],

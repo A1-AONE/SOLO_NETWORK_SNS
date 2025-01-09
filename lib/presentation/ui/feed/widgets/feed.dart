@@ -19,82 +19,87 @@ class Feed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
-          Divider(
-            color: Colors.black,
-          ),
           FeedNicknameBar(),
+          SizedBox(
+            height: 16,
+          ),
           GestureDetector(
             onTap: () {
               context.go('/feed/$feedId');
             },
-            child: Row(
+            child: Column(
               children: [
-                SizedBox(
-                  width: 60,
-                ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 300,
-                            child: Text(contenet,
-                                style: TextStyle(fontSize: 20),
-                                softWrap: true,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis),
-                          ),
-                          imgUrl.isEmpty
-                              ? SizedBox(
-                                  height: 50,
-                                  width: 300,
-                                )
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Image.network(
-                                    imgUrl,
-                                    width: 300,
-                                    height: 200,
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                        ],
-                      ),
+                      width: 350,
+                      child: Text(contenet,
+                          style: TextStyle(fontSize: 20),
+                          softWrap: true,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis),
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 16,
                     ),
-                    Row(
-                      children: [
-                        Row(
-                          children: [
-                            Icon(Icons.chat_bubble_rounded),
-                            Text(goods),
-                            SizedBox(
-                              width: 16,
+                    imgUrl.isEmpty
+                        ? SizedBox.shrink()
+                        : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.network(
+                                imgUrl,
+                                width: double.maxFinite,
+                                height: 220,
+                                fit: BoxFit.fill,
+                              ),
                             ),
-                            Icon(Icons.favorite),
-                            Text('1'),
-                          ],
                         ),
-                        SizedBox(
-                          width: 95,
-                        ),
-                        Text(
-                          createdAt,
-                          style: TextStyle(fontSize: 15, color: Colors.grey),
-                        ),
-                      ],
-                    )
                   ],
                 ),
+                SizedBox(
+                  height: 16,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.chat_bubble_rounded),
+                          Text(' $goods'),
+                        ],
+                      ),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.favorite),
+                          Text(' 1'),
+                        ],
+                      ),
+                      Spacer(),
+                      Text(
+                        createdAt,
+                        style: TextStyle(fontSize: 15, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Divider(
+            color: Colors.black,
           ),
         ],
       ),
