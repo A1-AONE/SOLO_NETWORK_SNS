@@ -42,10 +42,13 @@ class Feed extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            height: 50,
+                            width: 300,
                             child: Text(
                               contenet,
                               style: TextStyle(fontSize: 20),
+                              softWrap: true,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis
                             ),
                           ),
                            imgUrl.isEmpty

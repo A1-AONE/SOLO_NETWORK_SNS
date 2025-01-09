@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:solo_network_sns/presentation/widgets/feed_nickname_bar.dart';
 
 class DetailInfo extends StatelessWidget {

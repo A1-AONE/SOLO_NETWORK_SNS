@@ -5,7 +5,6 @@ class FeedCreateButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      heroTag: 'create-feed',
       onPressed: () {
         context.go('/create');
       },
