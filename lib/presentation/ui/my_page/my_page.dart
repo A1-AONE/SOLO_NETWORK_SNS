@@ -3,35 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/presentation/ui/my_page/view_model/my_page_view_model.dart';
 import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
-class MyPage extends ConsumerStatefulWidget {
+class MyPage extends ConsumerWidget {
   @override
-  ConsumerState<MyPage> createState() => _MyPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    // UserViewModel을 사용하여 사용자 ID 가져오기
+    final uid = ref.watch(userViewModelProvider);
 
-class _MyPageState extends ConsumerState<MyPage> {
-  @override
-  void initState() {
-    super.initState();
-    _initializeData(); // 초기 데이터 로딩
-  }
-
-  // 데이터 초기화 로직을 메서드로 분리
-  void _initializeData() {
-    final uid = ref.read(userViewModelProvider); // uid 가져오기
-    ref
-        .read(myPageViewModelProvider.notifier)
-        .initializeUserData(uid); // 서버에서 데이터 새로 받기
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _initializeData(); // 페이지가 다시 로드될 때마다 호출
-  }
-
-  @override
-  Widget build(BuildContext context) {
+    // MyPageViewModel 초기화
     final viewModel = ref.watch(myPageViewModelProvider);
+
+    // MyPageViewModel Notifier를 가져와 사용자 데이터를 초기화
+    ref.read(myPageViewModelProvider.notifier).initializeUserData(uid);
 
     return Scaffold(
       appBar: AppBar(
@@ -93,17 +75,11 @@ class _MyPageState extends ConsumerState<MyPage> {
                       label: Text(tag),
                       avatar: Icon(Icons.tag),
                       side: BorderSide.none,
-                      onDeleted: () async {
-                        if (viewModel.aiTag.length <= 1) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("최소 하나의 태그는 남아있어야 합니다.")),
-                          );
-                        } else {
-                          // 태그 삭제 후 화면에서만 반영
-                          await ref
-                              .read(myPageViewModelProvider.notifier)
-                              .removeTag(tag); // 서버 통신 없이 상태만 변경
-                        }
+                      onDeleted: () {
+                        //태그 삭제 로직
+                        ref
+                            .read(myPageViewModelProvider.notifier)
+                            .removeTag(tag);
                       },
                     ),
                   );
