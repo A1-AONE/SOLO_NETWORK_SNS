@@ -6,14 +6,14 @@ import 'package:solo_network_sns/domain/entitiy/feed_create_entity.dart';
 import 'package:solo_network_sns/domain/repository/feed_create_repository.dart';
 import 'package:solo_network_sns/presentation/ui/feed/widgets/feed.dart';
 
-class FeedRepositoryImpl implements FeedRepository {
+class FeedCreateRepositoryImpl implements FeedCreateRepository {
   final FirebaseFirestore firestore;
   final FirebaseStorage storage;
 
-  FeedRepositoryImpl(this.firestore, this.storage);
+  FeedCreateRepositoryImpl(this.firestore, this.storage);
 
   @override
-  Future<void> createPost(FeedEntity feedEntity, File? imageFile) async {
+  Future<void> createPost(FeedCreateEntity feedEntity, File? imageFile) async {
     String? imageUrl;
 
     // 1. 이미지 업로드

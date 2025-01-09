@@ -6,11 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/domain/entitiy/feed_create_entity.dart';
 import 'package:solo_network_sns/data/repository_imple/feed_create_repository_impl.dart';
 
-abstract interface class FeedRepository {
-  Future<void> createPost(FeedEntity feedEntity, File? imageFile);
+abstract interface class FeedCreateRepository {
+  Future<void> createPost(FeedCreateEntity feedEntity, File? imageFile);
 }
 
-final feedRepositoryProvider = Provider<FeedRepository>((ref) {
-  return FeedRepositoryImpl(
+final feedCreateRepositoryProvider = Provider<FeedCreateRepository>((ref) {
+  return FeedCreateRepositoryImpl(
       FirebaseFirestore.instance, FirebaseStorage.instance);
 });

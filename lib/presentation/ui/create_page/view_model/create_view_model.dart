@@ -89,7 +89,7 @@ class CreateViewModel extends StateNotifier<CreateState> {
   }
 
   Future<void> postFeed(String uid) async {
-    final feedEntity = FeedEntity(
+    final feedEntity = FeedCreateEntity(
       UID: uid,
       contents: state.contentEditingController.text,
       tags: state.tags,
