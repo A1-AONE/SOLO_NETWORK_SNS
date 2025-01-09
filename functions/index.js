@@ -109,56 +109,61 @@ exports.scheduledAiFeed = onSchedule("*/10 * * * *", async (event) => {
                 await feedDoc.create(aiFeed);
                 logger.log(`${uid} feed add AiFeed`);
             } else {
-                logger.log(`${uid} latestfeed is not over 10 minite`);
+                logger.log(`${uid} latestfeed is not over 60 minite`);
             }
         } else {
             logger.log(`No feed found for ${uid}`);
-            const feedDoc = feedRef.doc();
 
-            const prompt = `"""
-            다음 조건들을 만족하는 SNS 글을 하나 만들어줘
+            if (aiTags[index] == null || aiTags[index] == "") {
+              logger.log(`user : ${uid} is not setting`);
+            } else {
+              const feedDoc = feedRef.doc();
 
-            작성글은 반드시 아래의 조건을 만족해야해.
-            1. 밑에서 제시하는 성격을 가진 사람이 작성한 글처럼 작성되어야 함.
-            2. 이모티콘은 절대 사용하지 않음 (이모티콘을 사용하지 말고, 텍스트로만 작성해 주세요).
-            3. 글에는 욕설이나, 비속어가 들어가 있으면 안됨.
-            4. 관련 태그가 1 ~ 4개 정도 있어야 함.
+              const prompt = `"""
+              다음 조건들을 만족하는 SNS 글을 하나 만들어줘
+  
+              작성글은 반드시 아래의 조건을 만족해야해.
+              1. 밑에서 제시하는 성격을 가진 사람이 작성한 글처럼 작성되어야 함.
+              2. 이모티콘은 절대 사용하지 않음 (이모티콘을 사용하지 말고, 텍스트로만 작성해 주세요).
+              3. 글에는 욕설이나, 비속어가 들어가 있으면 안됨.
+              4. 관련 태그가 1 ~ 4개 정도 있어야 함.
+  
+              성격은 다음과 같아:
+              # ${aiTags[index]}
+  
+              **답변은 오직 JSON 형식으로만 작성해 줘.**
+  
+              예시는 다음과 같아.
+              {
+                content: "글 작성내용",
+                tags: ['기쁘다','재밌다']
+              }
+              """
+              `;
 
-            성격은 다음과 같아:
-            # ${aiTags[index]}
+              const result = await model.generateContent(prompt);
+              logger.log(result.response.text());
 
-            **답변은 오직 JSON 형식으로만 작성해 줘.**
+              const cleanResponse = result.response.text().replace(/```json|```/g, "").trim();
 
-            예시는 다음과 같아.
-            {
-              content: "글 작성내용",
-              tags: ['기쁘다','재밌다']
+              const parsedResponse = JSON.parse(cleanResponse);
+
+              const content = parsedResponse.content;
+              const tags = parsedResponse.tags;
+
+              const aiFeed = {
+                  AI: aiTags[index],
+                  UID: uid,
+                  contents: content,
+                  createdAt: now.toISOString(),
+                  goods: 0,
+                  imageUrl: null,
+                  tags: tags,
+              };
+
+              await feedDoc.create(aiFeed);
+              logger.log(`${uid} feed add AiFeed`);
             }
-            """
-            `;
-
-            const result = await model.generateContent(prompt);
-            logger.log(result.response.text());
-
-            const cleanResponse = result.response.text().replace(/```json|```/g, "").trim();
-
-            const parsedResponse = JSON.parse(cleanResponse);
-
-            const content = parsedResponse.content;
-            const tags = parsedResponse.tags;
-
-            const aiFeed = {
-                AI: aiTags[index],
-                UID: uid,
-                contents: content,
-                createdAt: now.toISOString(),
-                goods: 0,
-                imageUrl: null,
-                tags: tags,
-            };
-
-            await feedDoc.create(aiFeed);
-            logger.log(`${uid} feed add AiFeed`);
         }
 
         index += 1;
