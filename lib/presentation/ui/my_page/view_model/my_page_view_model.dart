@@ -42,7 +42,7 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
   MyPageViewModel(this._getUserDataUseCase)
       : super(MyPageState(
           profileUrl: '', // 초기 프로필 URL
-          nickName: '홍길동', // 초기 닉네임
+          nickName: '', // 초기 닉네임
           aiTag: [], // 초기값
         ));
 
@@ -57,21 +57,40 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
 
   // 사용자 데이터 초기화
   Future<void> initializeUserData(String uid) async {
+    // 이미 데이터가 비어 있지 않은 경우에만 초기화 진행
+    if (state.nickName != '') {
+      return; // 이미 초기화된 경우 스킵
+    }
+
     try {
-      final user = await _getUserDataUseCase.call(uid); // GetUserDataUseCase 호출
+      final user = await _getUserDataUseCase.call(uid); // Firebase에서 데이터 호출
       state = state.copyWith(
         profileUrl: user.profileUrl,
         nickName: user.nickName,
-        aiTag: user.aiTag, // aiTag
+        aiTag: user.aiTag,
       );
     } catch (e) {
       print("Error fetching user data: $e");
     }
   }
 
+  // 태그 삭제
   void removeTag(String tag) {
     final updatedTags = List<String>.from(state.aiTag)..remove(tag);
     state = state.copyWith(aiTag: updatedTags);
+  }
+
+  // 데이터 취소 (초기 상태로 리셋)
+  Future<void> cancelUserData(String uid) async {
+    try {
+      // 이미 fetch가 완료된 상태에서 프로필 이미지를 null로 설정
+      state = state.copyWith(profileImage: null);
+
+      // 상태 변경 후, 상태를 출력하여 확인
+      print('Updated profileImage: ${state.profileImage}');
+    } catch (e) {
+      print("Error fetching user data: $e");
+    }
   }
 }
 
