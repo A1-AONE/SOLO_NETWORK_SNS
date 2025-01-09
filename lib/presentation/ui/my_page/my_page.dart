@@ -111,6 +111,10 @@ class MyPage extends ConsumerWidget {
                   Spacer(),
                   TextButton(
                     onPressed: () async {
+                      // 저장하기
+                      await ref
+                          .read(myPageViewModelProvider.notifier)
+                          .saveUserData(uid);
                       context.go('/'); // 게시 후 이전 화면으로 이동
                     },
                     child: Text(
