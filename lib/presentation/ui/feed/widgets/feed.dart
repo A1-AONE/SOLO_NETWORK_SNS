@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solo_network_sns/presentation/widgets/feed_nickname_bar.dart';
 
-class Feed extends StatelessWidget {
+class Feed extends ConsumerStatefulWidget {
   Feed({
     required this.feedId,
     required this.contenet,
@@ -17,6 +18,11 @@ class Feed extends StatelessWidget {
   final String imgUrl;
 
   @override
+  ConsumerState<Feed> createState() => _FeedState();
+}
+
+class _FeedState extends ConsumerState<Feed> {
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -28,7 +34,7 @@ class Feed extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              context.go('/feed/$feedId');
+              context.go('/feed/${widget.feedId}');
             },
             child: Column(
               children: [
@@ -37,7 +43,7 @@ class Feed extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: 350,
-                      child: Text(contenet,
+                      child: Text(widget.contenet,
                           style: TextStyle(fontSize: 20),
                           softWrap: true,
                           maxLines: 3,
@@ -46,14 +52,14 @@ class Feed extends StatelessWidget {
                     SizedBox(
                       height: 16,
                     ),
-                    imgUrl.isEmpty
+                    widget.imgUrl.isEmpty
                         ? SizedBox.shrink()
                         : Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: Image.network(
-                                imgUrl,
+                                widget.imgUrl,
                                 width: double.maxFinite,
                                 height: 220,
                                 fit: BoxFit.fill,
@@ -72,7 +78,7 @@ class Feed extends StatelessWidget {
                       Row(
                         children: [
                           Icon(Icons.chat_bubble_rounded),
-                          Text(' $goods'),
+                          Text(' ${widget.goods}'),
                         ],
                       ),
                       SizedBox(
@@ -86,7 +92,7 @@ class Feed extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        createdAt,
+                        widget.createdAt,
                         style: TextStyle(fontSize: 15, color: Colors.grey),
                       ),
                     ],

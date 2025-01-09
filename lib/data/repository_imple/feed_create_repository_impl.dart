@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:solo_network_sns/domain/entitiy/feed_entity.dart';
 import 'package:solo_network_sns/domain/repository/feed_create_repository.dart';
-import 'package:solo_network_sns/presentation/ui/feed/widgets/feed.dart';
 
 class FeedCreateRepositoryImpl implements FeedCreateRepository {
   final FirebaseFirestore firestore;

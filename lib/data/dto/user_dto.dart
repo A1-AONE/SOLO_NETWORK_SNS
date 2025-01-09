@@ -23,4 +23,15 @@ class UserDto {
     profileUrl: json['profileUrl'],
     uid: json['uid'],
   );
+
+  Map<String, dynamic> toJson() {
+    return {
+      'aiTag': aiTag,
+      'nickName': nickName,
+      'email': email,
+      'isCanSpying': isCanSpying,
+      'profileUrl': profileUrl,
+      'uid': uid,
+    };
+  }
 }
