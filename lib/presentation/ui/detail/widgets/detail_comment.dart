@@ -22,13 +22,17 @@ class DetailComment extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 100,
-                    child: Text(
-                      content,
-                      style: TextStyle(fontSize: 20),
+                  Container(
+                  constraints: BoxConstraints(
+                    minHeight: 50
+                  ),
+                  child: Text(
+                    content,
+                    style: TextStyle(
+                      fontSize: 20,
                     ),
                   ),
+                ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -36,20 +40,10 @@ class DetailComment extends StatelessWidget {
                         DateFormat("yyyy년 MM월 dd일")
                             .format(DateTime.parse(createdAt)),
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Colors.grey
                         ),
                       ),
-                      // SizedBox(
-                      //   width: 8,
-                      // ),
-                      // Text(
-                      //   '댓글 쓰기',
-                      //   style: TextStyle(
-                      //     fontSize: 20,
-                      //     color: Colors.grey
-                      //   ),
-                      // ),
                     ],
                   )
                 ],

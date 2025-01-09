@@ -1,5 +1,5 @@
 import 'package:solo_network_sns/domain/entitiy/feed.dart';
-import 'package:solo_network_sns/domain/repository/feed_fetch_repository.dart';
+import 'package:solo_network_sns/domain/repository/feed/feed_fetch_repository.dart';
 
 class FetchFeedsUsecase {
   FetchFeedsUsecase(this._feedRepository);

@@ -6,11 +6,18 @@ class FeedPageViewModel extends Notifier<List<Feed>?>{
   @override
   List<Feed>? build() {
     fetchFeeds();
-    throw [];
+    return [];
   }
 
-  Future<void> fetchFeeds() async{
-    state = await ref.read(fetchFeedsUsecaseProvider).fetchFeedsExecute();
+Future<void> fetchFeeds() async {
+    try {
+      final fetchedFeeds =
+          await ref.read(fetchFeedsUsecaseProvider).fetchFeedsExecute();
+      state = fetchedFeeds; // 데이터를 가져오면 상태 업데이트
+    } catch (e) {
+      // 에러 발생 시 null 또는 빈 리스트를 상태로 설정
+      state = [];
+    }
   }
   
 }
