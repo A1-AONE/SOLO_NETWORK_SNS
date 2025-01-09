@@ -54,7 +54,7 @@ class DetailInfo extends StatelessWidget {
                   child: Text(
                     contents,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 16,
                     ),
                   ),
                 ),
