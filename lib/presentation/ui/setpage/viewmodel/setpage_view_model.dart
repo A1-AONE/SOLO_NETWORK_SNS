@@ -48,7 +48,7 @@ class SetpageViewModel extends AutoDisposeNotifier<SetPageState> {
       SetpageFourWelcome()
     ];
     List<String> aiTags = [
-      '친절함',
+      '상냥함',
       '유머러스',
       '논리적',
       '감성적',

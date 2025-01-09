@@ -42,22 +42,33 @@ class Feed extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            height: 50,
-                            child: Text(
-                              contenet,
-                              style: TextStyle(fontSize: 20),
-                            ),
+                            width: 300,
+                            child: Text(contenet,
+                                style: TextStyle(fontSize: 20),
+                                softWrap: true,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis),
                           ),
-                           imgUrl.isEmpty
-                              ? SizedBox(height: 50, width: 300,)
+                          imgUrl.isEmpty
+                              ? SizedBox(
+                                  height: 50,
+                                  width: 300,
+                                )
                               : ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
-                                  child: Image.network(imgUrl, width: 300, height: 200,fit: BoxFit.contain,),
+                                  child: Image.network(
+                                    imgUrl,
+                                    width: 300,
+                                    height: 200,
+                                    fit: BoxFit.contain,
+                                  ),
                                 ),
                         ],
                       ),
                     ),
-                    SizedBox(height: 5,),
+                    SizedBox(
+                      height: 5,
+                    ),
                     Row(
                       children: [
                         Row(

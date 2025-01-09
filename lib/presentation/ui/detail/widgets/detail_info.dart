@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:solo_network_sns/presentation/widgets/feed_nickname_bar.dart';
 
 class DetailInfo extends StatelessWidget {
@@ -9,12 +8,14 @@ class DetailInfo extends StatelessWidget {
     required this.imgUrl,
     required this.createdAt,
     required this.goods,
+    required this.comment_count,
   });
 
   final String contents;
   final String imgUrl;
   final String createdAt;
   final int goods;
+  final int comment_count;
 
   @override
   Widget build(BuildContext context) {
@@ -30,24 +31,26 @@ class DetailInfo extends StatelessWidget {
               imgUrl.isEmpty
                   ? SizedBox()
                   : Column(
-                    children: [
-                      SizedBox(
-                height: 16,
-              ),
-                      ClipRRect(
+                      children: [
+                        SizedBox(
+                          height: 16,
+                        ),
+                        ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: Image.network(imgUrl,
                               width: 362, height: 227, fit: BoxFit.fill),
                         ),
-                    ],
-                  ),
+                      ],
+                    ),
               SizedBox(
                 height: 16,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: SizedBox(
-                  height: 150,
+                child: Container(
+                  constraints: BoxConstraints(
+                    minHeight: 150
+                  ),
                   child: Text(
                     contents,
                     style: TextStyle(
@@ -59,6 +62,7 @@ class DetailInfo extends StatelessWidget {
             ],
           ),
         ),
+        Divider(thickness: 0.8, color: Colors.grey),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
@@ -73,12 +77,12 @@ class DetailInfo extends StatelessWidget {
               Row(
                 children: [
                   Icon(Icons.chat_bubble_rounded),
-                  Text('$goods'),
+                  Text('$comment_count'),
                   SizedBox(
                     width: 16,
                   ),
                   Icon(Icons.favorite),
-                  Text('1'),
+                  Text('$goods'),
                 ],
               )
             ],

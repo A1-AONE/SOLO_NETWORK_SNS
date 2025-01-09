@@ -3,14 +3,13 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:solo_network_sns/domain/entitiy/feed_entity.dart';
-import 'package:solo_network_sns/domain/repository/feed_create_repository.dart';
-import 'package:solo_network_sns/presentation/ui/feed/widgets/feed.dart';
+import 'package:solo_network_sns/domain/repository/feed/feed_repository.dart';
 
-class FeedCreateRepositoryImpl implements FeedCreateRepository {
+class FeedRepositoryImpl implements FeedRepository {
   final FirebaseFirestore firestore;
   final FirebaseStorage storage;
 
-  FeedCreateRepositoryImpl(this.firestore, this.storage);
+  FeedRepositoryImpl(this.firestore, this.storage);
 
   @override
   Future<void> createPost(FeedEntity feedEntity, File? imageFile) async {

@@ -1,4 +1,4 @@
-class FeedCreateEntity {
+class FeedEntity {
   final String UID; // 게시글 고유 ID
   final String contents; // 게시글 내용
   final List<String> tags; // 태그 리스트
@@ -7,7 +7,7 @@ class FeedCreateEntity {
   final int? goods; //좋아요 갯수
   final String? AI;
 
-  FeedCreateEntity({
+  FeedEntity({
     required this.UID,
     required this.contents,
     required this.tags,
