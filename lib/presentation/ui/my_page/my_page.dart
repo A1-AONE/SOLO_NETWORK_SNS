@@ -1,132 +1,93 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:solo_network_sns/presentation/ui/my_page/view_model/my_page_view_model.dart';
+import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
-class MyPage extends StatefulWidget {
+class MyPage extends ConsumerWidget {
   @override
-  State<MyPage> createState() => _MyPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    // UserViewModel을 사용하여 사용자 ID 가져오기
+    final uid = ref.watch(userViewModelProvider);
 
-class _MyPageState extends State<MyPage> {
-  File? _profileImage;
-  final ImagePicker _picker = ImagePicker();
+    // MyPageViewModel 초기화
+    final viewModel = ref.watch(myPageViewModelProvider);
 
-  // 갤러리에서 이미지 선택 함수gi
-  Future<void> _pickImage() async {
-    final XFile? pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _profileImage = File(pickedFile.path);
-      });
-    }
-  }
+    // MyPageViewModel Notifier를 가져와 사용자 데이터를 초기화
+    ref.read(myPageViewModelProvider.notifier).initializeUserData(uid);
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
-      // 뒤로가기 아이콘(leading)은 AppBar에 자동으로 생깁니다.
       appBar: AppBar(
         title: Text('마이페이지'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              // 설정 페이지 이동
-            },
-          ),
-        ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            // 프로필 이미지와 편집 버튼
-            Center(
-              child: Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundImage: _profileImage == null
-                        ? AssetImage('assets/default_avatar.png')
-                            as ImageProvider
-                        : FileImage(_profileImage!),
-                  ),
-                  GestureDetector(
-                    onTap: _pickImage,
-                    child: CircleAvatar(
-                      radius: 18,
-                      backgroundColor: Colors.grey.shade200,
-                      child: Icon(Icons.camera_alt,
-                          size: 20, color: Colors.grey.shade800),
+        child: Padding(
+          padding:
+              const EdgeInsets.only(bottom: 8, left: 24, right: 24, top: 24),
+          child: Column(
+            children: [
+              SizedBox(height: 10),
+              Center(
+                child: Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.blue[200],
+                      backgroundImage: viewModel.profileImage == null
+                          ? (viewModel.profileUrl != null &&
+                                  viewModel.profileUrl!.isNotEmpty
+                              ? NetworkImage(viewModel.profileUrl!)
+                              : null)
+                          : FileImage(viewModel.profileImage!),
+                      child: viewModel.profileImage == null &&
+                              (viewModel.profileUrl == null ||
+                                  viewModel.profileUrl!.isEmpty)
+                          ? Icon(Icons.person, size: 60)
+                          : null,
                     ),
-                  ),
-                ],
+                    GestureDetector(
+                      onTap: () => ref
+                          .read(myPageViewModelProvider.notifier)
+                          .pickImage(),
+                      child: CircleAvatar(
+                        radius: 18,
+                        backgroundColor: Colors.grey.shade200,
+                        child: Icon(Icons.camera_alt,
+                            size: 20, color: Colors.grey.shade800),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 10),
-            // 사용자 이름
-            Text(
-              '사용자 이름',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            // 팔로워 정보
-            Text('팔로워 100명', style: TextStyle(color: Colors.grey)),
-            SizedBox(height: 20),
-            // 기능 버튼
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildIconButton(Icons.chat, '채팅', () {
-                  // 채팅 페이지로 이동
-                }),
-                _buildIconButton(Icons.article, '게시물', () {
-                  // 게시물 페이지로 이동
-                }),
-              ],
-            ),
-            SizedBox(height: 20),
-            // 기능 버튼과 게시글 목록 사이의 구분선
-            Container(
-              height: 1,
-              color: Colors.grey.shade300,
-            ),
-            SizedBox(height: 10),
-            // 게시글 목록 - 프로필 아이콘 제거
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text('게시글 제목 $index'),
-                  subtitle: Text('게시글 내용 미리보기...'),
-                  onTap: () {
-                    // 게시글 상세보기로 이동
-                  },
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // 아이콘 버튼 빌드 함수
-  Widget _buildIconButton(IconData icon, String label, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Icon(icon, size: 30, color: Colors.grey.shade700),
-          SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(color: Colors.grey.shade700),
+              SizedBox(height: 10),
+              Text(
+                viewModel.nickName ?? '사용자 이름',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20),
+              Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: viewModel.aiTag.map((tag) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Chip(
+                      label: Text(tag),
+                      avatar: Icon(Icons.tag),
+                      side: BorderSide.none,
+                      onDeleted: () {
+                        //태그 삭제 로직
+                        ref
+                            .read(myPageViewModelProvider.notifier)
+                            .removeTag(tag);
+                      },
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
