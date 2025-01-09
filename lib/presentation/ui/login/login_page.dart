@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solo_network_sns/presentation/ui/login/login_view_model.dart';
+import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
 class LoginPage extends StatelessWidget {
   // void loginInWithGoogle(BuildContext context, WidgetRef ref) async {
@@ -177,25 +178,28 @@ class LoginPage extends StatelessWidget {
           SizedBox(height: 50),
           Consumer(
             builder: (context, ref, child) {
-              final route = ref.watch(loginViewModelProvider);
+              final isLoading = ref.watch(loginViewModelProvider);
+              
 
               return InkWell(
                 // 중복 선택 방지
-                onTap: route == 'loading'
+                onTap: isLoading == 'loading'
                     ? null // 로딩중에는 클릭 못함
                     : () async {
                         try {
-                          await ref
+                          var route = await ref
                               .read(loginViewModelProvider.notifier)
                               .login();
+                          if (route.isNotEmpty &&
+                              isLoading != 'loading' &&
+                              isLoading != 'error') {
+                            // ignore: use_build_context_synchronously
+                            // context.go(route);
+                            context.go(route);
+                            
+                          }
 
                           //
-                          if (route.isNotEmpty &&
-                              route != 'loading' &&
-                              route != 'error') {
-                            // ignore: use_build_context_synchronously
-                            context.go(route);
-                          }
                         } catch (e) {
                           print('로그인 실패!: $e');
                           ScaffoldMessenger.of(context).showSnackBar(

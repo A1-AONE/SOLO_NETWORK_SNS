@@ -12,19 +12,20 @@ class LoginViewModel extends StateNotifier<String> {
   void startLoading() => state = 'loading';
   void stopLoading() => state = '';
 
-  Future<void> login() async {
+  Future<String> login() async {
     try {
       startLoading();
       final route = await _loginUseCase.execute(); // UseCase 호출
+      print('???????????????');
+      print('$route');
       // 로그인 성공 후 route 따라 페이지 이동
-      state = route;
+      return route;
       
     } catch (e) {
-      state = 'error';
-      print('!!!!!!!!!!!!');
-      print('로그인 과정에서 에러!!!: $e');
+      return 'error';
+      
     } finally {
-      stopLoading();
+      // stopLoading();
     }
   }
 }
