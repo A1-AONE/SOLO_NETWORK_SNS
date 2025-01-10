@@ -59,7 +59,7 @@ class _FeedNicknameBarState extends ConsumerState<FeedNicknameBar> {
                       : aiInfo.firstWhere((ai) => ai.ai == widget.ai).nickName,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                Text(widget.ai == "" ? '소유자' : ' AI', style: TextStyle(fontSize: 14),)
+                Text(widget.ai == "" ? '소유자' : 'AI', style: TextStyle(fontSize: 14),)
               ],
             ),
             Spacer(),

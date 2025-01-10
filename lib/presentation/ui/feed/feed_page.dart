@@ -55,7 +55,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 16,
+                  height: 8,
                 ),
               ],
             );
