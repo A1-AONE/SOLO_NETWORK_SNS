@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:solo_network_sns/presentation/widgets/feed_nickname_bar.dart';
 
-class DetailComment extends StatelessWidget {
+class DetailComment extends StatefulWidget {
   DetailComment({required this.content, required this.createdAt});
 
   final String content;
   final String createdAt;
 
+  @override
+  State<DetailComment> createState() => _DetailCommentState();
+}
+
+class _DetailCommentState extends State<DetailComment> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,7 +32,7 @@ class DetailComment extends StatelessWidget {
                     minHeight: 50
                   ),
                   child: Text(
-                    content,
+                    widget.content,
                     style: TextStyle(
                       fontSize: 20,
                     ),
@@ -38,7 +43,7 @@ class DetailComment extends StatelessWidget {
                     children: [
                       Text(
                         DateFormat("yyyy년 MM월 dd일")
-                            .format(DateTime.parse(createdAt)),
+                            .format(DateTime.parse(widget.createdAt)),
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey
