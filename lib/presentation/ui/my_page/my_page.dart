@@ -75,7 +75,6 @@ class MyPage extends ConsumerWidget {
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    Text('로그아웃'),
                     SizedBox(height: 8),
                     Divider(),
                     SizedBox(height: 8),
