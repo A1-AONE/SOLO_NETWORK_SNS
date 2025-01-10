@@ -28,7 +28,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                 feeds?.where((feed) => feed.UID == user_id).toList();
 
             if (userFeedBefore!.isEmpty) {
-              return const Center(child: Text('No feeds available.'));
+              return const Center(child: Text('새로운 피드를 작성해보세요!'));
             }
 
             final userFeed = userFeedBefore..sort((a,b)=> b.createdAt.compareTo(a.createdAt));

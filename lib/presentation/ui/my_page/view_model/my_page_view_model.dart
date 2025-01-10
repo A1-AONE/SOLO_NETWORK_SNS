@@ -37,7 +37,7 @@ class MyPageState {
     return MyPageState(
       profileUrl: profileUrl ?? this.profileUrl,
       nickName: nickName ?? this.nickName,
-      profileImage: profileImage,
+      profileImage: profileImage ?? this.profileImage,
       aiTag: aiTag ?? this.aiTag,
       email: email ?? this.email,
       isCanSpying: isCanSpying ?? this.isCanSpying,
@@ -90,7 +90,7 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
   Future<void> initializeUserData(String uid) async {
     try {
       final user = await _getUserDataUseCase.call(uid); // Firebase에서 데이터 호출
-      state = state.copyWith(
+      state = MyPageState(
         profileUrl: user.profileUrl,
         nickName: user.nickName,
         aiTag: user.aiTag,

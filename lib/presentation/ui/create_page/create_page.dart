@@ -35,10 +35,9 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                     TextButton(
                       onPressed: () {
                         viewModel.clearFields(); // 상태 초기화
-                        context.go('/');
                       },
                       child: Text(
-                        '취소',
+                        '지우기',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w400,
@@ -88,15 +87,15 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                         // 이미지 미리보기
                         if (state.notPerson && state.selectedImage != null)
                           Container(
-                            margin: EdgeInsets.symmetric(vertical: 16),
-                            height: 200,
+                            width: double.infinity,
+                            height: 250,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(20),
                               image: DecorationImage(
                                 image: FileImage(
                                   File(state.selectedImage!.path),
                                 ),
-                                fit: BoxFit.contain,
+                                fit: BoxFit.fill,
                               ),
                             ),
                           )
@@ -121,21 +120,21 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                               style: TextStyle(color: Colors.grey),
                             ),
                           ),
-    
+                          SizedBox(height: 8,),
                         // 태그 출력
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: state.tags.map((tag) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Chip(
+                        Container(
+                          alignment: Alignment.bottomRight,
+                          child: Wrap(
+                            alignment: WrapAlignment.end,
+                            children: state.tags.map((tag) {
+                              return Chip(
                                 label: Text(tag),
                                 avatar: Icon(Icons.tag),
                                 side: BorderSide.none,
                                 onDeleted: () => viewModel.removeTag(tag),
-                              ),
-                            );
-                          }).toList(),
+                              );
+                            }).toList(),
+                          ),
                         ),
                         Divider(),
                       ],
@@ -162,10 +161,12 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                         child: TextField(
                           controller: state.tagEditingController,
                           maxLines: 1,
+                          maxLength: 20,
                           decoration: InputDecoration(
                             hintText: "태그를 입력하세요.",
                             hintStyle: TextStyle(color: Colors.grey),
                             border: InputBorder.none,
+                            counterText: '',
                           ),
                         ),
                       ),

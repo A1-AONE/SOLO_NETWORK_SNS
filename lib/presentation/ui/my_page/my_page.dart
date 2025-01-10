@@ -74,13 +74,12 @@ class MyPage extends ConsumerWidget {
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    Text('로그아웃'),
                     SizedBox(height: 8),
                     Divider(),
                     SizedBox(height: 8),
 
                     //선택된 AI성격
-                    Text('선택된 AI성격'),
+                    Text('선택된 AI 친구'),
                     Container(
                       alignment: Alignment.center,
                       width: double.infinity,
@@ -120,7 +119,7 @@ class MyPage extends ConsumerWidget {
                     //ai 성격선택
                     Column(
                       children: [
-                        Text('AI 성격 선택'),
+                        Text('AI 친구 선택'),
                         Container(
                           alignment: Alignment.center,
                           width: double.infinity,
