@@ -24,14 +24,15 @@ class _FeedPageState extends ConsumerState<FeedPage> {
           builder: (context, ref, child) {
             final feeds = ref.watch(feedsViewModel);
 
-            final userFeed =
+            final userFeedBefore =
                 feeds?.where((feed) => feed.UID == user_id).toList();
-            if (userFeed == null) {
-              const Center(child: CircularProgressIndicator());
-            }
-            if (userFeed!.isEmpty) {
+
+            if (userFeedBefore!.isEmpty) {
               return const Center(child: Text('No feeds available.'));
             }
+
+            final userFeed = userFeedBefore..sort((a,b)=> b.createdAt.compareTo(a.createdAt));
+
             return Column(
               children: [
                 SizedBox(

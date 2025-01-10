@@ -59,6 +59,8 @@ class _FeedState extends ConsumerState<Feed> {
                       widget.contenet,
                       style: TextStyle(fontSize: 20),
                       softWrap: true,
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   SizedBox(
@@ -91,6 +93,7 @@ class _FeedState extends ConsumerState<Feed> {
                             Text(' ${selectedComment.length}'),
                           ],
                         ),
+                        /*
                         SizedBox(
                           width: 16,
                         ),
@@ -100,6 +103,7 @@ class _FeedState extends ConsumerState<Feed> {
                             Text(' ${widget.goods}'),
                           ],
                         ),
+                        */
                         Spacer(),
                         Text(
                           widget.createdAt,

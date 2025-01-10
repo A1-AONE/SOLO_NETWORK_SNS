@@ -81,6 +81,7 @@ class DetailInfo extends StatelessWidget {
                       Text(' $commentcount'),
                     ],
                   ),
+                  /*
                   SizedBox(
                     width: 16,
                   ),
@@ -90,6 +91,7 @@ class DetailInfo extends StatelessWidget {
                       Text(' $goods'),
                     ],
                   ),
+                  */
                 ],
               )
             ],

@@ -1,8 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:solo_network_sns/domain/entitiy/feed.dart';
 import 'package:solo_network_sns/presentation/ui/feed/providers.dart';
 
 class FeedPageViewModel extends AutoDisposeNotifier<List<Feed>?> {
+  bool isFirstToast = true;
+
   @override
   List<Feed>? build() {
     //fetchFeeds();
@@ -24,15 +28,33 @@ class FeedPageViewModel extends AutoDisposeNotifier<List<Feed>?> {
   void streamFeeds() {
     print('feed stream start');
     final stream = ref.read(fetchFeedsUsecaseProvider).streamFeedsExecute();
-    final streamSubscription = stream.listen((e){
+    final streamSubscription = stream.listen((e) {
       state = e;
+      
+      if (isFirstToast) {
+        isFirstToast = false;
+      } else {
+        showToastMessage();
+      }
     });
-    ref.onDispose((){
+    ref.onDispose(() {
       print('feed stream cancel');
       streamSubscription.cancel();
     });
   }
+
+  void showToastMessage() {
+    print("Toast is being shown!");
+    Fluttertoast.showToast(
+      msg: "새로운 피드가 업데이트되었습니다!",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.TOP,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black,
+    );
+  }
 }
 
 final feedsViewModel =
-    AutoDisposeNotifierProvider<FeedPageViewModel, List<Feed>?>(() => FeedPageViewModel());
+    AutoDisposeNotifierProvider<FeedPageViewModel, List<Feed>?>(
+        () => FeedPageViewModel());
