@@ -33,33 +33,57 @@ class NextElevatedButton extends StatelessWidget {
                       barrierDismissible: false,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text('이렇게 설정하시겠습니까?'),
+                          title: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Text('이렇게 설정하시겠습니까?'),
+                          ),
+                          backgroundColor: Colors.white,
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text('NickName : ${setPageState.nickname}\n', style: TextStyle(fontSize: 20),),
-                              Text('[ AiTags ]', style: TextStyle(fontSize: 20),),
-                              ...List.generate(setPageState.selectTags.length, (index){
-                                List<int> idx = setPageState.selectTags.toList();
-                                return Text('# ${setPageState.aiTags[idx[index]]}', style: TextStyle(fontSize: 16),);
+                              Text(
+                                'NickName : ${setPageState.nickname}\n',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              Text(
+                                '[ AI 친구 ]\n',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              ...List.generate(setPageState.selectTags.length,
+                                  (index) {
+                                List<int> idx =
+                                    setPageState.selectTags.toList();
+                                return Text(
+                                  '# ${setPageState.aiTags[idx[index]]}',
+                                  style: TextStyle(fontSize: 16),
+                                );
                               }),
-                              setPageState.selectTags.isEmpty ? Text('# 무작위', style: TextStyle(fontSize: 16)) : SizedBox.shrink(),
+                              setPageState.selectTags.isEmpty
+                                  ? Text('# 무작위',
+                                      style: TextStyle(fontSize: 16))
+                                  : SizedBox.shrink(),
                             ],
                           ),
                           actions: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text('취소')),
-                            TextButton(
-                                onPressed: () {
-                                  ref
-                                      .read(setPageViewModelProvider.notifier)
-                                      .nextPage();
-                                  Navigator.pop(context);
-                                },
-                                child: Text('확인'))
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('취소')),
+                                TextButton(
+                                    onPressed: () {
+                                      ref
+                                          .read(
+                                              setPageViewModelProvider.notifier)
+                                          .nextPage();
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('확인'))
+                              ],
+                            ),
                           ],
                         );
                       },
@@ -75,11 +99,16 @@ class NextElevatedButton extends StatelessWidget {
                 }
               },
               style: ButtonStyle(
-                backgroundColor: WidgetStatePropertyAll(Color(0xFF1F2631)),
+                backgroundColor:
+                    WidgetStatePropertyAll(Color.fromARGB(255, 120, 120, 120)),
+                shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12), // Rounded corners
+                )),
               ),
               child: Text(
                 setPageState.currentPage != 3 ? '계속하기' : '시작하기',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(
+                    color: Colors.white, letterSpacing: 2, fontSize: 16),
               )),
         ),
       );
