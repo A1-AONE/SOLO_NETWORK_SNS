@@ -64,12 +64,14 @@ class MyPage extends ConsumerWidget {
                       ),
                     ),
                     SizedBox(height: 10),
+                    //닉네임
                     Text(
                       viewModel.nickName ?? '사용자 이름',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 20),
+                    Text('로그아웃'),
+                    SizedBox(height: 8),
                     Divider(),
                     SizedBox(height: 8),
 
