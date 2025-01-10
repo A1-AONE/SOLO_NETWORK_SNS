@@ -44,3 +44,16 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
     }
   }
 }
+
+
+  // @override
+  // Future<void> createPost(FeedEntity feedEntity, File? imageFile) async {
+  //   String? imageUrl;
+
+  //   // 1. 이미지 업로드
+  //   if (imageFile != null) {
+  //     final ref = storage.ref().child(
+  //         'feeds/${feedEntity.UID}${DateTime.now().millisecondsSinceEpoch}.jpg');
+  //     final uploadTask = await ref.putFile(imageFile);
+  //     imageUrl = await uploadTask.ref.getDownloadURL();
+  //   }

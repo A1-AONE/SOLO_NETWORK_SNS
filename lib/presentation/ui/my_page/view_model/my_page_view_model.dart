@@ -31,7 +31,7 @@ class MyPageState {
     return MyPageState(
       profileUrl: profileUrl ?? this.profileUrl,
       nickName: nickName ?? this.nickName,
-      profileImage: profileImage ?? this.profileImage,
+      profileImage: profileImage,
       aiTag: aiTag ?? this.aiTag,
     );
   }
@@ -108,7 +108,7 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
   // 데이터 취소 (초기 상태로 리셋)
   Future<void> cancelUserData(String uid) async {
     try {
-      initializeUserData(uid);
+      await initializeUserData(uid);
 
       // 상태 변경 후, 상태를 출력하여 확인
       print('Updated profileImage: ${state.profileImage}');

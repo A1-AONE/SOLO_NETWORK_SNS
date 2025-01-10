@@ -81,13 +81,18 @@ class MyPage extends ConsumerWidget {
 
                     //선택된 AI성격
                     Text('선택된 AI성격'),
-                    Wrap(
-                      spacing: 8.0, // 태그 간의 가로 간격
-                      // runSpacing: 2.0, // 태그 간의 세로 간격
-                      children: viewModel.aiTag.map((tag) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Chip(
+                    Container(
+                      alignment: Alignment.center,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey[200],
+                      ),
+                      child: Wrap(
+                        spacing: 8.0, // 태그 간의 가로 간격
+                        // runSpacing: 2.0, // 태그 간의 세로 간격
+                        children: viewModel.aiTag.map((tag) {
+                          return Chip(
                             label: Text(tag),
                             avatar: Icon(Icons.tag),
                             side: BorderSide.none,
@@ -104,9 +109,9 @@ class MyPage extends ConsumerWidget {
                                     .removeTag(tag); // 서버 통신 없이 상태만 변경
                               }
                             },
-                          ),
-                        );
-                      }).toList(),
+                          );
+                        }).toList(),
+                      ),
                     ),
                     SizedBox(height: 8),
                     //ai 성격선택
