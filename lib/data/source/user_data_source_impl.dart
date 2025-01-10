@@ -23,4 +23,23 @@ class UserDataSourceImpl implements UserDataSource {
       return [];
     }
   }
+  
+  @override
+  Stream<List<UserDto>> streamUsers() {
+      final firestore = FirebaseFirestore.instance;
+      final collectionRef = firestore.collection('User');
+
+      final stream = collectionRef.snapshots();
+
+      final newStream = stream.map((snapshot){
+        final docs = snapshot.docs.map((doc) {
+          final map = doc.data();
+          return UserDto.fromJson(map);
+        }).toList();
+        
+        return docs;
+      });
+
+      return newStream;
+  }
 }

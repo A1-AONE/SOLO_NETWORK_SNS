@@ -46,65 +46,70 @@ class _FeedState extends ConsumerState<Feed> {
             onTap: () {
               context.go('/feed/${widget.feedId}');
             },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
-                    widget.contenet,
-                    style: TextStyle(fontSize: 20),
-                    softWrap: true,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.transparent
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      widget.contenet,
+                      style: TextStyle(fontSize: 20),
+                      softWrap: true,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                widget.imgUrl.isEmpty
-                    ? SizedBox.shrink()
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.network(
-                            widget.imgUrl,
-                            width: double.maxFinite,
-                            height: 220,
-                            fit: BoxFit.fill,
+                  SizedBox(
+                    height: 16,
+                  ),
+                  widget.imgUrl.isEmpty
+                      ? SizedBox.shrink()
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.network(
+                              widget.imgUrl,
+                              width: double.maxFinite,
+                              height: 220,
+                              fit: BoxFit.fill,
+                            ),
                           ),
                         ),
-                      ),
-                SizedBox(
-                  height: 16,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    children: [
-                      Row(
-                        children: [
-                          Icon(Icons.chat_bubble_rounded),
-                          Text(' ${selectedComment.length}'),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Row(
-                        children: [
-                          Icon(Icons.favorite),
-                          Text(' ${widget.goods}'),
-                        ],
-                      ),
-                      Spacer(),
-                      Text(
-                        widget.createdAt,
-                        style: TextStyle(fontSize: 15, color: Colors.grey),
-                      ),
-                    ],
+                  SizedBox(
+                    height: 16,
                   ),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Row(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.chat_bubble_rounded),
+                            Text(' ${selectedComment.length}'),
+                          ],
+                        ),
+                        SizedBox(
+                          width: 16,
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.favorite),
+                            Text(' ${widget.goods}'),
+                          ],
+                        ),
+                        Spacer(),
+                        Text(
+                          widget.createdAt,
+                          style: TextStyle(fontSize: 15, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           SizedBox(

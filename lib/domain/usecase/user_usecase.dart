@@ -8,4 +8,8 @@ class UserUsecase {
   Future<List<UserEntity>?> fetchUserExecute() async{
     return await _userRepository.fetchUser();
   }
+
+  Stream<List<UserEntity>?> streamUserExecute() {
+    return _userRepository.streamUsers();
+  }
 }

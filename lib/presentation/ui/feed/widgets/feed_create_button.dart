@@ -8,8 +8,8 @@ class FeedCreateButton extends StatelessWidget {
       onPressed: () {
         context.go('/create');
       },
-      backgroundColor: Colors.blue[300],
-      child: Icon(Icons.add),
+      backgroundColor: Colors.grey[500],
+      child: Icon(Icons.add, color: Colors.white,),
     );
   }
 }

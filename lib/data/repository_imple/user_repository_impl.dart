@@ -18,4 +18,18 @@ class UserRepositoryImpl implements UserRepository {
         .toList();
     return newResult;
   }
+
+  @override
+  Stream<List<UserEntity>?> streamUsers() {
+    final result = _userDataSource.streamUsers();
+    return result.map((list) {
+      return list
+          .map((e) => UserEntity(
+                nickName: e.nickName,
+                profileUrl: e.profileUrl,
+                uid: e.uid,
+              ))
+          .toList();
+    });
+  }
 }

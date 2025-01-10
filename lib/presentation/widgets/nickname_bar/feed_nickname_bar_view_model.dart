@@ -5,7 +5,8 @@ import 'package:solo_network_sns/presentation/widgets/nickname_bar/feed_nickname
 class FeedNicknameBarViewModel extends Notifier<List<UserEntity>?> {
   @override
   List<UserEntity>? build() {
-    fetchUser();
+    //fetchUser();
+    streamNames();
     return null;
   }
 
@@ -17,6 +18,18 @@ class FeedNicknameBarViewModel extends Notifier<List<UserEntity>?> {
     } catch (e) {
       state = [];
     }
+  }
+
+  void streamNames() {
+    print('Name stream start');
+    final stream = ref.read(fetchUserUsecaseProvider).streamUserExecute();
+    final streamSubscription = stream.listen((e) {
+      state = e;
+    });
+    ref.onDispose(() {
+      print('Name stream cancel');
+      streamSubscription.cancel();
+    });
   }
 }
 
