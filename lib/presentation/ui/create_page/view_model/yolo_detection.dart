@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image/image.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:yolo_helper/yolo_helper.dart';
@@ -52,27 +51,23 @@ class YoloDetection {
         YoloHelper.parse(output[0], image.width, image.height);
 
     // 디버깅용 출력: 감지된 객체 확인
+    print('qqqqqqqqqqqqqqqq');
     detectedObjects.forEach((obj) {
-      print(
-          'Detected label: ${_labels![obj.labelIndex]}, Confidence: ${obj.score}3333333333333333333333333');
+      print('Detected score:${obj.score}');
+      print('Detected label: ${_labels![obj.labelIndex]}');
     });
 
     // 'person' 클래스가 있는지 확인
-    final personDetected = detectedObjects.any((obj) {
-      final className = _labels![obj.labelIndex];
-      return className == 'person';
-    });
+    bool personDetected = false; // 초기값 설정
+    for (final obj in detectedObjects) {
+      String className = _labels![obj.labelIndex].trim();
+      if (className == 'person') {
+        personDetected = true; // 'person'이 감지되면 true로 설정
+        break; // 더 이상 확인할 필요 없으므로 반복 종료
+      }
+    }
 
     // 'person'이 있으면 false, 없으면 true 리턴
     return !personDetected;
   }
 }
-
-final yoloDetectionProvider = Provider<YoloDetection>((ref) {
-  final yoloDetection = YoloDetection();
-  // YOLO 모델 초기화
-  yoloDetection.initialize().catchError((e) {
-    throw Exception('Failed to initialize YOLO model: $e');
-  });
-  return yoloDetection;
-});

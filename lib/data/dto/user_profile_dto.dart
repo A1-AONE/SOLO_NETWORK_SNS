@@ -44,24 +44,22 @@ class UserProfileDto {
     return UserProfileEntity(
       aiTag: aiTag,
       nickName: nickName,
-      email: email,
-      isCanSpying: isCanSpying,
       profileUrl: profileUrl ?? '', // null인 경우 빈 문자열로 변환
       uid: uid,
     );
   }
 
   // Entity에서 DTO로 변환
-  factory UserProfileDto.fromEntity(UserProfileEntity entity) {
-    return UserProfileDto(
-      aiTag: entity.aiTag,
-      nickName: entity.nickName,
-      email: entity.email,
-      isCanSpying: entity.isCanSpying,
-      profileUrl: entity.profileUrl.isNotEmpty
-          ? entity.profileUrl
-          : null, // 빈 문자열을 null로 처리
-      uid: entity.uid,
-    );
-  }
+  // factory UserProfileDto.fromEntity(UserProfileEntity entity) {
+  //   return UserProfileDto(
+  //     aiTag: entity.aiTag,
+  //     nickName: entity.nickName,
+  //     email: entity.email,
+  //     isCanSpying: entity.isCanSpying,
+  //     profileUrl: entity.profileUrl.isNotEmpty
+  //         ? entity.profileUrl
+  //         : null, // 빈 문자열을 null로 처리
+  //     uid: entity.uid,
+  //   );
+  // }
 }

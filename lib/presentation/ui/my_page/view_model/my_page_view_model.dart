@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:solo_network_sns/data/dto/user_profile_dto.dart';
 import 'package:solo_network_sns/data/repository_imple/user_profile_repository_impl.dart';
+import 'package:solo_network_sns/domain/entitiy/user_profile_entity.dart';
 import 'package:solo_network_sns/domain/usecase/get_user_data_usecase.dart';
 import 'package:solo_network_sns/domain/repository/user_profile_repository.dart';
-import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
+import 'package:solo_network_sns/domain/usecase/save_user_data_usecase.dart';
 
 // 상태 클래스 정의
 class MyPageState {
@@ -38,11 +40,29 @@ class MyPageState {
 class MyPageViewModel extends StateNotifier<MyPageState> {
   final ImagePicker _picker = ImagePicker();
   final GetUserDataUseCase _getUserDataUseCase;
+  final SaveUserDataUseCase _saveUserDataUseCase;
 
-  MyPageViewModel(this._getUserDataUseCase)
+  List<String> aiAllTags = [
+    '상냥함',
+    '유머러스',
+    '논리적',
+    '감성적',
+    '직설적',
+    '긍정적',
+    '열정적',
+    '공감적',
+    '조용함',
+    '낭만적',
+    '전문적',
+    '귀여움',
+    '차가움',
+    '논쟁적',
+  ];
+
+  MyPageViewModel(this._getUserDataUseCase, this._saveUserDataUseCase)
       : super(MyPageState(
           profileUrl: '', // 초기 프로필 URL
-          nickName: '홍길동', // 초기 닉네임
+          nickName: '', // 초기 닉네임
           aiTag: [], // 초기값
         ));
 
@@ -57,21 +77,64 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
 
   // 사용자 데이터 초기화
   Future<void> initializeUserData(String uid) async {
+    // 이미 데이터가 비어 있지 않은 경우에만 초기화 진행
+    // if (state.nickName != '') {
+    //   return; // 이미 초기화된 경우 스킵
+    // }
+
     try {
-      final user = await _getUserDataUseCase.call(uid); // GetUserDataUseCase 호출
+      final user = await _getUserDataUseCase.call(uid); // Firebase에서 데이터 호출
       state = state.copyWith(
         profileUrl: user.profileUrl,
         nickName: user.nickName,
-        aiTag: user.aiTag, // aiTag
+        aiTag: user.aiTag,
+        profileImage: null,
       );
     } catch (e) {
       print("Error fetching user data: $e");
     }
   }
 
+  // 태그 삭제
   void removeTag(String tag) {
-    final updatedTags = List<String>.from(state.aiTag)..remove(tag);
-    state = state.copyWith(aiTag: updatedTags);
+    // 태그가 1개만 남았을 경우 삭제 방지
+    if (state.aiTag.length > 1) {
+      // 태그 삭제 로직 (서버 통신 없이 화면에서만 삭제)
+      final updatedTags = List<String>.from(state.aiTag)..remove(tag);
+      state = state.copyWith(aiTag: updatedTags);
+    }
+  }
+
+  // 데이터 취소 (초기 상태로 리셋)
+  Future<void> cancelUserData(String uid) async {
+    try {
+      initializeUserData(uid);
+
+      // 상태 변경 후, 상태를 출력하여 확인
+      print('Updated profileImage: ${state.profileImage}');
+    } catch (e) {
+      print("Error fetching user data: $e");
+    }
+  }
+
+  // 사용자 데이터 저장
+  Future<void> saveUserData(String uid) async {
+    try {
+      final updatedUserData = UserProfileEntity(
+        aiTag: state.aiTag,
+        nickName: state.nickName ?? '',
+        profileUrl: state.profileUrl,
+        uid: uid,
+      );
+
+      // UseCase 호출
+      await _saveUserDataUseCase.call(updatedUserData);
+
+      // UI에 반영
+      print('User data saved successfully');
+    } catch (e) {
+      print("Error saving user data: $e");
+    }
   }
 }
 
@@ -82,14 +145,21 @@ final getUserDataUseCaseProvider = Provider<GetUserDataUseCase>((ref) {
   return GetUserDataUseCase(userRepository);
 });
 
-// MyPageViewModel 프로바이더 정의 (StateNotifierProvider로 변경)
+// MyPageViewModel 프로바이더 정의
 final myPageViewModelProvider =
     StateNotifierProvider<MyPageViewModel, MyPageState>((ref) {
-  final getUserDataUseCase = ref.watch(getUserDataUseCaseProvider); // 의존성 주입
-  return MyPageViewModel(getUserDataUseCase);
+  final getUserDataUseCase = ref.watch(getUserDataUseCaseProvider);
+  final saveUserDataUseCase =
+      ref.watch(saveUserDataUseCaseProvider); // SaveUserDataUseCase 추가
+  return MyPageViewModel(getUserDataUseCase, saveUserDataUseCase);
 });
 
 // UserRepository 프로바이더 정의
 final userRepositoryProvider = Provider<UserProfileRepository>((ref) {
   return UserProfileRepositoryImpl(); // 실제 UserRepository 구현체를 반환
+});
+
+final saveUserDataUseCaseProvider = Provider<SaveUserDataUseCase>((ref) {
+  final userRepository = ref.watch(userRepositoryProvider);
+  return SaveUserDataUseCase(userRepository);
 });
