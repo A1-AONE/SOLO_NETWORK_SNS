@@ -42,6 +42,23 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
   final GetUserDataUseCase _getUserDataUseCase;
   final SaveUserDataUseCase _saveUserDataUseCase;
 
+  List<String> aiAllTags = [
+    '상냥함',
+    '유머러스',
+    '논리적',
+    '감성적',
+    '직설적',
+    '긍정적',
+    '열정적',
+    '공감적',
+    '조용함',
+    '낭만적',
+    '전문적',
+    '귀여움',
+    '차가움',
+    '논쟁적',
+  ];
+
   MyPageViewModel(this._getUserDataUseCase, this._saveUserDataUseCase)
       : super(MyPageState(
           profileUrl: '', // 초기 프로필 URL
@@ -79,8 +96,12 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
 
   // 태그 삭제
   void removeTag(String tag) {
-    final updatedTags = List<String>.from(state.aiTag)..remove(tag);
-    state = state.copyWith(aiTag: updatedTags);
+    // 태그가 1개만 남았을 경우 삭제 방지
+    if (state.aiTag.length > 1) {
+      // 태그 삭제 로직 (서버 통신 없이 화면에서만 삭제)
+      final updatedTags = List<String>.from(state.aiTag)..remove(tag);
+      state = state.copyWith(aiTag: updatedTags);
+    }
   }
 
   // 데이터 취소 (초기 상태로 리셋)
