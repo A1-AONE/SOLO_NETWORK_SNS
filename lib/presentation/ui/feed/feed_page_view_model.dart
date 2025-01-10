@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:solo_network_sns/domain/entitiy/feed.dart';
 import 'package:solo_network_sns/presentation/ui/feed/providers.dart';
 
@@ -31,11 +29,13 @@ class FeedPageViewModel extends AutoDisposeNotifier<List<Feed>?> {
     final streamSubscription = stream.listen((e) {
       state = e;
       
+      /*
       if (isFirstToast) {
         isFirstToast = false;
       } else {
         showToastMessage();
       }
+      */
     });
     ref.onDispose(() {
       print('feed stream cancel');
@@ -43,6 +43,7 @@ class FeedPageViewModel extends AutoDisposeNotifier<List<Feed>?> {
     });
   }
 
+  /*
   void showToastMessage() {
     print("Toast is being shown!");
     Fluttertoast.showToast(
@@ -53,6 +54,7 @@ class FeedPageViewModel extends AutoDisposeNotifier<List<Feed>?> {
       backgroundColor: Colors.black,
     );
   }
+  */
 }
 
 final feedsViewModel =
