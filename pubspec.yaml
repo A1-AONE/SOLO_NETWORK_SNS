@@ -57,6 +57,7 @@ dependencies:
       url: https://github.com/fhelper/flutter-yolo-helper.git
       ref: main
   logger: ^2.5.0
+  fluttertoast: ^8.2.10
 
 dev_dependencies:
   flutter_test:
