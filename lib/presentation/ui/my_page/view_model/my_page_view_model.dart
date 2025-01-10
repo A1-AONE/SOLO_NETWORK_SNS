@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:solo_network_sns/data/dto/user_profile_dto.dart';
 import 'package:solo_network_sns/data/repository_imple/user_profile_repository_impl.dart';
 import 'package:solo_network_sns/domain/entitiy/user_profile_entity.dart';
 import 'package:solo_network_sns/domain/usecase/get_user_data_usecase.dart';
@@ -37,7 +36,7 @@ class MyPageState {
     return MyPageState(
       profileUrl: profileUrl ?? this.profileUrl,
       nickName: nickName ?? this.nickName,
-      profileImage: profileImage,
+      profileImage: profileImage ?? this.profileImage,
       aiTag: aiTag ?? this.aiTag,
       email: email ?? this.email,
       isCanSpying: isCanSpying ?? this.isCanSpying,
@@ -90,7 +89,7 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
   Future<void> initializeUserData(String uid) async {
     try {
       final user = await _getUserDataUseCase.call(uid); // Firebase에서 데이터 호출
-      state = state.copyWith(
+      state = MyPageState(
         profileUrl: user.profileUrl,
         nickName: user.nickName,
         aiTag: user.aiTag,
