@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +13,10 @@ class MyPage extends ConsumerWidget {
 
     // 데이터 초기화를 한 번만 호출
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // 이미 데이터가 비어 있지 않은 경우에만 초기화 진행
+      if (viewModel.nickName != '') {
+        return; // 이미 초기화된 경우 스킵
+      }
       ref.read(myPageViewModelProvider.notifier).initializeUserData(uid);
     });
 
@@ -19,13 +24,12 @@ class MyPage extends ConsumerWidget {
       appBar: AppBar(
         title: Text('마이페이지'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    bottom: 8, left: 24, right: 24, top: 24),
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 8, left: 24, right: 24, top: 24),
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
                     SizedBox(height: 10),
@@ -157,49 +161,68 @@ class MyPage extends ConsumerWidget {
                 ),
               ),
             ),
-          ),
-          Row(
-            children: [
-              TextButton(
-                onPressed: () {
-                  print(viewModel.profileImage);
-                  print(viewModel.profileUrl);
-                  ref
-                      .read(myPageViewModelProvider.notifier)
-                      .cancelUserData(uid); // 취소 함수 호출
-
-                  context.go('/');
-                  print(viewModel.profileImage);
-                  print(viewModel.profileUrl);
-                },
-                child: Text(
-                  '취소',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
+            Row(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    ref
+                        .read(myPageViewModelProvider.notifier)
+                        .cancelUserData(uid); // 취소 함수 호출
+                  },
+                  child: Text(
+                    '초기화',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
-              ),
-              Spacer(),
-              TextButton(
-                onPressed: () async {
-                  // 수정하기
-                  await ref
-                      .read(myPageViewModelProvider.notifier)
-                      .saveUserData(uid);
-                  context.go('/'); // 게시 후 이전 화면으로 이동
-                },
-                child: Text(
-                  '수정하기',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
+                Spacer(),
+                TextButton(
+                  onPressed: () async {
+                    // 알림창 띄우기
+                    showCupertinoDialog(
+                      context: context,
+                      builder: (context) => CupertinoAlertDialog(
+                        title: Text('확인'),
+                        content: Text('사용자 데이터를 수정하시겠습니까?'),
+                        actions: [
+                          CupertinoDialogAction(
+                            child: Text('취소'),
+                            onPressed: () {
+                              Navigator.of(context).pop(); // 알림창 닫기
+                            },
+                          ),
+                          CupertinoDialogAction(
+                            child: Text('확인'),
+                            isDestructiveAction: true,
+                            onPressed: () async {
+                              // 수정하기 로직 실행
+                              await ref
+                                  .read(myPageViewModelProvider.notifier)
+                                  .saveUserData(uid);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("수정이 완료되었습니다.")),
+                              );
+                              Navigator.of(context).pop(); // 알림창 닫기
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  child: Text(
+                    '수정하기',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
