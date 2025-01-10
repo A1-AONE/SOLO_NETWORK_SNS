@@ -137,7 +137,6 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
         email: state.email,
         isCanSpying: state.isCanSpying,
       );
-
       // UseCase 호출
       await _saveUserDataUseCase.call(updatedUserData,
           imageFile: state.profileImage);

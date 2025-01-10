@@ -14,13 +14,9 @@ class MyPage extends ConsumerWidget {
     // 데이터 초기화를 한 번만 호출
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // 이미 데이터가 비어 있지 않은 경우에만 초기화 진행
-      print('${viewModel.nickName}111111111111111111');
       if (viewModel.nickName != '') {
-        print('22222222222222222222222');
-
         return; // 이미 초기화된 경우 스킵
       }
-      print('33333333333333333');
 
       ref.read(myPageViewModelProvider.notifier).initializeUserData(uid);
     });
@@ -89,36 +85,39 @@ class MyPage extends ConsumerWidget {
                     Container(
                       alignment: Alignment.center,
                       width: double.infinity,
+                      height: 150,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.grey[200],
                       ),
-                      child: Wrap(
-                        spacing: 8.0, // 태그 간의 가로 간격
-                        // runSpacing: 2.0, // 태그 간의 세로 간격
-                        children: viewModel.aiTag!.map((tag) {
-                          return Chip(
-                            label: Text(tag),
-                            avatar: Icon(Icons.tag),
-                            side: BorderSide.none,
-                            onDeleted: () {
-                              if (viewModel.aiTag!.length <= 1) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: Text("최소 하나의 태그는 남아있어야 합니다.")),
-                                );
-                              } else {
-                                // 태그 삭제 후 화면에서만 반영
-                                ref
-                                    .read(myPageViewModelProvider.notifier)
-                                    .removeTag(tag); // 서버 통신 없이 상태만 변경
-                              }
-                            },
-                          );
-                        }).toList(),
+                      child: SingleChildScrollView(
+                        child: Wrap(
+                          spacing: 4.0, // 태그 간의 가로 간격
+                          // runSpacing: 2.0, // 태그 간의 세로 간격
+                          children: viewModel.aiTag!.map((tag) {
+                            return Chip(
+                              label: Text(tag),
+                              avatar: Icon(Icons.tag),
+                              side: BorderSide.none,
+                              onDeleted: () {
+                                if (viewModel.aiTag!.length <= 1) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text("최소 하나의 태그는 남아있어야 합니다.")),
+                                  );
+                                } else {
+                                  // 태그 삭제 후 화면에서만 반영
+                                  ref
+                                      .read(myPageViewModelProvider.notifier)
+                                      .removeTag(tag); // 서버 통신 없이 상태만 변경
+                                }
+                              },
+                            );
+                          }).toList(),
+                        ),
                       ),
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 24),
                     //ai 성격선택
                     Column(
                       children: [
@@ -126,41 +125,48 @@ class MyPage extends ConsumerWidget {
                         Container(
                           alignment: Alignment.center,
                           width: double.infinity,
+                          height: 155,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: Colors.grey[200],
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Wrap(
-                              spacing: 8.0, // 태그 간의 가로 간격
-                              runSpacing: 8.0, // 태그 간의 세로 간격
-                              children: ref
-                                  .read(myPageViewModelProvider.notifier)
-                                  .aiAllTags
-                                  .map((tag) => GestureDetector(
-                                        onTap: () {
-                                          if (!viewModel.aiTag!.contains(tag)) {
-                                            // 태그 추가
-                                            ref
-                                                .read(myPageViewModelProvider
-                                                    .notifier)
-                                                .state = viewModel.copyWith(
-                                              aiTag: [...viewModel.aiTag!, tag],
-                                            );
-                                          }
-                                        },
-                                        child: Chip(
-                                          label: Text(tag),
-                                          avatar: Icon(Icons.tag),
-                                          side: BorderSide.none,
-                                          backgroundColor:
-                                              viewModel.aiTag!.contains(tag)
-                                                  ? Colors.blue[100]
-                                                  : Colors.grey[0],
-                                        ),
-                                      ))
-                                  .toList(),
+                            child: SingleChildScrollView(
+                              child: Wrap(
+                                spacing: 8.0, // 태그 간의 가로 간격
+                                // runSpacing: 4.0, // 태그 간의 세로 간격
+                                children: ref
+                                    .read(myPageViewModelProvider.notifier)
+                                    .aiAllTags
+                                    .map((tag) => GestureDetector(
+                                          onTap: () {
+                                            if (!viewModel.aiTag!
+                                                .contains(tag)) {
+                                              // 태그 추가
+                                              ref
+                                                  .read(myPageViewModelProvider
+                                                      .notifier)
+                                                  .state = viewModel.copyWith(
+                                                aiTag: [
+                                                  ...viewModel.aiTag!,
+                                                  tag
+                                                ],
+                                              );
+                                            }
+                                          },
+                                          child: Chip(
+                                            label: Text(tag),
+                                            avatar: Icon(Icons.tag),
+                                            side: BorderSide.none,
+                                            backgroundColor:
+                                                viewModel.aiTag!.contains(tag)
+                                                    ? Colors.blue[100]
+                                                    : Colors.grey[0],
+                                          ),
+                                        ))
+                                    .toList(),
+                              ),
                             ),
                           ),
                         ),

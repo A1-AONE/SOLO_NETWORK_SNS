@@ -10,8 +10,6 @@ class SaveUserDataUseCase {
   SaveUserDataUseCase(this._repository);
 
   Future<void> call(UserProfileEntity userData, {File? imageFile}) async {
-    await _repository.saveUserData(
-      userData,
-    );
+    await _repository.saveUserData(userData, imageFile: imageFile);
   }
 }
