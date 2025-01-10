@@ -31,4 +31,16 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
       throw Exception('Failed to fetch user data: $e');
     }
   }
+
+  @override
+  Future<void> saveUserData(UserProfileEntity userData) async {
+    try {
+      await firestore
+          .collection('User')
+          .doc(userData.uid)
+          .update(userData.toJson());
+    } catch (e) {
+      throw Exception('Failed to save user data: $e');
+    }
+  }
 }

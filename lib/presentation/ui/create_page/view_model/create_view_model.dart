@@ -36,21 +36,16 @@ class CreateViewModel extends StateNotifier<CreateState> {
   ///이미지피커
   Future<void> pickImage(BuildContext context) async {
     final yoloDetection = YoloDetection();
-    // YOLO 모델 초기화 확인 및 초기화 실행
     if (!yoloDetection.isInitialized) {
-      await yoloDetection.initialize(); // 모델 초기화
+      await yoloDetection.initialize();
     }
-    img.Image? image; // image 패키지의 Image 객체
+    img.Image? image;
 
-    // 이미지 선택 중 로딩 화면 표시
+    // 로딩 다이얼로그 표시
     showDialog(
       context: context,
-      barrierDismissible: false, // 다이얼로그 바깥을 눌러도 닫히지 않도록 설정
-      builder: (context) {
-        return Center(
-          child: CircularProgressIndicator(), // 로딩 표시
-        );
-      },
+      barrierDismissible: false,
+      builder: (context) => Center(child: CircularProgressIndicator()),
     );
 
     try {
@@ -60,13 +55,13 @@ class CreateViewModel extends StateNotifier<CreateState> {
       if (newImageFile != null) {
         state = state.copyWith(selectedImage: newImageFile);
 
-        // newImageFile을 image로 변환
+        // 파일에서 이미지 디코딩
         final file = File(newImageFile.path);
         final imageBytes = await file.readAsBytes();
         final decodedImage = img.decodeImage(imageBytes);
 
         if (decodedImage != null) {
-          image = decodedImage; // 변환된 이미지 객체
+          image = decodedImage;
         } else {
           throw Exception('Failed to decode the selected image');
         }
@@ -74,16 +69,16 @@ class CreateViewModel extends StateNotifier<CreateState> {
         throw Exception('No image selected');
       }
 
-      // 변환된 image 객체로 YOLO 모델 실행
+      // YOLO 모델 실행
       if (image != null) {
-        state = state.copyWith(notPerson: yoloDetection.runInference(image));
+        final notPerson = yoloDetection.runInference(image);
+        state = state.copyWith(notPerson: notPerson);
       } else {
         throw Exception('Image conversion failed');
       }
     } catch (e) {
-      print("Error: $e");
+      print('Error: $e');
     } finally {
-      // 이미지 처리 완료 후 다이얼로그 닫기
       Navigator.of(context).pop(); // 다이얼로그 닫기
     }
   }
