@@ -16,7 +16,6 @@ class LoginViewModel extends StateNotifier<String> {
     try {
       startLoading();
       final route = await _loginUseCase.execute(); // UseCase 호출
-      print('???????????????');
       print('$route');
       // 로그인 성공 후 route 따라 페이지 이동
       return route;
