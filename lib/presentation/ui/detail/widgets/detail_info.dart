@@ -8,28 +8,30 @@ class DetailInfo extends StatelessWidget {
     required this.imgUrl,
     required this.createdAt,
     required this.goods,
-    required this.comment_count,
+    required this.commentcount,
+    required this.ai,
   });
 
   final String contents;
   final String imgUrl;
   final String createdAt;
   final int goods;
-  final int comment_count;
+  final int commentcount;
+  final String ai;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              FeedNicknameBar(),
+              FeedNicknameBar(ai),
               imgUrl.isEmpty
-                  ? SizedBox()
+                  ? SizedBox.shrink()
                   : Column(
                       children: [
                         SizedBox(
@@ -38,7 +40,9 @@ class DetailInfo extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: Image.network(imgUrl,
-                              width: 362, height: 227, fit: BoxFit.fill),
+                              width: double.infinity,
+                              height: 250,
+                              fit: BoxFit.fill),
                         ),
                       ],
                     ),
@@ -46,16 +50,11 @@ class DetailInfo extends StatelessWidget {
                 height: 16,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Container(
-                  constraints: BoxConstraints(
-                    minHeight: 150
-                  ),
-                  child: Text(
-                    contents,
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Text(
+                  contents,
+                  style: TextStyle(
+                    fontSize: 20,
                   ),
                 ),
               ),
@@ -64,7 +63,7 @@ class DetailInfo extends StatelessWidget {
         ),
         Divider(thickness: 0.8, color: Colors.grey),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -76,13 +75,21 @@ class DetailInfo extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Icon(Icons.chat_bubble_rounded),
-                  Text('$comment_count'),
+                  Row(
+                    children: [
+                      Icon(Icons.chat_bubble_rounded),
+                      Text(' $commentcount'),
+                    ],
+                  ),
                   SizedBox(
                     width: 16,
                   ),
-                  Icon(Icons.favorite),
-                  Text('$goods'),
+                  Row(
+                    children: [
+                      Icon(Icons.favorite),
+                      Text(' $goods'),
+                    ],
+                  ),
                 ],
               )
             ],

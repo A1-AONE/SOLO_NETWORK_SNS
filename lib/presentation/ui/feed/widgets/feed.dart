@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:solo_network_sns/presentation/ui/detail/widgets/detail_comment_view_model.dart';
 import 'package:solo_network_sns/presentation/widgets/feed_nickname_bar.dart';
 
 class Feed extends ConsumerStatefulWidget {
@@ -10,12 +11,14 @@ class Feed extends ConsumerStatefulWidget {
     required this.createdAt,
     required this.goods,
     required this.imgUrl,
+    required this.ai,
   });
   final String feedId;
   final String contenet;
   final String createdAt;
-  final String goods;
+  final int goods;
   final String imgUrl;
+  final String ai;
 
   @override
   ConsumerState<Feed> createState() => _FeedState();
@@ -24,83 +27,96 @@ class Feed extends ConsumerStatefulWidget {
 class _FeedState extends ConsumerState<Feed> {
   @override
   Widget build(BuildContext context) {
+    final comments = ref.watch(detailCommentsViewModel);
+    final selectedComment = comments!
+        .where(
+          (comment) => comment.feed_id == widget.feedId,
+        )
+        .toList();
+
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
-          Divider(
-            color: Colors.black,
+          FeedNicknameBar(widget.ai),
+          SizedBox(
+            height: 16,
           ),
-          FeedNicknameBar(),
           GestureDetector(
             onTap: () {
               context.go('/feed/${widget.feedId}');
             },
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 60,
-                ),
-                Column(
-                  children: [
-                    SizedBox(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 300,
-                            child: Text(widget.contenet,
-                                style: TextStyle(fontSize: 20),
-                                softWrap: true,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.transparent
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      widget.contenet,
+                      style: TextStyle(fontSize: 20),
+                      softWrap: true,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  widget.imgUrl.isEmpty
+                      ? SizedBox.shrink()
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.network(
+                              widget.imgUrl,
+                              width: double.maxFinite,
+                              height: 220,
+                              fit: BoxFit.fill,
+                            ),
                           ),
-                          widget.imgUrl.isEmpty
-                              ? SizedBox(
-                                  height: 50,
-                                  width: 300,
-                                )
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Image.network(
-                                    widget.imgUrl,
-                                    width: 300,
-                                    height: 200,
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
+                        ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Row(
                       children: [
                         Row(
                           children: [
                             Icon(Icons.chat_bubble_rounded),
-                            Text(widget.goods),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            Icon(Icons.favorite),
-                            Text('1'),
+                            Text(' ${selectedComment.length}'),
                           ],
                         ),
                         SizedBox(
-                          width: 95,
+                          width: 16,
                         ),
+                        Row(
+                          children: [
+                            Icon(Icons.favorite),
+                            Text(' ${widget.goods}'),
+                          ],
+                        ),
+                        Spacer(),
                         Text(
                           widget.createdAt,
                           style: TextStyle(fontSize: 15, color: Colors.grey),
                         ),
                       ],
-                    )
-                  ],
-                ),
-              ],
+                    ),
+                  )
+                ],
+              ),
             ),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Divider(
+            color: Colors.black,
           ),
         ],
       ),

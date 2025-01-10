@@ -5,7 +5,14 @@ class ExamplePage extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('3번째 화면 예시입니다.'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('염탐',style: TextStyle(fontSize: 24),),
+            SizedBox(height: 24,),
+            Text('아직 준비중인 서비스 입니다'),
+          ],
+        ),
       )
     );
   }

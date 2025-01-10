@@ -16,19 +16,29 @@ class _BottomNavigationState extends State<BottomNavigation> {
         final currentIndex = ref.watch(homeViewModel);
         final viewModel = ref.read(homeViewModel.notifier);
         return BottomNavigationBar(
+          backgroundColor: Colors.grey[200],
           currentIndex: currentIndex,
           onTap: viewModel.onIndexChanged,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Icon(Icons.person),
+              ),
               label: 'MYPAGE',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.house),
+              icon: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Icon(Icons.house),
+              ),
               label: 'HOME',
             ),
             BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.chat_bubble_fill),
+              icon: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Icon(CupertinoIcons.chat_bubble_fill),
+              ),
               label: '염탐',
             ),
           ],

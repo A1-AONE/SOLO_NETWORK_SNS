@@ -12,25 +12,18 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    Future.delayed(Duration(milliseconds: 2600)).then((_) {
-      context.go('/login');
+  bool _isAnimationLoaded = false;
+
+  void _startNavigationTimer() {
+    Future.delayed(const Duration(milliseconds: 3000)).then((_) {
+      if (mounted) {
+        context.go('/login');
+      }
     });
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // return AnimatedSplashScreen(
-    //   splash: Center(
-    //     child: Lottie.asset('assets/animation/aone_splash.json'),
-    //   ),
-    //   nextScreen: LoginPage(),
-    //   duration: 2500,
-    //   backgroundColor: Colors.white,
-    //   splashIconSize: 800,
-    // );
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -38,7 +31,13 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Lottie.asset('assets/animation/aone_splash.json'),
+            Lottie.asset('assets/animation/aone_splash.json',
+                onLoaded: (state) {
+              if (!_isAnimationLoaded) {
+                _isAnimationLoaded = true;
+                _startNavigationTimer();
+              }
+            }),
           ],
         ),
       ),

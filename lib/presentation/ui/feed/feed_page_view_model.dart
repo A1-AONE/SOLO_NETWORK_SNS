@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/domain/entitiy/feed.dart';
 import 'package:solo_network_sns/presentation/ui/feed/providers.dart';
 
-class FeedPageViewModel extends Notifier<List<Feed>?> {
+class FeedPageViewModel extends AutoDisposeNotifier<List<Feed>?> {
   @override
   List<Feed>? build() {
     //fetchFeeds();
@@ -22,15 +22,17 @@ class FeedPageViewModel extends Notifier<List<Feed>?> {
   }
 
   void streamFeeds() {
+    print('feed stream start');
     final stream = ref.read(fetchFeedsUsecaseProvider).streamFeedsExecute();
     final streamSubscription = stream.listen((e){
       state = e;
     });
     ref.onDispose((){
+      print('feed stream cancel');
       streamSubscription.cancel();
     });
   }
 }
 
 final feedsViewModel =
-    NotifierProvider<FeedPageViewModel, List<Feed>?>(() => FeedPageViewModel());
+    AutoDisposeNotifierProvider<FeedPageViewModel, List<Feed>?>(() => FeedPageViewModel());
