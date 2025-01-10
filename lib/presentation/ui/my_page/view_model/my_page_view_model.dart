@@ -13,13 +13,17 @@ class MyPageState {
   final String? profileUrl;
   final String? nickName;
   final File? profileImage;
-  final List<String> aiTag; // 추가
+  final List<String>? aiTag;
+  final String? email;
+  final bool? isCanSpying;
 
   const MyPageState({
-    this.profileUrl,
-    this.nickName,
-    this.profileImage,
-    this.aiTag = const [], // 초기 값 설정
+    required this.profileUrl,
+    required this.nickName,
+    required this.profileImage,
+    required this.aiTag,
+    required this.email,
+    required this.isCanSpying,
   });
 
   MyPageState copyWith({
@@ -27,12 +31,16 @@ class MyPageState {
     String? nickName,
     File? profileImage,
     List<String>? aiTag,
+    String? email,
+    bool? isCanSpying,
   }) {
     return MyPageState(
       profileUrl: profileUrl ?? this.profileUrl,
       nickName: nickName ?? this.nickName,
       profileImage: profileImage,
       aiTag: aiTag ?? this.aiTag,
+      email: email ?? this.email,
+      isCanSpying: isCanSpying ?? this.isCanSpying,
     );
   }
 }
@@ -61,9 +69,12 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
 
   MyPageViewModel(this._getUserDataUseCase, this._saveUserDataUseCase)
       : super(MyPageState(
-          profileUrl: '', // 초기 프로필 URL
-          nickName: '', // 초기 닉네임
-          aiTag: [], // 초기값
+          profileUrl: null,
+          nickName: '',
+          profileImage: null,
+          aiTag: [],
+          email: null,
+          isCanSpying: false,
         ));
 
   // 갤러리에서 이미지 선택
@@ -77,11 +88,6 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
 
   // 사용자 데이터 초기화
   Future<void> initializeUserData(String uid) async {
-    // 이미 데이터가 비어 있지 않은 경우에만 초기화 진행
-    // if (state.nickName != '') {
-    //   return; // 이미 초기화된 경우 스킵
-    // }
-
     try {
       final user = await _getUserDataUseCase.call(uid); // Firebase에서 데이터 호출
       state = state.copyWith(
@@ -89,6 +95,8 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
         nickName: user.nickName,
         aiTag: user.aiTag,
         profileImage: null,
+        email: user.email,
+        isCanSpying: user.isCanSpying,
       );
     } catch (e) {
       print("Error fetching user data: $e");
@@ -98,9 +106,9 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
   // 태그 삭제
   void removeTag(String tag) {
     // 태그가 1개만 남았을 경우 삭제 방지
-    if (state.aiTag.length > 1) {
+    if (state.aiTag!.length > 1) {
       // 태그 삭제 로직 (서버 통신 없이 화면에서만 삭제)
-      final updatedTags = List<String>.from(state.aiTag)..remove(tag);
+      final updatedTags = List<String>.from(state.aiTag!)..remove(tag);
       state = state.copyWith(aiTag: updatedTags);
     }
   }
@@ -117,18 +125,22 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
     }
   }
 
-  // 사용자 데이터 저장
-  Future<void> saveUserData(String uid) async {
+  // 사용자 데이터 저장 state.profileUrl,
+  Future<void> saveUserDataViewModel(String uid) async {
     try {
       final updatedUserData = UserProfileEntity(
         aiTag: state.aiTag,
-        nickName: state.nickName ?? '',
-        profileUrl: state.profileUrl,
+        nickName: state.nickName,
+        profileUrl: state
+            .profileUrl, // 로컬이미지 저장 필요시 user_profile_repository_impl파일에서 경로 수정됨
         uid: uid,
+        email: state.email,
+        isCanSpying: state.isCanSpying,
       );
 
       // UseCase 호출
-      await _saveUserDataUseCase.call(updatedUserData);
+      await _saveUserDataUseCase.call(updatedUserData,
+          imageFile: state.profileImage);
 
       // UI에 반영
       print('User data saved successfully');

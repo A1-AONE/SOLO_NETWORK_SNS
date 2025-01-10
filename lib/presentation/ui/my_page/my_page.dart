@@ -14,9 +14,14 @@ class MyPage extends ConsumerWidget {
     // 데이터 초기화를 한 번만 호출
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // 이미 데이터가 비어 있지 않은 경우에만 초기화 진행
+      print('${viewModel.nickName}111111111111111111');
       if (viewModel.nickName != '') {
+        print('22222222222222222222222');
+
         return; // 이미 초기화된 경우 스킵
       }
+      print('33333333333333333');
+
       ref.read(myPageViewModelProvider.notifier).initializeUserData(uid);
     });
 
@@ -91,13 +96,13 @@ class MyPage extends ConsumerWidget {
                       child: Wrap(
                         spacing: 8.0, // 태그 간의 가로 간격
                         // runSpacing: 2.0, // 태그 간의 세로 간격
-                        children: viewModel.aiTag.map((tag) {
+                        children: viewModel.aiTag!.map((tag) {
                           return Chip(
                             label: Text(tag),
                             avatar: Icon(Icons.tag),
                             side: BorderSide.none,
                             onDeleted: () {
-                              if (viewModel.aiTag.length <= 1) {
+                              if (viewModel.aiTag!.length <= 1) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                       content: Text("최소 하나의 태그는 남아있어야 합니다.")),
@@ -135,13 +140,13 @@ class MyPage extends ConsumerWidget {
                                   .aiAllTags
                                   .map((tag) => GestureDetector(
                                         onTap: () {
-                                          if (!viewModel.aiTag.contains(tag)) {
+                                          if (!viewModel.aiTag!.contains(tag)) {
                                             // 태그 추가
                                             ref
                                                 .read(myPageViewModelProvider
                                                     .notifier)
                                                 .state = viewModel.copyWith(
-                                              aiTag: [...viewModel.aiTag, tag],
+                                              aiTag: [...viewModel.aiTag!, tag],
                                             );
                                           }
                                         },
@@ -150,7 +155,7 @@ class MyPage extends ConsumerWidget {
                                           avatar: Icon(Icons.tag),
                                           side: BorderSide.none,
                                           backgroundColor:
-                                              viewModel.aiTag.contains(tag)
+                                              viewModel.aiTag!.contains(tag)
                                                   ? Colors.blue[100]
                                                   : Colors.grey[0],
                                         ),
@@ -205,7 +210,7 @@ class MyPage extends ConsumerWidget {
                               // 수정하기 로직 실행
                               await ref
                                   .read(myPageViewModelProvider.notifier)
-                                  .saveUserData(uid);
+                                  .saveUserDataViewModel(uid);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text("수정이 완료되었습니다.")),
                               );

@@ -1,13 +1,20 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:solo_network_sns/data/dto/user_profile_dto.dart';
 import 'package:solo_network_sns/domain/entitiy/user_profile_entity.dart';
 import 'package:solo_network_sns/domain/repository/user_profile_repository.dart';
 
 class UserProfileRepositoryImpl implements UserProfileRepository {
   final FirebaseFirestore firestore;
+  final FirebaseStorage storage;
 
-  UserProfileRepositoryImpl({FirebaseFirestore? firestoreInstance})
-      : firestore = firestoreInstance ?? FirebaseFirestore.instance;
+  UserProfileRepositoryImpl({
+    FirebaseFirestore? firestoreInstance,
+    FirebaseStorage? storageInstance,
+  })  : firestore = firestoreInstance ?? FirebaseFirestore.instance,
+        storage = storageInstance ?? FirebaseStorage.instance;
 
   @override
   Future<UserProfileEntity> getUserData(String uid) async {
@@ -33,27 +40,29 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
   }
 
   @override
-  Future<void> saveUserData(UserProfileEntity userData) async {
+  Future<void> saveUserData(UserProfileEntity userData,
+      {File? imageFile}) async {
     try {
-      await firestore
-          .collection('User')
-          .doc(userData.uid)
-          .update(userData.toJson());
+      String? imageUrl;
+      print('${imageUrl}111111111111111111111111');
+      // 1. 이미지 업로드
+      if (imageFile != null) {
+        final ref = storage.ref().child(
+            'users/${userData.uid}/${DateTime.now().millisecondsSinceEpoch}.jpg');
+        final uploadTask = await ref.putFile(imageFile);
+        imageUrl = await uploadTask.ref.getDownloadURL();
+      }
+
+      // 2. DTO 변환
+      final userDto = UserProfileDto.fromEntity(userData);
+
+      // 3. Firestore 저장
+      await firestore.collection('User').doc(userData.uid).set({
+        ...userDto.toJson(),
+        if (imageUrl != null) 'profileUrl': imageUrl, // 이미지 URL 업데이트
+      });
     } catch (e) {
       throw Exception('Failed to save user data: $e');
     }
   }
 }
-
-
-  // @override
-  // Future<void> createPost(FeedEntity feedEntity, File? imageFile) async {
-  //   String? imageUrl;
-
-  //   // 1. 이미지 업로드
-  //   if (imageFile != null) {
-  //     final ref = storage.ref().child(
-  //         'feeds/${feedEntity.UID}${DateTime.now().millisecondsSinceEpoch}.jpg');
-  //     final uploadTask = await ref.putFile(imageFile);
-  //     imageUrl = await uploadTask.ref.getDownloadURL();
-  //   }
