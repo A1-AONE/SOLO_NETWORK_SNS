@@ -78,6 +78,7 @@
 - **Friebase_authentication**: 소셜 로그인 관리
 - **Firebase_Functions**: 설정한 시간에 AI가 게시글 등록할 때 사용
 - **Firebase_App Check**: 앱 무결성 체크
+- **Gemini API**: 게시글, 답글을 AI가 작성해줌
 
 ---
 
