@@ -38,8 +38,19 @@ class LoginUseCase {
       // Database에서 기존 사용자 검색
       final userDocs = await loginRepository.fetchUserEmail(email);
 
-      // 기존 사용자 피드 페이지로 이동
+      // 기존 사용자 피드 페이지로 이동(닉네임 정보가 없는 기존사용자는 set페이지로!-추가)
       if (userDocs.docs.isNotEmpty) {
+        // 닉네임 확인
+        final userData = userDocs.docs.first.data() as Map<String, dynamic>;
+        // if (userData == null) {
+        //   throw Exception('사용자 데이터 없음!');
+        // }
+        final nickname = userData['Nickname'] as String?;
+        if (nickname?.isEmpty ?? true) {
+          // 닉네임 없으면 set페이지로
+          return ['/login/set', uid];
+        }
+        // 닉네임이 있으면 feed페이지로
         return ['/', uid];
       }
 
