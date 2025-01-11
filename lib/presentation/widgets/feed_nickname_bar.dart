@@ -37,16 +37,16 @@ class _FeedNicknameBarState extends ConsumerState<FeedNicknameBar> {
                 borderRadius: BorderRadius.circular(30),
                 child: widget.ai == ""
                     ? user.profileUrl == ""
-                        ? Image.asset('assets/images/default_img.jpg')
-                        : Image.network(user.profileUrl)
+                        ? Image.asset('assets/images/default_img.jpg', fit: BoxFit.fill,)
+                        : Image.network(user.profileUrl, fit: BoxFit.fill,)
                     : aiInfo
                                 .firstWhere((ai) => ai.ai == widget.ai)
                                 .profileUrl ==
                             ''
-                        ? Image.asset('assets/images/default_img.jpg')
+                        ? Image.asset('assets/images/default_img.jpg', fit: BoxFit.fill,)
                         : Image.network(aiInfo
                             .firstWhere((ai) => ai.ai == widget.ai)
-                            .profileUrl),
+                            .profileUrl, fit: BoxFit.fill,),
               ),
             ),
             SizedBox(width: 16,),
