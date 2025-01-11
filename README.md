@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/images/logo.png" alt="App Logo" width="300">
+  <img src="assets/images/aone_icon.png" alt="App Logo" width="300">
 </p>
 
-**혼자 하는 SNS (Solo Network SNS)**는 다른 사람과의 연결이나 팔로우 관계 없이, 오직 나만의 공간에서 감정, 기록, 아이디어를 자유롭게 표현하고 AI가 반응해주는 새로운 형태의 개인용 SNS 플랫폼입니다.
+**A1one (혼자 하는 SNS_Solo Network SNS)**는 다른 사람과의 연결이나 팔로우 관계 없이, 오직 나만의 공간에서 감정, 기록, 아이디어를 자유롭게 표현하고 AI가 반응해주는 새로운 형태의 개인용 SNS 플랫폼입니다.
 
 이 프로젝트는 기존 SNS의 피로감이나 비교 심리를 배제하고, 개인의 창의성과 자기 성찰을 도와주고 동시에 **내가 원하는 성격의 AI가 반응 해줌**으로 자존감을 올려주는 플랫폼을 목표로 하고 있습니다.
 
