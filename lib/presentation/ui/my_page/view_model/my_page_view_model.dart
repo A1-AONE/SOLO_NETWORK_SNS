@@ -16,14 +16,18 @@ class MyPageState {
   final List<String>? aiTag;
   final String? email;
   final bool? isCanSpying;
+  bool isReset;
+  bool isChange;
 
-  const MyPageState({
+  MyPageState({
     required this.profileUrl,
     required this.nickName,
     required this.profileImage,
     required this.aiTag,
     required this.email,
     required this.isCanSpying,
+    required this.isReset,
+    required this.isChange,
   });
 
   MyPageState copyWith({
@@ -33,6 +37,8 @@ class MyPageState {
     List<String>? aiTag,
     String? email,
     bool? isCanSpying,
+    bool? isReset,
+    bool? isChange,
   }) {
     return MyPageState(
       profileUrl: profileUrl ?? this.profileUrl,
@@ -41,6 +47,8 @@ class MyPageState {
       aiTag: aiTag ?? this.aiTag,
       email: email ?? this.email,
       isCanSpying: isCanSpying ?? this.isCanSpying,
+      isReset: isReset ?? this.isReset,
+      isChange: isChange ?? this.isChange
     );
   }
 }
@@ -75,6 +83,8 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
           aiTag: [],
           email: null,
           isCanSpying: false,
+          isReset: false,
+          isChange: false,
         ));
 
   // 갤러리에서 이미지 선택
@@ -82,7 +92,7 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
     final XFile? pickedFile =
         await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      state = state.copyWith(profileImage: File(pickedFile.path));
+      state = state.copyWith(profileImage: File(pickedFile.path), isChange: true);
     }
   }
 
@@ -97,6 +107,8 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
         profileImage: null,
         email: user.email,
         isCanSpying: user.isCanSpying,
+        isReset: false,
+        isChange: false,
       );
     } catch (e) {
       print("Error fetching user data: $e");
@@ -109,12 +121,13 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
     if (state.aiTag!.length > 1) {
       // 태그 삭제 로직 (서버 통신 없이 화면에서만 삭제)
       final updatedTags = List<String>.from(state.aiTag!)..remove(tag);
-      state = state.copyWith(aiTag: updatedTags);
+      state = state.copyWith(aiTag: updatedTags, isChange: true);
     }
   }
 
   // 데이터 취소 (초기 상태로 리셋)
   Future<void> cancelUserData(String uid) async {
+    state.isReset = true;
     try {
       await initializeUserData(uid);
 
@@ -122,6 +135,9 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
       print('Updated profileImage: ${state.profileImage}');
     } catch (e) {
       print("Error fetching user data: $e");
+    } finally {
+      state.isReset = false;
+      state.isChange = false;
     }
   }
 

@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/domain/entitiy/comment_entity.dart';
 import 'package:solo_network_sns/domain/usecase/create_comment_usecase.dart';
 
-class DetailViewModel extends StateNotifier<CreateCommentstate>{
+class DetailViewModel extends StateNotifier<CreateCommentstate> {
   final CreateCommentUsecase createCommentUsecase;
   DetailViewModel(this.createCommentUsecase) : super(CreateCommentstate());
 
-  Future<void> postComment(String uid, String feedId) async{
+  Future<void> postComment(String uid, String feedId) async {
+    state.isUpload = true;
+
     final commenctEntity = CommentEntity(
       ai: '',
       comment: state.contentEditingController.text,
@@ -16,27 +18,34 @@ class DetailViewModel extends StateNotifier<CreateCommentstate>{
       goods: '',
       user_id: uid,
     );
-  await createCommentUsecase.execute(commenctEntity);
+    await createCommentUsecase.execute(commenctEntity);
+
+    state.isUpload = false;
   }
 
-    void clearFields() {
+  void clearFields() {
     state = CreateCommentstate(); // 기본 상태로 초기화
   }
 
+  bool isUpload(){
+    return state.isUpload;
+  }
 }
 
-class CreateCommentstate{
+class CreateCommentstate {
   final TextEditingController contentEditingController;
+  bool isUpload;
 
   CreateCommentstate({
     TextEditingController? contentEditingController,
-  }) : contentEditingController = contentEditingController ?? TextEditingController();
-
+    bool? isUpload,
+  })  : contentEditingController =
+            contentEditingController ?? TextEditingController(),
+        isUpload = false;
 }
 
-
-
-final createViewModelProvider = StateNotifierProvider<DetailViewModel, CreateCommentstate>((ref) {
+final createViewModelProvider =
+    StateNotifierProvider<DetailViewModel, CreateCommentstate>((ref) {
   final CreateCommentUsecase = ref.watch(createCommentUseCaseProvider);
   return DetailViewModel(CreateCommentUsecase);
 });
