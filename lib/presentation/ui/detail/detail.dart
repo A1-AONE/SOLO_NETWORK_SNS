@@ -9,7 +9,9 @@ import 'package:solo_network_sns/presentation/ui/feed/feed_page_view_model.dart'
 import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
 class Detail extends ConsumerStatefulWidget {
-  Detail({required this.feedId,});
+  Detail({
+    required this.feedId,
+  });
 
   final String feedId;
 
@@ -44,7 +46,7 @@ class _DetailState extends ConsumerState<Detail> {
               final selectedFeed = feedInfo?.firstWhere(
                 (feed) => feed.id == widget.feedId,
               );
-        
+
               return Column(
                 children: [
                   Expanded(
@@ -84,7 +86,8 @@ class _DetailState extends ConsumerState<Detail> {
                   ),
                   // 댓글 입력창
                   Padding(
-                    padding: const EdgeInsets.only(top: 8, bottom: 16, left: 24, right: 8),
+                    padding: const EdgeInsets.only(
+                        top: 8, bottom: 16, left: 24, right: 8),
                     child: Row(
                       children: [
                         Expanded(
@@ -99,8 +102,14 @@ class _DetailState extends ConsumerState<Detail> {
                         IconButton(
                           icon: Icon(Icons.send),
                           onPressed: () async {
-                            await viewModel.postComment(UserId, selectedFeed.id);
-                            viewModel.clearFields();
+                            if (!viewModel.isUpload() &&
+                                (state.contentEditingController.text.isNotEmpty ||
+                                    state.contentEditingController.text !=
+                                        '')) {
+                              await viewModel.postComment(
+                                  UserId, selectedFeed.id);
+                              viewModel.clearFields();
+                            }
                           },
                         ),
                       ],
