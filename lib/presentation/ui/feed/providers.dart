@@ -4,7 +4,6 @@ import 'package:solo_network_sns/data/source/feed_data_source.dart';
 import 'package:solo_network_sns/data/source/feed_data_source_impl.dart';
 import 'package:solo_network_sns/domain/repository/feed/feed_fetch_repository.dart';
 import 'package:solo_network_sns/domain/usecase/fetch_feeds_usecase.dart';
-import 'package:solo_network_sns/presentation/ui/create_page/view_model/yolo_detection.dart';
 
 final feedsDataSourceProvider = Provider<FeedDataSource>((ref) {
   return FeedDataSourceImpl();

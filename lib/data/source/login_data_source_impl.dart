@@ -67,9 +67,7 @@ class LoginDataSourceImpl implements LoginDataSource {
         'email': email,
       });
 
-      print('!!!!!!!!!!!!');
       print('새로운 사용자 Firestore Database에 저장완료: $uid, $email');
-      print('!!!!!!!!!!!!!!!!');
     } catch (e) {
       print('저장실패errrrrrror: $e');
       rethrow;

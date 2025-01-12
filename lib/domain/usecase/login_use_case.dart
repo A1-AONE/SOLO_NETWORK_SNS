@@ -10,28 +10,20 @@ class LoginUseCase {
     try {
       // google 계정으로 로그인
       final googleLogin = await loginRepository.signInWithGoogle();
-      print('!!!!!!!!!호ㅏㄱ인용!!!!!!!!!');
-      print('$googleLogin');
       if (googleLogin == null) {
         throw Exception('Google 로그인 실패!');
       }
 
       // Firebase Auth 정보 생성
       final googleAuth = await googleLogin.authentication;
-      print('!!!!!!!!!호ㅏㄱ인용!!!!!!!!!');
-      print('$googleAuth');
       final OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      print('!!!!!!!!!호ㅏㄱ인용!!!!!!!!!');
-      print('$credential');
 
       // 받은 Token 이용해서 google 계정으로 인증받은 사용자 정보 Firebase Auth에 등록
       final userCredential =
           await loginRepository.signInWithFirebase(credential);
-      print('!!!!!!!!!호ㅏㄱ인용!!!!!!!!!');
-      print('$userCredential');
       final uid = userCredential.user?.uid;
       
       if (uid == null) {
@@ -45,24 +37,27 @@ class LoginUseCase {
 
       // Database에서 기존 사용자 검색
       final userDocs = await loginRepository.fetchUserEmail(email);
-      print('!!!!!!!!!호ㅏㄱ인용!!!!!!!!!');
-      print('$userDocs');
 
-      // 기존 사용자 피드 페이지로 이동
+      // 기존 사용자 피드 페이지로 이동(닉네임 정보가 없는 기존사용자는 set페이지로!-추가)
       if (userDocs.docs.isNotEmpty) {
-        print('!!!!!!!!!호ㅏㄱ인용!!!!!!!!!');
-        print('isNotEmpty');
+        // 닉네임 확인
+        final userData = userDocs.docs.first.data() as Map<String, dynamic>;
+        // if (userData == null) {
+        //   throw Exception('사용자 데이터 없음!');
+        // }
+        final nickname = userData['Nickname'] as String?;
+        if (nickname?.isEmpty ?? true) {
+          // 닉네임 없으면 set페이지로
+          return ['/login/set', uid];
+        }
+        // 닉네임이 있으면 feed페이지로
         return ['/', uid];
       }
-      print('!!!!!!!!!호ㅏㄱ인용!!!!!!!!!');
-      print('isEmpty');
 
       // 새로운 사용자는 Firestore에 데이터 저장 후 set페이지로 이동
       await loginRepository.saveNewUser(uid, email);
       return ['/login/set', uid];
     } catch (e) {
-      print('!!!!!!!!!!!');
-      print('LoginUseCase 예외!!!: $e');
       rethrow;
     }
   }

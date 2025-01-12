@@ -45,7 +45,8 @@ final loginUseCaseProvider = Provider<LoginUseCase>((ref) {
   return LoginUseCase(repository);
 });
 
-final loginViewModelProvider = StateNotifierProvider<LoginViewModel, String>((ref) {
+final loginViewModelProvider =
+    StateNotifierProvider<LoginViewModel, String>((ref) {
   final loginUseCase = ref.read(loginUseCaseProvider);
   return LoginViewModel(loginUseCase);
 });
