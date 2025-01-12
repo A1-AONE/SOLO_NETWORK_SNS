@@ -55,11 +55,15 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                     Spacer(),
                     TextButton(
                       onPressed: () async {
-                        if (!isUpload) {
+                        if (!isUpload &&
+                            (state.contentEditingController.text.isNotEmpty ||
+                                state.contentEditingController.text != '')) {
                           isUpload = true;
                           await viewModel.postFeed(userId); // DB 저장
                           viewModel.clearFields(); // 상태 초기화
                           context.go('/'); // 게시 후 이전 화면으로 이동
+                        } else {
+                          return;
                         }
                       },
                       child: Text(
