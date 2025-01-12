@@ -11,6 +11,14 @@ class CreatePage extends ConsumerStatefulWidget {
 }
 
 class _CreatePageState extends ConsumerState<CreatePage> {
+  late bool isUpload;
+
+  @override
+  void initState() {
+    isUpload = false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.watch(createViewModelProvider.notifier);
@@ -26,8 +34,8 @@ class _CreatePageState extends ConsumerState<CreatePage> {
             FocusScope.of(context).unfocus();
           },
           child: Padding(
-            padding: const EdgeInsets.only(
-                bottom: 8, left: 24, right: 24, top: 24),
+            padding:
+                const EdgeInsets.only(bottom: 8, left: 24, right: 24, top: 24),
             child: Column(
               children: [
                 Row(
@@ -47,9 +55,12 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                     Spacer(),
                     TextButton(
                       onPressed: () async {
-                        await viewModel.postFeed(userId); // DB 저장
-                        viewModel.clearFields(); // 상태 초기화
-                        context.go('/'); // 게시 후 이전 화면으로 이동
+                        if (!isUpload) {
+                          isUpload = true;
+                          await viewModel.postFeed(userId); // DB 저장
+                          viewModel.clearFields(); // 상태 초기화
+                          context.go('/'); // 게시 후 이전 화면으로 이동
+                        }
                       },
                       child: Text(
                         '게시하기',
@@ -83,7 +94,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                           ),
                         ),
                         SizedBox(height: 24),
-    
+
                         // 이미지 미리보기
                         if (state.notPerson && state.selectedImage != null)
                           Container(
@@ -120,7 +131,9 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                               style: TextStyle(color: Colors.grey),
                             ),
                           ),
-                          SizedBox(height: 8,),
+                        SizedBox(
+                          height: 8,
+                        ),
                         // 태그 출력
                         Container(
                           alignment: Alignment.bottomRight,
@@ -141,7 +154,7 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                     ),
                   ),
                 ),
-    
+
                 // 하단 고정 영역
                 Padding(
                   padding: const EdgeInsets.symmetric(

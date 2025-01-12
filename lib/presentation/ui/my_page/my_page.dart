@@ -150,6 +150,7 @@ class MyPage extends ConsumerWidget {
                                                   ...viewModel.aiTag!,
                                                   tag
                                                 ],
+                                                isChange: true,
                                               );
                                             }
                                           },
@@ -179,9 +180,13 @@ class MyPage extends ConsumerWidget {
               children: [
                 TextButton(
                   onPressed: () {
-                    ref
-                        .read(myPageViewModelProvider.notifier)
-                        .cancelUserData(uid); // 취소 함수 호출
+                    if (!viewModel.isReset && viewModel.isChange) {
+                      ref
+                          .read(myPageViewModelProvider.notifier)
+                          .cancelUserData(uid); // 취소 함수 호출
+                    } else {
+                      return;
+                    }
                   },
                   child: Text(
                     '초기화',
