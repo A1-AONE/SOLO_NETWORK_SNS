@@ -4,14 +4,18 @@ import 'package:easy_rich_text/easy_rich_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:solo_network_sns/presentation/ui/login/agreement_view_model.dart';
 import 'package:solo_network_sns/presentation/ui/login/login_view_model.dart';
+import 'package:solo_network_sns/presentation/ui/login/widgets/agreement_modal.dart';
 import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.read(agreementViewModelProvider.notifier).loadText();
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -140,33 +144,51 @@ class LoginPage extends StatelessWidget {
             },
           ),
           SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 21,
-                width: 21,
-                decoration: BoxDecoration(
-                    color: Color(0xFFF2F2F2),
-                    borderRadius: BorderRadius.circular(5)),
-                child: Icon(Icons.check, size: 19, color: Color(0xFF1C1B1F)),
-              ),
-              SizedBox(width: 8),
-              // flutter package easy_rich_text 사용!
-              EasyRichText(
-                '로그인을 클릭하면 동의 및 개인정보에 동의하는 것으로 간주됩\n니다.',
-                defaultStyle: TextStyle(
-                  fontSize: 11,
-                  color: Color(0xFF8D8D8D),
+          GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return const AgreementModal();
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 ),
-                patternList: [
-                  EasyRichTextPattern(
-                    targetString: '동의 및 개인정보',
-                    style: TextStyle(color: Color(0xFFD28BBA)),
+              );
+            },
+            child: Container(
+              height: 50,
+              color: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 21,
+                    width: 21,
+                    decoration: BoxDecoration(
+                        color: Color(0xFFF2F2F2),
+                        borderRadius: BorderRadius.circular(5)),
+                    child:
+                        Icon(Icons.check, size: 19, color: Color(0xFF1C1B1F)),
+                  ),
+                  SizedBox(width: 8),
+                  // flutter package easy_rich_text 사용!
+                  EasyRichText(
+                    '로그인을 클릭하면 동의 및 개인정보에 동의하는 것으로 간주됩\n니다.',
+                    defaultStyle: TextStyle(
+                      fontSize: 11,
+                      color: Color(0xFF8D8D8D),
+                    ),
+                    patternList: [
+                      EasyRichTextPattern(
+                        targetString: '동의 및 개인정보',
+                        style: TextStyle(color: Color(0xFFD28BBA)),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
         ],
       ),
