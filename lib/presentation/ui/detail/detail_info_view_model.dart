@@ -14,9 +14,9 @@ class DetailViewModel extends StateNotifier<CreateCommentstate> {
       ai: '',
       comment: state.contentEditingController.text,
       createdAt: DateTime.now().toIso8601String(),
-      feed_id: feedId,
+      feedId: feedId,
       goods: '',
-      user_id: uid,
+      userId: uid,
     );
     await createCommentUsecase.execute(commenctEntity);
 
@@ -46,6 +46,6 @@ class CreateCommentstate {
 
 final createViewModelProvider =
     StateNotifierProvider<DetailViewModel, CreateCommentstate>((ref) {
-  final CreateCommentUsecase = ref.watch(createCommentUseCaseProvider);
-  return DetailViewModel(CreateCommentUsecase);
+  final createCommentUsecase = ref.watch(createCommentUseCaseProvider);
+  return DetailViewModel(createCommentUsecase);
 });

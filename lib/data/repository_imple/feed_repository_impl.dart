@@ -15,13 +15,13 @@ class FeedRepositoryImpl implements FeedFetchRepository {
     return result
         .map((e) => Feed(
               id: e.id,
-              UID: e.UID,
+              uid: e.uid,
               contents: e.contents,
               createdAt: e.createdAt,
               goods: e.goods,
               imageUrl: e.imageUrl,
               tag: e.tag,
-              AI: e.AI,
+              ai: e.ai,
             ))
         .toList();
   }
@@ -33,13 +33,13 @@ class FeedRepositoryImpl implements FeedFetchRepository {
       return list
           .map((e) => Feed(
                 id: e.id,
-                UID: e.UID,
+                uid: e.uid,
                 contents: e.contents,
                 createdAt: e.createdAt,
                 goods: e.goods,
                 imageUrl: e.imageUrl,
                 tag: e.tag,
-                AI: e.AI,
+                ai: e.ai,
               ))
           .toList();
     });

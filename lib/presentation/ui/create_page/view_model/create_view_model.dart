@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -42,11 +43,13 @@ class CreateViewModel extends StateNotifier<CreateState> {
     img.Image? image;
 
     // 로딩 다이얼로그 표시
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Center(child: CircularProgressIndicator()),
-    );
+    if (context.mounted) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => Center(child: CircularProgressIndicator()),
+      );
+    }
 
     try {
       final XFile? newImageFile =
@@ -70,28 +73,30 @@ class CreateViewModel extends StateNotifier<CreateState> {
       }
 
       // YOLO 모델 실행
-      if (image != null) {
+      if (image.isNotEmpty) {
         final notPerson = yoloDetection.runInference(image);
         state = state.copyWith(notPerson: notPerson);
       } else {
         throw Exception('Image conversion failed');
       }
     } catch (e) {
-      print('Error: $e');
+      log('Error: $e');
     } finally {
-      Navigator.of(context).pop(); // 다이얼로그 닫기
+      if (context.mounted) {
+        Navigator.of(context).pop(); // 다이얼로그 닫기
+      }
     }
   }
 
   Future<void> postFeed(String uid) async {
     final feedEntity = FeedEntity(
-      UID: uid,
+      uid: uid,
       contents: state.contentEditingController.text,
       tags: state.tags,
       imagUrl: null, // Firestore에서 처리됨
       createdAt: DateTime.now().toIso8601String(),
       goods: 0,
-      AI: '',
+      ai: '',
     );
     await createFeedUseCase.execute(
         feedEntity,

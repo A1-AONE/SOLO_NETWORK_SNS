@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MyPage extends StatefulWidget {
+  const MyPage({super.key});
+
   @override
   State<MyPage> createState() => _MyPageState();
 }

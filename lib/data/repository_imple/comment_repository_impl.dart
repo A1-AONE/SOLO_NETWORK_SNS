@@ -14,9 +14,9 @@ class CommentRepositoryImpl implements CommentFetchRepository {
             ai: e.ai,
             comment: e.comment,
             createdAt: e.createdAt,
-            feed_id: e.feed_id,
+            feedId: e.feedId,
             goods: e.goods,
-            user_id: e.user_id))
+            userId: e.userId))
         .toList();
   }
 
@@ -29,9 +29,9 @@ class CommentRepositoryImpl implements CommentFetchRepository {
                 ai: e.ai,
                 comment: e.comment,
                 createdAt: e.createdAt,
-                feed_id: e.feed_id,
+                feedId: e.feedId,
                 goods: e.goods,
-                user_id: e.user_id,
+                userId: e.userId,
               ))
           .toList();
     });

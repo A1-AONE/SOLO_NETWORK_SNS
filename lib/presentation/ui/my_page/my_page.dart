@@ -5,6 +5,8 @@ import 'package:solo_network_sns/presentation/ui/my_page/view_model/my_page_view
 import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
 class MyPage extends ConsumerWidget {
+  const MyPage({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final uid = ref.watch(userViewModelProvider); // 사용자 ID 가져오기
@@ -213,18 +215,20 @@ class MyPage extends ConsumerWidget {
                             },
                           ),
                           CupertinoDialogAction(
-                            child: Text('확인'),
                             isDestructiveAction: true,
                             onPressed: () async {
                               // 수정하기 로직 실행
                               await ref
                                   .read(myPageViewModelProvider.notifier)
                                   .saveUserDataViewModel(uid);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("수정이 완료되었습니다.")),
-                              );
-                              Navigator.of(context).pop(); // 알림창 닫기
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("수정이 완료되었습니다.")),
+                                );
+                                Navigator.of(context).pop(); // 알림창 닫기
+                              }
                             },
+                            child: const Text('확인'),
                           ),
                         ],
                       ),

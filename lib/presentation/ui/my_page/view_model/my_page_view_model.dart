@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:solo_network_sns/domain/entitiy/user_profile_entity.dart';
 import 'package:solo_network_sns/domain/repository/user_profile_repository.dart';
 import 'package:solo_network_sns/domain/usecase/get_user_data_usecase.dart';
 import 'package:solo_network_sns/domain/usecase/save_user_data_usecase.dart';
+import 'package:solo_network_sns/presentation/widgets/aitags.dart';
 
 // 상태 클래스 정의
 class MyPageState {
@@ -58,22 +60,7 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
   final GetUserDataUseCase _getUserDataUseCase;
   final SaveUserDataUseCase _saveUserDataUseCase;
 
-  List<String> aiAllTags = [
-    '상냥함',
-    '유머러스',
-    '논리적',
-    '감성적',
-    '직설적',
-    '긍정적',
-    '열정적',
-    '공감적',
-    '조용함',
-    '낭만적',
-    '전문적',
-    '귀여움',
-    '차가움',
-    '논쟁적',
-  ];
+  List<String> aiAllTags = aiTags;
 
   MyPageViewModel(this._getUserDataUseCase, this._saveUserDataUseCase)
       : super(MyPageState(
@@ -111,7 +98,7 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
         isChange: false,
       );
     } catch (e) {
-      print("Error fetching user data: $e");
+      log("Error fetching user data: $e");
     }
   }
 
@@ -132,9 +119,9 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
       await initializeUserData(uid);
 
       // 상태 변경 후, 상태를 출력하여 확인
-      print('Updated profileImage: ${state.profileImage}');
+      log('Updated profileImage: ${state.profileImage}');
     } catch (e) {
-      print("Error fetching user data: $e");
+      log("Error fetching user data: $e");
     } finally {
       state.isReset = false;
       state.isChange = false;
@@ -158,9 +145,9 @@ class MyPageViewModel extends StateNotifier<MyPageState> {
           imageFile: state.profileImage);
 
       // UI에 반영
-      print('User data saved successfully');
+      log('User data saved successfully');
     } catch (e) {
-      print("Error saving user data: $e");
+      log("Error saving user data: $e");
     }
   }
 }

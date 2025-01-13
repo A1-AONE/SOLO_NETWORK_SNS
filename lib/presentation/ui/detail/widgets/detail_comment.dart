@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:solo_network_sns/presentation/widgets/feed_nickname_bar.dart';
 
 class DetailComment extends StatefulWidget {
-  DetailComment(
-      {required this.content, required this.createdAt, required this.ai});
+  const DetailComment(
+      {super.key, required this.content, required this.createdAt, required this.ai});
 
   final String content;
   final String createdAt;
