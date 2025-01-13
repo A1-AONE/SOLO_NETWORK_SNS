@@ -1,10 +1,14 @@
 import 'dart:async';
 
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/firebase_options.dart';
+
+import 'package:solo_network_sns/presentation/app/router.dart';
+import 'package:solo_network_sns/presentation/theme/theme.dart';
 
 Future<void> main() async {
   runZonedGuarded(
@@ -13,6 +17,9 @@ Future<void> main() async {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
+
+      // Firebase App Check 초기화
+      await FirebaseAppCheck.instance.activate();
 
       FlutterError.onError = (errorDetails) {
         FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
@@ -35,13 +42,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'SOLO NETWORK SNS',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      // home: MyHomePage(),
+      themeMode: ThemeMode.light,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      routerConfig: router,
     );
   }
 }

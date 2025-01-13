@@ -12,7 +12,60 @@
           "package_name": "com.aone.solonetworksns"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "834977391795-3uievnp5b0u9n0mdch6sa9sngi6qqbrr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aone.solonetworksns",
+            "certificate_hash": "c8fc79fbbc83451b7dbeed274bf776f895030256"
+          }
+        },
+        {
+          "client_id": "834977391795-a8cgltlucc3h9qpoii823m8lnfc63dd5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aone.solonetworksns",
+            "certificate_hash": "e97fd964b692ca7a139fe9e03790febd7f880592"
+          }
+        },
+        {
+          "client_id": "834977391795-hc1sh43gq3an49jl1f8pm1jhq35m5tim.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aone.solonetworksns",
+            "certificate_hash": "a51e65796c01bdb0fc87718106b9803a6dbc80ca"
+          }
+        },
+        {
+          "client_id": "834977391795-hh1deqvce6ivl51a2f4bu8lpntfcdhc8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aone.solonetworksns",
+            "certificate_hash": "ceaee0b7b6d276253150b5a6b02a0dc70518fd62"
+          }
+        },
+        {
+          "client_id": "834977391795-iprojv6407fq0btl8p96b4vrqelm0jpp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aone.solonetworksns",
+            "certificate_hash": "15240a2be9d27cd13678bb620ad99880d8d22f1a"
+          }
+        },
+        {
+          "client_id": "834977391795-ql4fo7fhqrnubpj3urjl6qujnn4s85jb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aone.solonetworksns",
+            "certificate_hash": "0947e786a4439ad854a6aea751c2897a66179eca"
+          }
+        },
+        {
+          "client_id": "834977391795-2oavl387l5plgjeqgcqp6nb9r3q9m5vb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyALB2rTxgr6dQAc4Y9iLKdXfLU4iMZv6Ek"
@@ -20,7 +73,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834977391795-2oavl387l5plgjeqgcqp6nb9r3q9m5vb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "834977391795-a8b3smp0ms2devg2hpack7lt5r3f0mhb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aone.solonetworksns"
+              }
+            }
+          ]
         }
       }
     }

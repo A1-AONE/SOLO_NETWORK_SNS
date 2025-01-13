@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="solo_network_sns"
+        android:label="A1one"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

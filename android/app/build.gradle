@@ -28,7 +28,7 @@ android {
         applicationId = "com.aone.solonetworksns"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        minSdk = 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -45,4 +45,16 @@ android {
 
 flutter {
     source = "../.."
+}
+//파이어베이스 앱체크를 위해 추가
+dependencies {
+    // Firebase App Check Play Integrity
+    implementation 'com.google.firebase:firebase-appcheck-playintegrity:17.0.1'
+    
+    // Firebase BoM (optional but recommended for consistent versioning)
+    implementation platform('com.google.firebase:firebase-bom:32.1.1')
+
+    // Example of other Firebase dependencies (if needed)
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
 }
