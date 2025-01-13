@@ -28,8 +28,8 @@ final router = GoRouter(
         GoRoute(
           path: 'feed/:feedId',
           builder: (context, state) {
-            final FeedId = state.pathParameters['feedId'];
-            return Detail(feedId: FeedId!);
+            final feedId = state.pathParameters['feedId'];
+            return Detail(feedId: feedId!);
           },
         ),
         GoRoute(

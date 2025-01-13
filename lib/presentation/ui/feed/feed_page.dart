@@ -16,7 +16,7 @@ class FeedPage extends ConsumerStatefulWidget {
 class _FeedPageState extends ConsumerState<FeedPage> {
   @override
   Widget build(BuildContext context) {
-    final user_id = ref.read(userViewModelProvider.notifier).getUserId();
+    final userid = ref.read(userViewModelProvider.notifier).getUserId();
 
     return Scaffold(
       body: SafeArea(
@@ -25,7 +25,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
             final feeds = ref.watch(feedsViewModel);
 
             final userFeedBefore =
-                feeds?.where((feed) => feed.UID == user_id).toList();
+                feeds?.where((feed) => feed.uid == userid).toList();
 
             if (userFeedBefore!.isEmpty) {
               return const Center(child: Text('새로운 피드를 작성해보세요!'));
@@ -50,7 +50,7 @@ class _FeedPageState extends ConsumerState<FeedPage> {
                         goods: feed.goods,
                         createdAt:
                             DateFormat("yyyy년 MM월 dd일").format(feed.createdAt),
-                        ai: feed.AI,
+                        ai: feed.ai,
                       );
                     },
                   ),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/domain/entitiy/user_entity.dart';
 import 'package:solo_network_sns/presentation/widgets/nickname_bar/feed_nickname_bar_providers.dart';
@@ -21,13 +23,13 @@ class FeedNicknameBarViewModel extends Notifier<List<UserEntity>?> {
   }
 
   void streamNames() {
-    print('Name stream start');
+    log('Name stream start');
     final stream = ref.read(fetchUserUsecaseProvider).streamUserExecute();
     final streamSubscription = stream.listen((e) {
       state = e;
     });
     ref.onDispose(() {
-      print('Name stream cancel');
+      log('Name stream cancel');
       streamSubscription.cancel();
     });
   }

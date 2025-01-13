@@ -6,6 +6,8 @@ import 'package:solo_network_sns/presentation/ui/create_page/view_model/create_v
 import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
 class CreatePage extends ConsumerStatefulWidget {
+  const CreatePage({super.key});
+
   @override
   ConsumerState<CreatePage> createState() => _CreatePageState();
 }
@@ -61,7 +63,9 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                           isUpload = true;
                           await viewModel.postFeed(userId); // DB 저장
                           viewModel.clearFields(); // 상태 초기화
-                          context.go('/'); // 게시 후 이전 화면으로 이동
+                          if (context.mounted) {
+                            context.go('/'); // 게시 후 이전 화면으로 이동
+                          }
                         } else {
                           return;
                         }
@@ -129,11 +133,9 @@ class _CreatePageState extends ConsumerState<CreatePage> {
                             ],
                           )
                         else
-                          Container(
-                            child: Text(
-                              '사람 이미지는 등록할 수 없습니다.',
-                              style: TextStyle(color: Colors.grey),
-                            ),
+                          Text(
+                            '사람 이미지는 등록할 수 없습니다.',
+                            style: TextStyle(color: Colors.grey),
                           ),
                         SizedBox(
                           height: 8,

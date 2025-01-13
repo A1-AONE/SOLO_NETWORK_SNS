@@ -9,7 +9,8 @@ import 'package:solo_network_sns/presentation/ui/feed/feed_page_view_model.dart'
 import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
 
 class Detail extends ConsumerStatefulWidget {
-  Detail({
+  const Detail({
+    super.key, 
     required this.feedId,
   });
 
@@ -24,11 +25,11 @@ class _DetailState extends ConsumerState<Detail> {
   Widget build(BuildContext context) {
     final viewModel = ref.watch(createViewModelProvider.notifier);
     final state = ref.watch(createViewModelProvider);
-    final UserId = ref.watch(userViewModelProvider);
+    final userId = ref.watch(userViewModelProvider);
     final comments = ref.watch(detailCommentsViewModel);
     final selectedComment = comments!
         .where(
-          (comment) => comment.feed_id == widget.feedId,
+          (comment) => comment.feedId == widget.feedId,
         )
         .toList()
       ..sort((a, b) =>
@@ -59,7 +60,7 @@ class _DetailState extends ConsumerState<Detail> {
                               .format(selectedFeed.createdAt),
                           goods: selectedFeed.goods,
                           commentcount: selectedComment.length,
-                          ai: selectedFeed.AI,
+                          ai: selectedFeed.ai,
                         ),
                         Divider(thickness: 0.8, color: Colors.grey),
                         Consumer(
@@ -77,6 +78,7 @@ class _DetailState extends ConsumerState<Detail> {
                                     ai: commentInfo.ai,
                                   );
                                 }
+                                return null;
                               },
                             );
                           },
@@ -107,7 +109,7 @@ class _DetailState extends ConsumerState<Detail> {
                                     state.contentEditingController.text !=
                                         '')) {
                               await viewModel.postComment(
-                                  UserId, selectedFeed.id);
+                                  userId, selectedFeed.id);
                               viewModel.clearFields();
                             }
                           },

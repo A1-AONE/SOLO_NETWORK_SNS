@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/domain/usecase/login_use_case.dart';
 import 'package:solo_network_sns/presentation/providers.dart';
@@ -16,7 +18,7 @@ class LoginViewModel extends StateNotifier<String> {
     try {
       startLoading();
       final route = await _loginUseCase.execute(); // UseCase 호출
-      print('$route');
+      log('$route');
       // 로그인 성공 후 route 따라 페이지 이동
       return route;
       

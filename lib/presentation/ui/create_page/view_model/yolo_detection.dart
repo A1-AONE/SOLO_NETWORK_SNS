@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/services.dart';
 import 'package:image/image.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
@@ -51,11 +53,11 @@ class YoloDetection {
         YoloHelper.parse(output[0], image.width, image.height);
 
     // 디버깅용 출력: 감지된 객체 확인
-    print('qqqqqqqqqqqqqqqq');
-    detectedObjects.forEach((obj) {
-      print('Detected score:${obj.score}');
-      print('Detected label: ${_labels![obj.labelIndex]}');
-    });
+    log('qqqqqqqqqqqqqqqq');
+    for (var obj in detectedObjects) {
+      log('Detected score:${obj.score}');
+      log('Detected label: ${_labels![obj.labelIndex]}');
+    }
 
     // 'person' 클래스가 있는지 확인
     bool personDetected = false; // 초기값 설정
