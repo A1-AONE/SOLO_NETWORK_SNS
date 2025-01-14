@@ -8,6 +8,7 @@ import 'package:solo_network_sns/presentation/ui/setpage/widgets/pages/setpage_o
 import 'package:solo_network_sns/presentation/ui/setpage/widgets/pages/setpage_three_generate.dart';
 import 'package:solo_network_sns/presentation/ui/setpage/widgets/pages/setpage_two_ai_type.dart';
 import 'package:solo_network_sns/presentation/viewmodel/user_id.dart';
+import 'package:solo_network_sns/presentation/widgets/aitags.dart';
 
 class SetPageState {
   int previousPage;
@@ -46,22 +47,6 @@ class SetpageViewModel extends AutoDisposeNotifier<SetPageState> {
       SetpageTwoAiType(),
       SetpageThreeGenerate(),
       SetpageFourWelcome()
-    ];
-    List<String> aiTags = [
-      '상냥함',
-      '유머러스',
-      '논리적',
-      '감성적',
-      '직설적',
-      '긍정적',
-      '열정적',
-      '공감적',
-      '조용함',
-      '낭만적',
-      '전문적',
-      '귀여움',
-      '차가움',
-      '논쟁적',
     ];
 
     return SetPageState(0, 0, pages, null, aiTags, {});

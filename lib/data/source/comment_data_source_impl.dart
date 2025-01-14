@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:solo_network_sns/data/dto/comment_dto.dart';
 import 'package:solo_network_sns/data/source/comment_data_source.dart';
@@ -19,7 +21,7 @@ class CommentDataSourceImpl implements CommentDataSource{
         return CommentDto.fromJson(map);
       }).toList();
     } catch (e) {
-      print(e);
+      log('$e');
       return [];
     }
   }

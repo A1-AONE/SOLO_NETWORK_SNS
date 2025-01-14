@@ -2,10 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:solo_network_sns/data/repository_imple/agreement_repository_impl.dart';
 import 'package:solo_network_sns/data/repository_imple/login_repository_impl.dart';
 import 'package:solo_network_sns/data/source/login_data_source.dart';
 import 'package:solo_network_sns/data/source/login_data_source_impl.dart';
+import 'package:solo_network_sns/domain/repository/agreement_repository.dart';
 import 'package:solo_network_sns/domain/repository/login_repository.dart';
+import 'package:solo_network_sns/domain/usecase/agreement_use_case.dart';
 import 'package:solo_network_sns/domain/usecase/login_use_case.dart';
 import 'package:solo_network_sns/presentation/ui/login/login_view_model.dart';
 
@@ -49,4 +52,16 @@ final loginViewModelProvider =
     StateNotifierProvider<LoginViewModel, String>((ref) {
   final loginUseCase = ref.read(loginUseCaseProvider);
   return LoginViewModel(loginUseCase);
+});
+
+
+// Agreement
+// Repositroy Provider
+final agreementRepositoryProvider = Provider<AgreementRepository>((ref) {
+  return AgreementRepositoryImpl();
+});
+
+// UseCase Provider
+final agreementUseCaseProvider = Provider<AgreementUseCase>((ref) {
+  return AgreementUseCase(ref.read(agreementRepositoryProvider));
 });

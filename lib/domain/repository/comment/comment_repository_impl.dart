@@ -16,9 +16,9 @@ class CommentRepositoryImpl implements CommentRepository {
       'AI': commentEntity.ai,
       'comment': commentEntity.comment,
       'createdAt': commentEntity.createdAt,
-      'feed_id': commentEntity.feed_id,
+      'feed_id': commentEntity.feedId,
       'goods': commentEntity.goods,
-      'user_id': commentEntity.user_id,
+      'user_id': commentEntity.userId,
     });
   }
 

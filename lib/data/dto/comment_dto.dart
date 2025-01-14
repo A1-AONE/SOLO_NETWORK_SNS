@@ -2,17 +2,17 @@ class CommentDto {
   final String ai;
   final String comment;
   final String createdAt;
-  final String feed_id;
+  final String feedId;
   final String goods;
-  final String user_id;
+  final String userId;
 
   CommentDto({
     required this.ai,
     required this.comment,
     required this.createdAt,
-    required this.feed_id,
+    required this.feedId,
     required this.goods,
-    required this.user_id,
+    required this.userId,
   });
 
   CommentDto.fromJson(Map<String, dynamic> json)
@@ -20,9 +20,9 @@ class CommentDto {
           ai: json['AI'],
           comment: json['comment'],
           createdAt: json['createdAt'],
-          feed_id: json['feed_id'],
+          feedId: json['feed_id'],
           goods: json['goods'],
-          user_id: json['user_id'],
+          userId: json['user_id'],
         );
 
   Map<String, dynamic> toJson() {
@@ -30,9 +30,9 @@ class CommentDto {
       'AI': ai,
       'comment': comment,
       'createdAt': createdAt,
-      'feed_id': feed_id,
+      'feed_id': feedId,
       'goods': goods,
-      'user_id': user_id,
+      'user_id': userId,
     };
   }
 
@@ -40,16 +40,16 @@ class CommentDto {
     String? ai,
     String? comment,
     String? createdAt,
-    String? feed_id,
+    String? feedId,
     String? goods,
-    String? user_id,
+    String? userId,
   }) =>
       CommentDto(
         ai: this.ai,
         comment: this.comment,
         createdAt: this.createdAt,
-        feed_id: this.feed_id,
+        feedId: this.feedId,
         goods: this.goods,
-        user_id: this.user_id,
+        userId: this.userId,
       );
 }

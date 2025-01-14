@@ -5,7 +5,8 @@ import 'package:solo_network_sns/presentation/ui/detail/widgets/detail_comment_v
 import 'package:solo_network_sns/presentation/widgets/feed_nickname_bar.dart';
 
 class Feed extends ConsumerStatefulWidget {
-  Feed({
+  const Feed({
+    super.key, 
     required this.feedId,
     required this.contenet,
     required this.createdAt,
@@ -30,7 +31,7 @@ class _FeedState extends ConsumerState<Feed> {
     final comments = ref.watch(detailCommentsViewModel);
     final selectedComment = comments!
         .where(
-          (comment) => comment.feed_id == widget.feedId,
+          (comment) => comment.feedId == widget.feedId,
         )
         .toList();
 

@@ -2,16 +2,16 @@ class CommentEntity {
   final String ai;
   final String comment;
   final String createdAt;
-  final String feed_id;
+  final String feedId;
   final String goods;
-  final String user_id;
+  final String userId;
 
   CommentEntity({
     required this.ai,
     required this.comment,
     required this.createdAt,
-    required this.feed_id,
+    required this.feedId,
     required this.goods,
-    required this.user_id,
+    required this.userId,
   });
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:solo_network_sns/data/dto/feed_dto.dart';
 import 'package:solo_network_sns/data/source/feed_data_source.dart';
@@ -24,7 +26,7 @@ class FeedDataSourceImpl implements FeedDataSource {
         return FeedDto.fromJson(newMap);
       }).toList();
     } catch (e) {
-      print(e);
+      log('$e');
       return [];
     }
   }

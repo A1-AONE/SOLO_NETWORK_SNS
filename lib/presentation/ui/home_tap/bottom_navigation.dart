@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:solo_network_sns/presentation/ui/home_tap/home_view_model.dart';
 
 class BottomNavigation extends StatefulWidget {
+  const BottomNavigation({super.key});
+
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
 }
